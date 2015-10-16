@@ -4,7 +4,7 @@
 #### NYU Center for Data Science and Department of Politics
 
 [Kenneth Benoit](kbenoit@lse.ac.uk), Department of Methodology, LSE  
-[Paul Nulty](p.nulty@lse.ac.uk) (Labs), Department of Methodology, LSE  
+[Paul Nulty](p.nulty@lse.ac.uk), Department of Methodology, LSE  
 
 **Version:** October 16, 2015 -- **WORK IN PROGRESS UNTIL THE COURSE DATE Oct 19**
 
