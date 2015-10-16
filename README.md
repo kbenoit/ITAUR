@@ -1,4 +1,4 @@
-### Introduction to Text Analysis Using R ###
+## Introduction to Text Analysis Using R
 
 
 #### NYU Center for Data Science and Department of Politics
@@ -64,7 +64,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 ### Module 2: Basic text data types and functions for text
 
 
-### Module 3: Getting textual data into R
+### Module 3: Getting textual data into R
 
 
 ### Module 4: Processing and preparing texts for analysis
