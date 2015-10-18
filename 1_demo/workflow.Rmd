@@ -1,1 +1,62 @@
-This file demonstrates a workflow
+This file demonstrates a basic workflow to take some pre-loaded texts and perform elementary text analysis tasks quickly. The `quanteda` packages comes with a built-in set of inaugural addresses from US Presidents. We begin by loading quanteda and examining these texts. The `summary` command will output the name of each text along with the number of types, tokens and sentences contained in the text. Below we use R's indexing syntax to selectivly use the summary command on the first five texts.
+
+```{R}
+require(quanteda)
+
+summary(inaugTexts[1:5])
+```
+
+One of the most fundamenttal text analysis tasks is tokenization. To tokenize a text is to split it into units, most commonly words, which can be counted and to form the basis of a quantitative analysis. The quanteda package has a function for tokenization: `tokenize`. Examine the manual page for this function.
+
+```{R}
+?tokenize
+```
+
+`quanteda`'s tokenize function can be used on a simple character vector, a vector of character vectors, or a corpus. Here are some examples:
+
+```{r}
+tokenize('Today is Thursday in Canberra. It is yesterday in London.')
+
+vec <- c(one='This is text one', two='This, however, is the second text')
+tokenize(vec)
+```
+
+Consider the default arguments to the tokenize function. To remove punctuation, you should set the `removePunct` argument to be TRUE. We can combine this with the `toLower` function to get a cleaned and tokenized version of our text.
+
+```{r}
+tokenize(toLower(vec), removePunct = TRUE)
+```
+
+Using this function with the inaugural addresses:
+
+```{r}
+inaugTokens <- tokenize(toLower(inaugTexts))
+inaugTokens[2]
+```
+
+Once each text has been split into words, we can use the `dfm` function to create a matrix of counts of the occurrences of each word in each document:
+
+```{r}
+inaugDfm <- dfm(inaugTokens)
+View(inaugDfm)
+```
+
+If we are interested in analysing the texts with respect to some other variables, we can create a corpus object to associate the texts with this metadata. For example, consider the last six inaugural addresses:
+
+```{r}
+summary(inaugTexts[52:57])
+```
+We can use the `docvars` option to the `corpus` command to record the party with which each text is associated:
+
+```{r}
+dv <- data.frame(Party=c('dem','dem','rep','rep','dem','dem'))
+recentCorpus <- corpus(inaugTexts[52:57], docvars=dv)
+summary(recentCorpus)
+```
+
+We can use this metadata to combine features across documents when creating a document-feature matrix:
+
+```{r}
+partyDfm <- dfm(recentCorpus, groups='Party', ignoredFeatures=(stopwords('english')))
+wordcloud::comparison.cloud(t(as.matrix(partyDfm)))
+```
