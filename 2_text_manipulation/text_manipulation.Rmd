@@ -1,0 +1,116 @@
+---
+title: "Text manipulation"
+author: Paul Nulty
+date: October 18th 2015
+output: html_document
+---
+
+In this section we will work through some basic string manipulation functions in R.
+
+There are several useful string manipulation functions in the R base library. In addition, we will look at the `stringr` package which provides an additional interface for simple text manipulation.
+
+The fundamental type (or `mode`) in which R stores text is the character vector. The most simple case is a character vector of length one. The `nchar` function returns the number of characters in a character vector. 
+
+```{r message=FALSE}
+require(quanteda)
+s1 <- 'my example text'
+length(s1)
+nchar(s1)
+```
+
+The `nchar` function is vectorized, meaning that when called on a vector it returns a value for each element of the vector.
+```{r }
+s2 <- c('This is', 'my example text.', 'So imaginative.')
+length(s2)
+nchar(s2)
+sum(nchar(s2))
+```
+
+We can use this to answer some simple questions about the inaugural addresses.
+
+Which were the longest and shortest speeches?
+
+```{r}
+which.max(nchar(inaugTexts))
+which.min(nchar(inaugTexts))
+```
+
+Unlike in some other programming languages, it is not possible to index into a string in R:
+
+```{r}
+s1 <- 'This file contains many fascinating example sentences.'
+s1[6:9]
+```
+
+To extract a substring, instead we use the `substr` function. 
+
+```{r}
+s1 <- 'This file contains many fascinating example sentences.'
+substr(s1, 6,9)
+```
+
+Often we would like to split character vectors to extract a term of interest. This is possible using the `strsplit` function. Consider the names of the inaugural texts:
+
+```{r}
+names(inaugTexts)
+# returns a list of parts
+parts <- strsplit(names(inaugTexts), '-')
+years <- sapply(parts, function(x) x[1])
+pres <-  sapply(parts, function(x) x[2])
+```
+
+The `paste` function is used to join character vectors together. The way in which the elements are combined depends on the values of the `sep` and `collapse` arguments:
+
+```{r}
+paste('one','two','three')
+paste('one','two','three', sep='_')
+paste(years, pres, sep='-')
+paste(years, pres, collapse='-')
+```
+
+
+`tolower` and `toupper` change the case of character vectors.
+```{r}
+tolower(s1)
+toupper(s1)
+
+```
+
+Charcter vectors can be compared using the `==`  and `%in%` operators:
+```{r}
+tolower(s1) == toupper(s1)
+'apples'=='oranges'
+tolower(s1) == tolower(s1)
+'pears' == 'pears'
+
+c1 <- c('apples', 'oranges', 'pears')
+'pears' %in% c1
+c2 <- c('bananas', 'pears')
+c2 %in% c1
+```
+
+The base functions for searching and replacing within text are similar to familiar commands from the other text manipulation environments, `grep` and `gsub`. The `grep` manual page provides an overview of these functions.
+
+The `grep` command tests whether a pattern occurs within a string:
+
+```{r}
+grep('orange', 'these are oranges')
+grep('pear', 'these are oranges')
+grep('orange', c('apples', 'oranges', 'pears'))
+grep('pears', c('apples', 'oranges', 'pears'))
+```
+
+The `gsub` command substitutes one pattern for another within a string:
+```{r}
+gsub('oranges', 'apples', 'these are oranges')
+```
+
+In addition to the base string operations, the `stringr` and `stringi` packages provide more extensive and more organized interfaces for string manipulation. Here we will look at some examples from the `stringr` package. You might need to install the `stringr` package using `install.packages`.
+
+For an overview of the most frequently used functions, see the vignette: <https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html>.
+
+For an index to in-depth explanations of each of the functions, see:
+
+```{r}
+help(package='stringr')
+```
