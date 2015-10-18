@@ -1,0 +1,80 @@
+---
+title: "File import"
+author: Kenneth Benoit and Paul Nulty
+date: October 18th 2015
+output: html_document
+---
+In this section we will show how to load texts from different file sources. The `quanteda` package loads a corpus from a `corpusSource', which is created using the `textfile` command.
+
+In the simplest case, we would like to load a set of texts in plain text files from a single directory. To do this, we use the `textfile` command, and use the 'glob' operator '*' to indicate that we want to load multiple files:
+
+```{r message=FALSE}
+require(quanteda)
+setwd("~/Dropbox/QUANTESS/courses/ITAUR/ITAUR_paul_github/3_file_import")
+myCorpus <- corpus(textfile(file='data/sotu/*.txt'))
+myCorpus <- corpus(textfile(file='data/inaugural//*.txt'))
+```
+
+Often, we have metadata encoded in the names of the files. For example, the inaugural addresses contain the year and the president's name in the name of the file. With the `docvarsfrom` argument, we can instruct the `textfile` command to consider these elements as document variables.
+
+```{r}
+mytf <- textfile("data/inaugural/*.txt", docvarsfrom="filenames", dvsep="-", docvarnames=c("Year", "President"))
+inaugCorpus <- corpus(mytf)
+summary(inaugCorpus, 5)
+```
+
+If the texts and document variables are stored separately, we can easily add document variables to the corpus, as long as the data frame containing them is of the same length as the texts:
+
+```{r}
+SOTUdocvars <- read.csv("data/SOTU_metadata.csv", stringsAsFactors = FALSE)
+SOTUdocvars$Date <- as.Date(SOTUdocvars$Date, "%B %d, %Y")
+SOTUdocvars$delivery <- as.factor(SOTUdocvars$delivery)
+SOTUdocvars$type <- as.factor(SOTUdocvars$type)
+SOTUdocvars$party <- as.factor(SOTUdocvars$party)
+SOTUdocvars$nwords <- NULL
+
+sotuCorpus <- corpus(textfile(file='data/sotu/*.txt'), encodingFrom = "UTF-8-BOM")
+docvars(sotuCorpus) <- SOTUdocvars
+```
+
+Another common case is that our texts are stored alongside the document variables in a structured file, such as a json, csv or excel file. The textfile command can read in the texts and document variables simultaneously from these files when the name of the field containing the texts is specified.
+```{r}
+tf1 <- textfile(file='data/inaugTexts.csv', textField = 'inaugSpeech')
+myCorpus <- corpus(tf1)
+
+
+tf2 <- textfile("data/text_example.csv", textField = "Title")
+myCorpus <- corpus(tf2)
+head(docvars(tf2))
+```
+
+Once the we have loaded a corpus with some document level variables, we can subset the corpus using these variables, create document-feature matrices by aggregating on the variables, or extract the texts concatenated by variable.
+
+```{r}
+recentCorpus <- subset(inaugCorpus, Year > 1980)
+oldCorpus <- subset(inaugCorpus, Year < 1880)
+
+require(dplyr)
+demCorpus <- subset(sotuCorpus, party == 'Democratic')
+demFeatures <- dfm(demCorpus, ignoredFeatures=stopwords('english')) %>%
+    trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
+
+repCorpus <- subset(sotuCorpus, party == 'Republican') 
+repFeatures <- dfm(repCorpus, ignoredFeatures=stopwords('english'))%>%
+    trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
+```
+
+The `quanteda` corpus objects can be combined using the `+` operator:
+```{r}
+inaugCorpus <- demCorpus + repCorpus
+allFeatures <- dfm(inaugCorpus, ignoredFeatures=stopwords('english'))%>%
+    trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
+
+```
+
+It should also be possible to load a zip file containing texts directly from a url. However, whether this operation succeeds or not can depend on access permission settings on your particular system:
+
+```{r}
+immigfiles <- textfile("https://github.com/kbenoit/ME114/raw/master/day8/UKimmigTexts.zip")
+mycorpus <- corpus(immigfiles)
+```

@@ -1,6 +1,6 @@
 ---
 title: "Text manipulation"
-author: Paul Nulty
+author: Kenneth Benoit and Paul Nulty
 date: October 18th 2015
 output: html_document
 ---
