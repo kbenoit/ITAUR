@@ -74,7 +74,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 *  [Getting textual data into R](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/3_file_import/file_import.html)
 *  **Exercise:** Step through execution of the [.Rmd file](3_file_import/file_import.Rmd).
-*  Sample data files: file1.csv, file2.json, file3.xml
+*  Sample data files: [SOTU_metadata.csv](https://github.com/kbenoit/ITAUR/blob/master/data/SOTU_metadata.csv), [inaugTexts.csv](https://github.com/kbenoit/ITAUR/blob/master/data/inaugTexts.csv), [tweetSample.RData](https://github.com/kbenoit/ITAUR/blob/master/data/tweetSample.RData)
 
 
 ### Module 4: Processing and preparing texts for analysis
