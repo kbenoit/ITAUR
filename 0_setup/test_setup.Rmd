@@ -1,0 +1,13 @@
+---
+title: "Setup test"
+author: "Kenneth Benoit and Paul Nulty"
+date: "18 October 2015"
+output: html_document
+---
+
+Run this to test your setup.
+
+```{r}
+summary(ie2010Corpus)
+```
+
