@@ -10,7 +10,7 @@ In the simplest case, we would like to load a set of texts in plain text files f
 
 ```{r message=FALSE}
 require(quanteda)
-setwd("~/Dropbox/QUANTESS/courses/ITAUR/ITAUR_paul_github/3_file_import")
+setwd("~/Dropbox/QUANTESS/courses/ITAUR/ITAUR_paul_github/")
 myCorpus <- corpus(textfile(file='data/sotu/*.txt'))
 myCorpus <- corpus(textfile(file='data/inaugural//*.txt'))
 ```

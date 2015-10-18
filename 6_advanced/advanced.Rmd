@@ -7,3 +7,36 @@ output: html_document
 
 In this section we will explore some text analysis and analysis of metadata from a corpus of tweets retrieved from the Twitter API. The tweets are a small sample from a collection of tweets relating to the European Parliament elections of 2015.
 
+Load the data frame containing the sample:
+
+```{r}
+setwd("~/Dropbox/QUANTESS/courses/ITAUR/ITAUR_paul_github/")
+load(file = 'data/tweetSample.RData')
+
+
+```
+
+
+```{r}
+require(lubridate)
+tweetSample <- mutate(tweetSample, day = yday(created_at))
+tweetSample <- mutate(tweetSample, dayDate = as.Date(day-1, origin = "2014-01-01"))
+juncker <- filter(tweetSample, grepl('juncker', text, ignore.case=TRUE)) %>% mutate(kand='Juncker')
+schulz <- filter(tweetSample, grepl('schulz', text, ignore.case=TRUE))  %>% mutate(kand='Schulz')
+verhof <- filter(tweetSample, grepl('verhofstadt', text, ignore.case=TRUE)) %>% mutate(kand='Verhofstadt')
+keller <- filter(tweetSample, grepl('keller', text, ignore.case=TRUE)) %>% mutate(kand='Keller')
+tsipras <- filter(tweetSample, grepl('tsipras', text, ignore.case=TRUE)) %>% mutate(kand='Tsipras')
+spitzAll <- bind_rows(juncker, schulz, verhof, keller)
+bg <- count(spitzAll, day=day)
+
+# mentioning kandidates names over time
+plotDf <- count(spitzAll, kand, day=day)  %>% mutate(day=as.Date(day-1, origin = "2014-01-01"))
+plotDf$bg <- rep(bg$n, 3)
+ggplot(data=plotDf, aes(x=day, y=log(n), colour=kand)) + 
+    geom_smooth(method='lm', formula=y ~ poly(x, 15), se=FALSE, size=1) +
+    scale_y_continuous(labels = comma) + geom_vline(xintercept=as.numeric(as.Date("2014-05-15")), linetype=4) +
+    geom_vline(xintercept=as.numeric(as.Date("2014-05-25")), linetype=4) 
+```
+
+
+
