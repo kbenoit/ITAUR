@@ -56,7 +56,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 *  [CRAN](https://cran.r-project.org) for downloading and installing R  
 *  [GitHub page for the **quanteda** package](https://github.com/kbenoit/quanteda)  
 *  Additional packages to install:  STM, topicmodels, glmnet
-
+*  **Try running this RMarkdown file:** [test_setup.Rmd](0_setup/test_setup.Rmd).  If it builds without error and looks like [this](0_setup/test_setup.html), then you have successfully configured your system.
 
 ### Module 1: Overview and demonstration of text analysis using R
 
@@ -74,4 +74,11 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 
 ### Module 6: Advanced analysis and working with other text packages
+
+### Module 7: Tell us about your problems
+
+*  This session is intended for students to describe their own challenges and for the instructors to describe how to solve them.  If you have some data you'd like us to work on live, as part of our interactive answers to your problems, you are encouraged to put them somewhere that can be accessed online, so that we will be able to access them in the class.
+
+
+
 

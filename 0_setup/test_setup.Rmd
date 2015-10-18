@@ -5,9 +5,50 @@ date: "18 October 2015"
 output: html_document
 ---
 
+First, you need to have **quanteda** installed.  You can do this from inside RStudio, from the Tools...Install Packages menu, or simply using
+    ```{r, eval = FALSE}
+    install.packages("quanteda")
+    ```
+
+(Optional) You can install some additional corpus data from **quantedaData** using
+
+    ```{r, eval=FALSE}
+    ## the devtools package is required to install quanteda from Github
+    devtools::install_github("kbenoit/quantedaData")
+    ```
+
 Run this to test your setup.
 
+You must have quanteda installed in order for this next step to succeed.
+```{r}
+require(quanteda)
+```
+
+Now summarize some texts in the Irish 2010 budget speech corpus:
 ```{r}
 summary(ie2010Corpus)
 ```
+
+Create a document-feature matrix from this corpus, removing stop words:
+```{r}
+ieDfm <- dfm(ie2010Corpus, ignoredFeatures = c(stopwords("english"), "will"), stem = TRUE)
+```
+
+Look at the top occuring features:
+```{r}
+topfeatures(ieDfm)
+```
+
+Make a word cloud:
+```{r, fig.width=8, fig.height=8}
+plot(ieDfm, min.freq=25, random.order=FALSE)
+```
+
+If you got this far, congratulations!
+
+
+
+
+
+
 
