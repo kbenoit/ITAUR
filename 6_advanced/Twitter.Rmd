@@ -1,18 +1,16 @@
 ---
-title: "Working with Twitter Text"
-author: "Paul Nulty"
-date: "14 October 2015"
+title: "Accessing Twitter Text"
+author: "Kenneth Benoit and Paul Nulty"
+date: "18 October 2015"
 output: html_document
 ---
 
 ### Overview
 
-In this module we will cover the following methods for mining and analyzing text from the twitter API:
+In this ssection we will cover the following methods for mining and analyzing text from the twitter API:
 
 * Creating a new application and getting access to the REST and streaming APIs
 * Using the REST and streaming APIs from within R
-* Analysing and visualizing the resulting text and metadata
-
 
 ### Accessing the twitter APIs
 
