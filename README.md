@@ -66,7 +66,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 2: Basic text data types and functions for text
 
-*  [Basic text manipulation using R](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/2_text_manipulation/text_manipulation.html)
+*  [Basic text manipulation using R](http://htmlpreview.github.io/?https://github.com/kbenoit/ITAUR/blob/master/2_text_manipulation/text_manipulation.html)
 *  **Exercise:** Step through execution of the [.Rmd file](2_text_manipulation/text_manipulation.Rmd).
 
 
@@ -79,7 +79,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 4: Processing and preparing texts for analysis
 
-*  [Text processing in R](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/4_preparing_texts/preparingtexts.html)
+*  [Text processing in R](http://htmlpreview.github.io/?https://github.com/kbenoit/ITAUR/blob/master/4_preparing_texts/preparingtexts.html)
 *  **Exercise:** Step through execution of the [.Rmd file](4_preparing_texts/preparingtexts.Rmd).
 
 
