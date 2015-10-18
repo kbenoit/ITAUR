@@ -1,3 +1,10 @@
+---
+title: "Example workflow"
+author: Paul Nulty
+date: October 18th 2015
+output: html_document
+---
+
 This file demonstrates a basic workflow to take some pre-loaded texts and perform elementary text analysis tasks quickly. The `quanteda` packages comes with a built-in set of inaugural addresses from US Presidents. We begin by loading quanteda and examining these texts. The `summary` command will output the name of each text along with the number of types, tokens and sentences contained in the text. Below we use R's indexing syntax to selectivly use the summary command on the first five texts.
 
 ```{R}
@@ -38,7 +45,6 @@ Once each text has been split into words, we can use the `dfm` function to creat
 
 ```{r}
 inaugDfm <- dfm(inaugTokens)
-View(inaugDfm)
 ```
 
 If we are interested in analysing the texts with respect to some other variables, we can create a corpus object to associate the texts with this metadata. For example, consider the last six inaugural addresses:
@@ -56,7 +62,8 @@ summary(recentCorpus)
 
 We can use this metadata to combine features across documents when creating a document-feature matrix:
 
-```{r}
+```{r  fig.width=10, fig.height=8, warning=FALSE}
 partyDfm <- dfm(recentCorpus, groups='Party', ignoredFeatures=(stopwords('english')))
 wordcloud::comparison.cloud(t(as.matrix(partyDfm)))
 ```
+
