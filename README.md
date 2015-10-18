@@ -61,7 +61,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 ### Module 1: Overview and demonstration of text analysis using R
 
 *  Demonstration of text analysis using R: [demo.R](1_demo/demo.R)
-*  Overview, motivation, and philosophy of the **quanteda** package (pdf slides)
+*  [Overview, motivation, and philosophy of the **quanteda** package](1_demo/motivation.pdf) (pdf slides)
 *  **Exercise:** [Example code to step through](1_demo/workflow.Rmd)
 
 ### Module 2: Basic text data types and functions for text
