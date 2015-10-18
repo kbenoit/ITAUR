@@ -44,6 +44,7 @@ Designed to be done before the course or after, to augment what is presented dur
 *  [**stringi** package page](http://www.rexamine.com/resources/stringi/), which also includes a good discussion of the [ICU library](http://site.icu-project.org)  
 *  Some guides to regular expressions: (Zytrax.com's User Guide)[http://www.zytrax.com/tech/web/regex.htm]
  or the comprehensive resources from http://www.regular-expressions.info  
+*  See the [`quanteda` tag on Stack Overflow](http://stackoverflow.com/questions/tagged/quanteda), where you can pose questions and see some brilliant answers by our development team.
 
 
 ### Schedule
@@ -79,7 +80,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 4: Processing and preparing texts for analysis
 
-*  [Text processing in R](http://htmlpreview.github.io/?https://github.com/kbenoit/ITAUR/blob/master/4_preparing_texts/preparingtexts.html)
+*  [Text processing in R](http://www.kenbenoit.net/files/preparingtexts.html)
 *  **Exercise:** Step through execution of the [.Rmd file](4_preparing_texts/preparingtexts.Rmd).
 
 
