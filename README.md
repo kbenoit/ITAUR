@@ -60,7 +60,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 1: Overview and demonstration of text analysis using R
 
-*  [Demonstration of text analysis using R](1_demo/demo.Rmd) (and [HTML output](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/1_demo/demo.html))
+*  [Demonstration of text analysis using R](1_demo/demo.R) (and [HTML output](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/1_demo/demo.html))
 *  Overview, motivation, and philosophy of the **quanteda** package (pdf slides)
 *  **Exercise:** [Example code to step through](1_demo/workflow.Rmd)
 

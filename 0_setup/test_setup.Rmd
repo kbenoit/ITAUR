@@ -6,16 +6,16 @@ output: html_document
 ---
 
 First, you need to have **quanteda** installed.  You can do this from inside RStudio, from the Tools...Install Packages menu, or simply using
-    ```{r, eval = FALSE}
-    install.packages("quanteda")
-    ```
+```{r, eval = FALSE}
+install.packages("quanteda")
+```
 
 (Optional) You can install some additional corpus data from **quantedaData** using
 
-    ```{r, eval=FALSE}
-    ## the devtools package is required to install quanteda from Github
-    devtools::install_github("kbenoit/quantedaData")
-    ```
+```{r, eval=FALSE}
+## the devtools package is required to install quanteda from Github
+devtools::install_github("kbenoit/quantedaData")
+```
 
 Run this to test your setup.
 
