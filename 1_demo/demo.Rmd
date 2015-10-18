@@ -1,0 +1,13 @@
+---
+title: "quanteda Demo"
+author: "Kenneth Benoit and Paul Nulty"
+date: "18 October 2015"
+output: html_document
+---
+
+Demonstration of quanteda.
+
+```{r}
+require(quanteda)
+summary(ie2010Corpus)
+```
