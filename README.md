@@ -62,21 +62,37 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 *  Demonstration of text analysis using R: [demo.R](1_demo/demo.R)
 *  [Overview, motivation, and philosophy of the **quanteda** package](1_demo/motivation.pdf) (pdf slides)
-*  **Exercise:** [Example code to step through](1_demo/workflow.Rmd)
+*  **Exercise:** [Step through execution of this example code `workflow.Rmd`.](1_demo/workflow.Rmd)
 
 ### Module 2: Basic text data types and functions for text
+
+*  [Basic text manipulation using R](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/2_text_manipulation/text_manipulation.html)
+*  **Exercise:** Step through execution of the [.Rmd file](2_text_manipulation/text_manipulation.Rmd).
 
 
 ### Module 3: Getting textual data into R
 
+*  [Getting textual data into R](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/3_file_import/file_import.html)
+*  **Exercise:** Step through execution of the [.Rmd file](3_file_import/file_import.Rmd).
+*  Sample data files: file1.csv, file2.json, file3.xml
+
 
 ### Module 4: Processing and preparing texts for analysis
+
+*  [Text processing in R](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/4_preparing_texts/preparingtexts.html)
+*  **Exercise:** Step through execution of the [.Rmd file](4_preparing_texts/preparingtexts.Rmd).
 
 
 ### Module 5: Descriptive analysis
 
+*  [Descriptive analysis of texts](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/5_descriptive_descriptive.html)
+*  **Exercise:** Step through execution of the [.Rmd file](5_descriptive_descriptive.Rmd).
+
 
 ### Module 6: Advanced analysis and working with other text packages
+
+*  [Advanced analysis and working with other packages](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/6_advanced/advanced.html)
+*  **Exercise:** Step through execution of the [.Rmd file](6_advanced/advanced.Rmd).
 
 
 ### Module 7: Tell us about your problems
