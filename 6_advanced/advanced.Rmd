@@ -30,9 +30,6 @@ spitzAll <- bind_rows(juncker, schulz, verhof)
 Once the data is in the correct format, we can use ggplot to display the candidate mentions on the a single plot:
 
 
-
-
-
 ```{r}
 require(ggplot2)
 require(scales)
@@ -58,8 +55,7 @@ topfeatures(jd, nfeature(jd))
 ```
 
 
-## Furthur analysis examples
-
+## Further analysis examples
 Wordscores:
 ```{r}
 require(quantedaData)
