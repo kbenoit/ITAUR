@@ -88,5 +88,5 @@ quantdfm <- dfm(mycorpus, verbose=FALSE,stem=TRUE,
         ignoredFeatures=c(stopwords('english'),'will','us','nation', 'can','peopl*','americ*'))
 ldadfm <- convert(quantdfm, to="topicmodels")
 lda <- LDA(ldadfm, control = list(alpha = 0.1), k=20)
-wrds <- terms(lda, 10)
+terms(lda, 10)
 ```
