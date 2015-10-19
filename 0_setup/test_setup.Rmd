@@ -7,7 +7,7 @@ output: html_document
 
 First, you need to have **quanteda** installed.  You can do this from inside RStudio, from the Tools...Install Packages menu, or simply using
 ```{r, eval = FALSE}
-install.packages("quanteda")
+install.packages("quanteda", dependencies = TRUE)
 ```
 
 (Optional) You can install some additional corpus data from **quantedaData** using
