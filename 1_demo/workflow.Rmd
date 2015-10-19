@@ -9,7 +9,6 @@ This file demonstrates a basic workflow to take some pre-loaded texts and perfor
 
 ```{R}
 require(quanteda)
-
 summary(inaugTexts[1:5])
 ```
 
@@ -47,6 +46,18 @@ Once each text has been split into words, we can use the `dfm` function to creat
 inaugDfm <- dfm(inaugTokens)
 ```
 
+Note that `dfm()` works on a variety of object types, including character vectors, corpus objects, and tokenized text objects.  This gives the user maximum flexibility and power, while also making it easy to achieve similar results by going directly from texts to a document-by-feature matrix.
+
+To see what objects for which any particular *method* (function) is defined, you can use the `methods()` function:
+```{r}
+methods(dfm)
+```
+
+Likewise, you can also figure out what methods are defined for any given *class* of object, using the same function:
+```{r}
+methods(class = "tokenizedTexts")
+```
+
 If we are interested in analysing the texts with respect to some other variables, we can create a corpus object to associate the texts with this metadata. For example, consider the last six inaugural addresses:
 
 ```{r}
@@ -55,7 +66,7 @@ summary(inaugTexts[52:57])
 We can use the `docvars` option to the `corpus` command to record the party with which each text is associated:
 
 ```{r}
-dv <- data.frame(Party=c('dem','dem','rep','rep','dem','dem'))
+dv <- data.frame(Party = c('dem','dem','rep','rep','dem','dem'))
 recentCorpus <- corpus(inaugTexts[52:57], docvars=dv)
 summary(recentCorpus)
 ```
