@@ -6,7 +6,7 @@
 [Kenneth Benoit](kbenoit@lse.ac.uk), Department of Methodology, LSE  
 [Paul Nulty](p.nulty@lse.ac.uk), Department of Methodology, LSE  
 
-**Version:** October 16, 2015 -- **WORK IN PROGRESS UNTIL THE COURSE DATE Oct 19**
+**Version:** October 18, 2015
 
 This repository contains the workshop materials for the one-day workshop [Introduction to Text Analysis Using R](link Here) taught on October 19, 2015 by Kenneth Benoit and Paul Nulty.  This workshop is co-sponsored by the NYU Centre for Data Science and the NYU Department of Politics, and supported by European Research Council grant ERC-2011-StG 283794-QUANTESS: Quantitative Analysis of Text for Social Science.
 
