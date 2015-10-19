@@ -86,7 +86,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 5: Descriptive analysis
 
-*  [Descriptive analysis of texts](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/5_descriptive_descriptive.html)
+*  [Descriptive analysis of texts](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/5_descriptive/descriptive.html)
 *  **Exercise:** Step through execution of the [.Rmd file](5_descriptive_descriptive.Rmd).
 
 
