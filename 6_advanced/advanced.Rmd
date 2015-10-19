@@ -10,13 +10,14 @@ In this section we will explore some text analysis and analysis of metadata from
 Load the data frame containing the sample tweets:
 
 ```{r}
-setwd("~/Dropbox/QUANTESS/courses/ITAUR/ITAUR_paul_github/")
-load(file = 'data/tweetSample.RData')
+# load("tweetSample.RData")
+tweetSample <- readRDS("tweetSample.rds")
 ```
 
 
 ```{r}
 require(lubridate)
+require(dplyr)
 tweetSample <- mutate(tweetSample, day = yday(created_at))
 tweetSample <- mutate(tweetSample, dayDate = as.Date(day-1, origin = "2014-01-01"))
 juncker <- filter(tweetSample, grepl('juncker', text, ignore.case=TRUE)) %>% mutate(kand='Juncker')
@@ -25,7 +26,6 @@ verhof <- filter(tweetSample, grepl('verhofstadt', text, ignore.case=TRUE)) %>% 
 tsipras <- filter(tweetSample, grepl('tsipras', text, ignore.case=TRUE)) %>% mutate(kand='Tsipras')
 spitzAll <- bind_rows(juncker, schulz, verhof)
 bg <- count(spitzAll, day=day)
-
 ```
 
 Once the data is in the correct format, we can use ggplot to display the candidate mentions on the a single plot:
@@ -42,18 +42,14 @@ ggplot(data=plotDf, aes(x=day, y=n, colour=kand)) +
     geom_vline(xintercept=as.numeric(as.Date("2014-05-25")), linetype=4) +
     theme(axis.text=element_text(size=12),
           axis.title=element_text(size=14,face="bold"))
-
 ```
 
 
-We can use the keptFeatures argument to dfm to analyse only hashtags for each candidate's text.
+We can use the `keptFeatures` argument to `dfm()` to analyse only hashtags for each candidate's text.
 ```{r}
-
 # Top hashtags for tweets that mention Juncker
-
-dv <- data.frame(user=juncker$user_screen_name)
-jCorp <- corpus(juncker$text, docvars=dv)
-jd <- dfm(jCorp,keptFeatures = "^#*") 
-topfeatures(jd, 10)
-
+dv <- data.frame(user = juncker$user_screen_name)
+jCorp <- corpus(juncker$text, docvars = dv)
+jd <- dfm(jCorp, keptFeatures = "^#", valuetype = "regex") 
+topfeatures(jd, nfeature(jd))
 ```
