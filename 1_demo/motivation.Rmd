@@ -11,7 +11,7 @@ output: beamer_presentation
 2. Power
 3. Best practice
     * workflow
-    * transparency and reroducability
+    * transparency and reproducability
 3. Performance
 4. Inter-operability with other tools
 
