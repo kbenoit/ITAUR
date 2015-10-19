@@ -5,6 +5,8 @@ date: "18 October 2015"
 output: html_document
 ---
 
+#### Preliminaries: Installation
+
 First, you need to have **quanteda** installed.  You can do this from inside RStudio, from the Tools...Install Packages menu, or simply using
 ```{r, eval = FALSE}
 install.packages("quanteda", dependencies = TRUE)
@@ -17,9 +19,12 @@ install.packages("quanteda", dependencies = TRUE)
 devtools::install_github("kbenoit/quantedaData")
 ```
 
-Run this to test your setup.
+Note that on **Windows platforms**, it is also recommended that you install the [RTools suite](https://cran.r-project.org/bin/windows/Rtools/), and for **OS X**, that you install [XCode](https://itunes.apple.com/gb/app/xcode/id497799835?mt=12) from the App Store.
 
-You must have quanteda installed in order for this next step to succeed.
+
+#### Test your setup
+
+Run the rest of this file to test your setup.  You must have quanteda installed in order for this next step to succeed.
 ```{r}
 require(quanteda)
 ```
