@@ -94,7 +94,7 @@ print(p)
 
 
 ## Presidential Inaugural Address Corpus
-presDfm <- dfm(inaugCorpus, stopwords=TRUE)
+presDfm <- dfm(inaugCorpus, ignoredFeatures = stopwords("english"))
 # compute some document similarities
 similarity(presDfm, "1985-Reagan", n=5, margin="documents")
 similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "cosine")
