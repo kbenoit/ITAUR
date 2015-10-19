@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="Paul Nulty" />
+<meta name="author" content="Kenneth Benoit and Paul Nulty" />
 
 
 <title>Text manipulation</title>
@@ -62,7 +62,7 @@ img {
 
 <div id="header">
 <h1 class="title">Text manipulation</h1>
-<h4 class="author"><em>Paul Nulty</em></h4>
+<h4 class="author"><em>Kenneth Benoit and Paul Nulty</em></h4>
 <h4 class="date"><em>October 18th 2015</em></h4>
 </div>
 
@@ -157,6 +157,14 @@ pres &lt;-  sapply(parts, function(x) x[2])</code></pre>
 <pre><code>## [1] &quot;this file contains many fascinating example sentences.&quot;</code></pre>
 <pre class="r"><code>toupper(s1)</code></pre>
 <pre><code>## [1] &quot;THIS FILE CONTAINS MANY FASCINATING EXAMPLE SENTENCES.&quot;</code></pre>
+<p>Note that quanteda has a special wrapper for changing case, called <code>toLower()</code>, which is better than the built-in <code>tolower()</code> and is defined for multiple objects:</p>
+<pre class="r"><code>require(quanteda)
+tolower(c(&quot;This&quot;, &quot;is&quot;, &quot;Kεφαλαία Γράμματα&quot;))</code></pre>
+<pre><code>## [1] &quot;this&quot;              &quot;is&quot;                &quot;kεφαλαία γράμματα&quot;</code></pre>
+<pre class="r"><code>methods(toLower)</code></pre>
+<pre><code>## [1] toLower.character*      toLower.corpus*         toLower.NULL*          
+## [4] toLower.tokenizedTexts*
+## see '?methods' for accessing help and source code</code></pre>
 <p>Charcter vectors can be compared using the <code>==</code> and <code>%in%</code> operators:</p>
 <pre class="r"><code>tolower(s1) == toupper(s1)</code></pre>
 <pre><code>## [1] FALSE</code></pre>
@@ -189,6 +197,12 @@ c2 %in% c1</code></pre>
 <p>For an overview of the most frequently used functions, see the vignette: <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html" class="uri">https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html</a>.</p>
 <p>For an index to in-depth explanations of each of the functions, see:</p>
 <pre class="r"><code>help(package='stringr')</code></pre>
+<p>To extract texts from a quanteda corpus object, the command is very simple:</p>
+<pre class="r"><code>mytexts &lt;- texts(subset(inaugCorpus, President == &quot;Washington&quot;))
+str(mytexts)</code></pre>
+<pre><code>##  Named chr [1:2] &quot;Fellow-Citizens of the Senate and of the House of Representatives:\n\nAmong the vicissitudes incident to life no event could ha&quot;| __truncated__ ...
+##  - attr(*, &quot;names&quot;)= chr [1:2] &quot;1789-Washington&quot; &quot;1793-Washington&quot;</code></pre>
+<p>We challenge you to do this as simply <a href="http://stackoverflow.com/questions/33193152/unable-to-convert-a-corpus-to-data-frame-in-r">using the <strong>tm</strong> package</a>.</p>
 
 
 </div>

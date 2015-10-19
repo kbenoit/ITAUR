@@ -68,9 +68,95 @@ img {
 
 
 <p>In this section we will show how to load texts from different file sources. The <code>quanteda</code> package loads a corpus from a <code>corpusSource', which is created using the</code>textfile` command.</p>
+<div id="three-ways-to-create-a-corpus-object" class="section level3">
+<h3>Three ways to create a <code>corpus</code> object</h3>
+<p><strong>quanteda can construct a <code>corpus</code> object</strong> from several input sources:</p>
+<ol style="list-style-type: decimal">
+<li><p>a character vector object</p>
+<pre class="r"><code>require(quanteda)</code></pre>
+<pre><code>## Loading required package: quanteda
+## 
+## Attaching package: 'quanteda'
+## 
+## The following object is masked from 'package:base':
+## 
+##     sample</code></pre>
+<pre class="r"><code>myTinyCorpus &lt;- corpus(inaugTexts[1:2], notes = &quot;Just G.W.&quot;)
+summary(myTinyCorpus)</code></pre>
+<pre><code>## Corpus consisting of 2 documents.
+## 
+##             Text Types Tokens Sentences
+##  1789-Washington   595   1430        24
+##  1793-Washington    90    135         4
+## 
+## Source:  /Users/kbenoit/Dropbox/QUANTESS/courses/ITAUR/ITAUR_ken_github/3_file_import/* on x86_64 by kbenoit
+## Created: Mon Oct 19 07:35:54 2015
+## Notes:   Just G.W.</code></pre></li>
+<li><p>a <code>VCorpus</code> object from the <strong>tm</strong> package, and</p>
+<pre class="r"><code>require(tm)</code></pre>
+<pre><code>## Loading required package: tm
+## Loading required package: NLP
+## 
+## Attaching package: 'NLP'
+## 
+## The following object is masked from 'package:quanteda':
+## 
+##     ngrams
+## 
+## 
+## Attaching package: 'tm'
+## 
+## The following objects are masked from 'package:quanteda':
+## 
+##     as.DocumentTermMatrix, stopwords</code></pre>
+<pre class="r"><code>data(crude, package = &quot;tm&quot;)
+myTmCorpus &lt;- corpus(crude)
+summary(myTmCorpus, 5)</code></pre>
+<pre><code>## Corpus consisting of 20 documents, showing 5 documents.
+## 
+##  Text Types Tokens Sentences                     author
+##   127    58     92        12                       &lt;NA&gt;
+##   144   227    443        52 BY TED D'AFFLISIO, Reuters
+##   191    43     55         9                       &lt;NA&gt;
+##   194    52     69        10                       &lt;NA&gt;
+##   211    64     93        12                       &lt;NA&gt;
+##        datetimestamp description
+##  1987-02-26 17:00:56            
+##  1987-02-26 17:34:11            
+##  1987-02-26 18:18:00            
+##  1987-02-26 18:21:01            
+##  1987-02-26 19:00:57            
+##                                          heading  id language
+##         DIAMOND SHAMROCK (DIA) CUTS CRUDE PRICES 127       en
+##  OPEC MAY HAVE TO MEET TO FIRM PRICES - ANALYSTS 144       en
+##        TEXACO CANADA &lt;TXC&gt; LOWERS CRUDE POSTINGS 191       en
+##        MARATHON PETROLEUM REDUCES CRUDE POSTINGS 194       en
+##        HOUSTON OIL &lt;HO&gt; RESERVES STUDY COMPLETED 211       en
+##             origin topics lewissplit     cgisplit oldid places people orgs
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5670    usa   &lt;NA&gt; &lt;NA&gt;
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5687    usa   &lt;NA&gt; opec
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5734 canada   &lt;NA&gt; &lt;NA&gt;
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5737    usa   &lt;NA&gt; &lt;NA&gt;
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5754    usa   &lt;NA&gt; &lt;NA&gt;
+##  exchanges
+##       &lt;NA&gt;
+##       &lt;NA&gt;
+##       &lt;NA&gt;
+##       &lt;NA&gt;
+##       &lt;NA&gt;
+## 
+## Source:  Converted from tm VCorpus 'crude'
+## Created: Mon Oct 19 07:35:54 2015
+## Notes:</code></pre>
+<pre class="r"><code>detach()</code></pre></li>
+<li><p>a <code>corpusSource</code> object, created by <code>textfile()</code>.</p>
+<p>In most cases you will need to load input files from outside of R, so you will use this third method. The remainder of this tutorial focuses on <code>textfile()</code>, which is designed to be a simple, powerful, and all-purpose method to load texts.</p></li>
+</ol>
+</div>
+<div id="using-textfile-to-import-texts" class="section level3">
+<h3>Using <code>textfile()</code> to import texts</h3>
 <p>In the simplest case, we would like to load a set of texts in plain text files from a single directory. To do this, we use the <code>textfile</code> command, and use the ‘glob’ operator ’*’ to indicate that we want to load multiple files:</p>
-<pre class="r"><code>require(quanteda)
-myCorpus &lt;- corpus(textfile(file='inaugural/*.txt'))
+<pre class="r"><code>myCorpus &lt;- corpus(textfile(file='inaugural/*.txt'))
 myCorpus &lt;- corpus(textfile(file='sotu/*.txt'))</code></pre>
 <p>Often, we have metadata encoded in the names of the files. For example, the inaugural addresses contain the year and the president’s name in the name of the file. With the <code>docvarsfrom</code> argument, we can instruct the <code>textfile</code> command to consider these elements as document variables.</p>
 <pre class="r"><code>mytf &lt;- textfile(&quot;inaugural/*.txt&quot;, docvarsfrom=&quot;filenames&quot;, dvsep=&quot;-&quot;, docvarnames=c(&quot;Year&quot;, &quot;President&quot;))
@@ -85,8 +171,8 @@ summary(inaugCorpus, 5)</code></pre>
 ##   1801-Jefferson.txt   681   1726        42 1801  Jefferson
 ##   1805-Jefferson.txt   776   2166        45 1805  Jefferson
 ## 
-## Source:  /home/paul/Dropbox/QUANTESS/courses/ITAUR/ITAUR_paul_github/3_file_import/* on x86_64 by paul
-## Created: Sun Oct 18 20:11:14 2015
+## Source:  /Users/kbenoit/Dropbox/QUANTESS/courses/ITAUR/ITAUR_ken_github/3_file_import/* on x86_64 by kbenoit
+## Created: Mon Oct 19 07:35:56 2015
 ## Notes:</code></pre>
 <p>If the texts and document variables are stored separately, we can easily add document variables to the corpus, as long as the data frame containing them is of the same length as the texts:</p>
 <pre class="r"><code>SOTUdocvars &lt;- read.csv(&quot;SOTU_metadata.csv&quot;, stringsAsFactors = FALSE)
@@ -104,9 +190,8 @@ myCorpus &lt;- corpus(tf1)
 
 
 tf2 &lt;- textfile(&quot;text_example.csv&quot;, textField = &quot;Title&quot;)
-myCorpus &lt;- corpus(tf2)</code></pre>
-<pre><code>## Non-UTF-8 encoding (possibly) detected  :windows-1252.</code></pre>
-<pre class="r"><code>head(docvars(tf2))</code></pre>
+myCorpus &lt;- corpus(tf2)
+head(docvars(tf2))</code></pre>
 <pre><code>##   VOTE DocumentNo CouncilLink         Year Date.of.Meeting VotingDate
 ## 1    1    5728/99             Jan-Dec 1999      08/02/1999 08/02/1999
 ## 2    2    5728/99             Jan-Dec 1999      08/02/1999 08/02/1999
@@ -151,27 +236,27 @@ demFeatures &lt;- dfm(demCorpus, ignoredFeatures=stopwords('english')) %&gt;%
 ##    ... lowercasing
 ##    ... tokenizing
 ##    ... indexing documents: 89 documents
-##    ... indexing features: 18,846 feature types
+##    ... indexing features: 19,512 feature types
 ##    ... removed 166 features, from 174 supplied (fixed) feature types
-##    ... created a 89 x 18680 sparse dfm
+##    ... created a 89 x 19346 sparse dfm
 ##    ... complete. 
-## Elapsed time: 1.605 seconds.
-## Features occurring less than 5 times: 11477 
-## Features occurring in fewer than 3 documents: 9714</code></pre>
+## Elapsed time: 1.51 seconds.
+## Features occurring less than 5 times: 11948 
+## Features occurring in fewer than 3 documents: 10173</code></pre>
 <pre class="r"><code>repCorpus &lt;- subset(sotuCorpus, party == 'Republican') 
-repFeatures &lt;- dfm(repCorpus, ignoredFeatures=stopwords('english'))%&gt;%
+repFeatures &lt;- dfm(repCorpus, ignoredFeatures=stopwords('english')) %&gt;%
     trim(minDoc=3, minCount=5) %&gt;% weight(type='tfidf') %&gt;% topfeatures</code></pre>
 <pre><code>## Creating a dfm from a corpus ...
 ##    ... lowercasing
 ##    ... tokenizing
 ##    ... indexing documents: 92 documents
-##    ... indexing features: 20,440 feature types
-##    ... removed 160 features, from 174 supplied (fixed) feature types
-##    ... created a 92 x 20280 sparse dfm
+##    ... indexing features: 19,794 feature types
+##    ... removed 162 features, from 174 supplied (fixed) feature types
+##    ... created a 92 x 19632 sparse dfm
 ##    ... complete. 
-## Elapsed time: 1.19 seconds.
-## Features occurring less than 5 times: 12457 
-## Features occurring in fewer than 3 documents: 10604</code></pre>
+## Elapsed time: 1.086 seconds.
+## Features occurring less than 5 times: 11983 
+## Features occurring in fewer than 3 documents: 10121</code></pre>
 <p>The <code>quanteda</code> corpus objects can be combined using the <code>+</code> operator:</p>
 <pre class="r"><code>inaugCorpus &lt;- demCorpus + repCorpus
 allFeatures &lt;- dfm(inaugCorpus, ignoredFeatures=stopwords('english'))%&gt;%
@@ -184,12 +269,14 @@ allFeatures &lt;- dfm(inaugCorpus, ignoredFeatures=stopwords('english'))%&gt;%
 ##    ... removed 167 features, from 174 supplied (fixed) feature types
 ##    ... created a 181 x 26026 sparse dfm
 ##    ... complete. 
-## Elapsed time: 2.649 seconds.
+## Elapsed time: 2.788 seconds.
 ## Features occurring less than 5 times: 15558 
 ## Features occurring in fewer than 3 documents: 13237</code></pre>
-<p>It should also be possible to load a zip file containing texts directly from a url. However, whether this operation succeeds or not can depend on access permission settings on your particular system:</p>
+<p>It should also be possible to load a zip file containing texts directly from a url. However, whether this operation succeeds or not can depend on access permission settings on your particular system (i.e. fails on Windows):</p>
 <pre class="r"><code>immigfiles &lt;- textfile(&quot;https://github.com/kbenoit/ME114/raw/master/day8/UKimmigTexts.zip&quot;)
-mycorpus &lt;- corpus(immigfiles)</code></pre>
+mycorpus &lt;- corpus(immigfiles)
+summary(mycorpus)</code></pre>
+</div>
 
 
 </div>

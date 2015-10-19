@@ -73,8 +73,15 @@ paste(years, pres, collapse='-')
 ```{r}
 tolower(s1)
 toupper(s1)
-
 ```
+
+Note that quanteda has a special wrapper for changing case, called `toLower()`, which is better than the built-in `tolower()` and is defined for multiple objects:
+```{r}
+require(quanteda)
+tolower(c("This", "is", "Kεφαλαία Γράμματα"))
+methods(toLower)
+```
+
 
 Charcter vectors can be compared using the `==`  and `%in%` operators:
 ```{r}
@@ -114,3 +121,11 @@ For an index to in-depth explanations of each of the functions, see:
 ```{r}
 help(package='stringr')
 ```
+
+To extract texts from a quanteda corpus object, the command is very simple:
+```{r}
+mytexts <- texts(subset(inaugCorpus, President == "Washington"))
+str(mytexts)
+```
+We challenge you to do this as simply [using the **tm** package](http://stackoverflow.com/questions/33193152/unable-to-convert-a-corpus-to-data-frame-in-r).
+

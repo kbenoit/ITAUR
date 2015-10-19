@@ -6,10 +6,35 @@ output: html_document
 ---
 In this section we will show how to load texts from different file sources. The `quanteda` package loads a corpus from a `corpusSource', which is created using the `textfile` command.
 
+### Three ways to create a `corpus` object
+
+**quanteda can construct a `corpus` object** from several input sources:
+
+1.  a character vector object  
+    ```{r}
+    require(quanteda)
+    myTinyCorpus <- corpus(inaugTexts[1:2], notes = "Just G.W.")
+    summary(myTinyCorpus)
+    ```
+    
+2.  a `VCorpus` object from the **tm** package, and
+    ```{r}
+    require(tm)
+    data(crude, package = "tm")
+    myTmCorpus <- corpus(crude)
+    summary(myTmCorpus, 5)
+    detach()
+    ```
+
+3.  a `corpusSource` object, created by `textfile()`.
+
+    In most cases you will need to load input files from outside of R, so you will use this third method.  The remainder of this tutorial focuses on `textfile()`, which is designed to be a simple, powerful, and all-purpose method to load texts.
+
+### Using `textfile()` to import texts
+
 In the simplest case, we would like to load a set of texts in plain text files from a single directory. To do this, we use the `textfile` command, and use the 'glob' operator '*' to indicate that we want to load multiple files:
 
 ```{r message=FALSE}
-require(quanteda)
 myCorpus <- corpus(textfile(file='inaugural/*.txt'))
 myCorpus <- corpus(textfile(file='sotu/*.txt'))
 ```
@@ -59,7 +84,7 @@ demFeatures <- dfm(demCorpus, ignoredFeatures=stopwords('english')) %>%
     trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
 
 repCorpus <- subset(sotuCorpus, party == 'Republican') 
-repFeatures <- dfm(repCorpus, ignoredFeatures=stopwords('english'))%>%
+repFeatures <- dfm(repCorpus, ignoredFeatures=stopwords('english')) %>%
     trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
 ```
 
@@ -71,9 +96,10 @@ allFeatures <- dfm(inaugCorpus, ignoredFeatures=stopwords('english'))%>%
 
 ```
 
-It should also be possible to load a zip file containing texts directly from a url. However, whether this operation succeeds or not can depend on access permission settings on your particular system:
+It should also be possible to load a zip file containing texts directly from a url. However, whether this operation succeeds or not can depend on access permission settings on your particular system (i.e. fails on Windows):
 
 ```{r eval=FALSE}
 immigfiles <- textfile("https://github.com/kbenoit/ME114/raw/master/day8/UKimmigTexts.zip")
 mycorpus <- corpus(immigfiles)
+summary(mycorpus)
 ```
