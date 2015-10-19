@@ -93,7 +93,8 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 ### Module 6: Advanced analysis and working with other text packages
 
 *  [Advanced analysis and working with other packages](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/6_advanced/advanced.html)
-*  **Exercise:** Step through execution of the [.Rmd file](6_advanced/advanced.Rmd), and the instructions for setting up your own [twitter app](6_advanced/Twitter.Rmd). 
+*  **Exercise:** Step through execution of the [.Rmd file](6_advanced/advanced.Rmd)
+*  **Twitter analysis example**, and the instructions for setting up your own Twitter app, in [Twitter.Rmd](6_advanced/Twitter.Rmd). 
 
 
 ### Module 7: Tell us about your problems
