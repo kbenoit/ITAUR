@@ -12,6 +12,7 @@ Load the data frame containing the sample tweets:
 ```{r}
 require(quanteda)
 load("tweetSample.RData")
+str(tweetSample)
 ```
 
 
@@ -24,7 +25,6 @@ juncker <- filter(tweetSample, grepl('juncker', text, ignore.case=TRUE)) %>% mut
 schulz <- filter(tweetSample, grepl('schulz', text, ignore.case=TRUE))  %>% mutate(kand='Schulz')
 verhof <- filter(tweetSample, grepl('verhofstadt', text, ignore.case=TRUE)) %>% mutate(kand='Verhofstadt')
 spitzAll <- bind_rows(juncker, schulz, verhof)
-
 ```
 
 Once the data is in the correct format, we can use ggplot to display the candidate mentions on the a single plot:
@@ -50,7 +50,9 @@ We can use the `keptFeatures` argument to `dfm()` to analyse only hashtags for e
 # Top hashtags for tweets that mention Juncker
 dv <- data.frame(user = juncker$user_screen_name)
 jCorp <- corpus(juncker$text, docvars = dv)
-jd <- dfm(jCorp, keptFeatures = "^#", valuetype = "regex") 
+jd <- dfm(jCorp)
+jd <- selectFeatures(jd, "^#.*", "keep", valuetype = "regex") 
+# equivalent: jd <- selectFeatures(jd, "#*", "keep", valuetype = "glob") 
 topfeatures(jd, nfeature(jd))
 ```
 
@@ -58,29 +60,41 @@ topfeatures(jd, nfeature(jd))
 ## Further analysis examples
 Wordscores:
 ```{r}
-require(quantedaData)
-data("amicusCorpus")
-refs <- docvars(amicusCorpus, 'testclass')
-aUniD <- dfm(amicusCorpus, ignoredFeatures=stopwords("english"))
-wm <- textmodel(aUniD, as.numeric(refs)-1.5, model='wordscores')
-uniCoefs <- as.data.frame(wm@Sw)
-preds <- predict(wm, aUniD)
-plot(preds@textscores$textscore_raw)
+data(amicusCorpus, package = "quantedaData")
+refs <- docvars(amicusCorpus, "testclass")
+refs <- (as.numeric(refs) - 1.5)*2
+amicusDfm <- dfm(amicusCorpus, verbose = FALSE)
+wm <- textmodel(amicusDfm, y = refs, model = "wordscores")
+summary(wm)
+preds <- predict(wm, amicusDfm)
+summary(preds)
+plot(preds@textscores$textscore_raw ~ docvars(amicusCorpus, "testclass"),
+     horizontal = TRUE, xlab = "Predicted document score",
+     ylab = "Test class", las = 1)
 ```
 
 Correspondence analysis:
-```{r}
-require(quantedaData)
-data('ukManifestos')
-ukTexts <- texts(ukManifestos)
-ukDfmUni <- dfm(ukTexts[70:101])
-caUni <- textmodel(aUniD, model="ca")
+```{r, fig.width = 6, fig.height = 6}
+ieDfm <- dfm(ie2010Corpus, verbose = FALSE)
+ieCA <- textmodel(ieDfm, model = "ca")
+require(ca)
+plot(ieCA, what = c("all", "none"))
 ```
 
+Poisson scaling:
+```{r, fig.width = 6, fig.height = 4}
+ieWF <- textmodel(ieDfm, model = "wordfish")
+summary(ieWF)
+dotchart(ieWF@theta, 
+         labels = paste(docvars(ie2010Corpus, "name"), docvars(ie2010Corpus, "party")))
+```
+
+
+Topic models:
 ```{r}
-require('topicmodels')
+require(topicmodels)
 mycorpus <- subset(inaugCorpus, Year>1950)
-quantdfm <- dfm(mycorpus, verbose=FALSE,stem=TRUE,
+quantdfm <- dfm(mycorpus, verbose=FALSE, stem=TRUE,
         ignoredFeatures=c(stopwords('english'),'will','us','nation', 'can','peopl*','americ*'))
 ldadfm <- convert(quantdfm, to="topicmodels")
 lda <- LDA(ldadfm, control = list(alpha = 0.1), k=20)
