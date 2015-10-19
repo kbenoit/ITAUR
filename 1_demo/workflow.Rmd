@@ -9,10 +9,26 @@ This file demonstrates a basic workflow to take some pre-loaded texts and perfor
 
 ```{R}
 require(quanteda)
+# install.packages
+
+require(devtools)
+?install_github
+# devtools
+
+summary(inaugTexts)
 summary(inaugTexts[1:5])
+
+oneText <- inaugTexts[1]
+oneText[2]
+
+tmp <- inaugTexts[1:5]
+length(inaugTexts)
+length(oneText)
+nchar(oneText)
+nchar(inaugTexts[5:7])
 ```
 
-One of the most fundamenttal text analysis tasks is tokenization. To tokenize a text is to split it into units, most commonly words, which can be counted and to form the basis of a quantitative analysis. The quanteda package has a function for tokenization: `tokenize`. Examine the manual page for this function.
+One of the most fundamental text analysis tasks is tokenization. To tokenize a text is to split it into units, most commonly words, which can be counted and to form the basis of a quantitative analysis. The quanteda package has a function for tokenization: `tokenize`. Examine the manual page for this function.
 
 ```{R}
 ?tokenize
@@ -21,7 +37,7 @@ One of the most fundamenttal text analysis tasks is tokenization. To tokenize a 
 `quanteda`'s tokenize function can be used on a simple character vector, a vector of character vectors, or a corpus. Here are some examples:
 
 ```{r}
-tokenize('Today is Thursday in Canberra. It is yesterday in London.')
+tokens <- tokenize('Today is Thursday in Canberra. It is yesterday in London.')
 
 vec <- c(one='This is text one', two='This, however, is the second text')
 tokenize(vec)
@@ -36,6 +52,7 @@ tokenize(toLower(vec), removePunct = TRUE)
 Using this function with the inaugural addresses:
 
 ```{r}
+require(dplyr)
 inaugTokens <- tokenize(toLower(inaugTexts))
 inaugTokens[2]
 ```
@@ -44,6 +61,11 @@ Once each text has been split into words, we can use the `dfm` function to creat
 
 ```{r}
 inaugDfm <- dfm(inaugTokens)
+trimmedInaugDfm <- trim(inaugDfm, minDoc=5, minCount=10)
+weightedTrimmedDfm <- weight(trimmedInaugDfm, type='tfidf')
+
+require(dplyr)
+inaugDfm2 <- dfm(inaugTokens) %>% trim(minDoc=5, minCount=10) %>% weight(type='tfidf')
 ```
 
 Note that `dfm()` works on a variety of object types, including character vectors, corpus objects, and tokenized text objects.  This gives the user maximum flexibility and power, while also making it easy to achieve similar results by going directly from texts to a document-by-feature matrix.
@@ -72,9 +94,7 @@ summary(recentCorpus)
 ```
 
 We can use this metadata to combine features across documents when creating a document-feature matrix:
-
 ```{r  fig.width=10, fig.height=8, warning=FALSE}
 partyDfm <- dfm(recentCorpus, groups='Party', ignoredFeatures=(stopwords('english')))
 wordcloud::comparison.cloud(t(as.matrix(partyDfm)))
 ```
-

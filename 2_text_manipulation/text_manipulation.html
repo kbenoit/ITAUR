@@ -122,7 +122,11 @@ substr(s1, 6,9)</code></pre>
 ## [52] &quot;1993-Clinton&quot;    &quot;1997-Clinton&quot;    &quot;2001-Bush&quot;      
 ## [55] &quot;2005-Bush&quot;       &quot;2009-Obama&quot;      &quot;2013-Obama&quot;</code></pre>
 <pre class="r"><code># returns a list of parts
-parts &lt;- strsplit(names(inaugTexts), '-')
+s1 &lt;- 'split this string'
+strsplit(s1, 'this')</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;split &quot;  &quot; string&quot;</code></pre>
+<pre class="r"><code>parts &lt;- strsplit(names(inaugTexts), '-')
 years &lt;- sapply(parts, function(x) x[1])
 pres &lt;-  sapply(parts, function(x) x[2])</code></pre>
 <p>The <code>paste</code> function is used to join character vectors together. The way in which the elements are combined depends on the values of the <code>sep</code> and <code>collapse</code> arguments:</p>
@@ -154,9 +158,9 @@ pres &lt;-  sapply(parts, function(x) x[2])</code></pre>
 <pre><code>## [1] &quot;1789 Washington-1793 Washington-1797 Adams-1801 Jefferson-1805 Jefferson-1809 Madison-1813 Madison-1817 Monroe-1821 Monroe-1825 Adams-1829 Jackson-1833 Jackson-1837 VanBuren-1841 Harrison-1845 Polk-1849 Taylor-1853 Pierce-1857 Buchanan-1861 Lincoln-1865 Lincoln-1869 Grant-1873 Grant-1877 Hayes-1881 Garfield-1885 Cleveland-1889 Harrison-1893 Cleveland-1897 McKinley-1901 McKinley-1905 Roosevelt-1909 Taft-1913 Wilson-1917 Wilson-1921 Harding-1925 Coolidge-1929 Hoover-1933 Roosevelt-1937 Roosevelt-1941 Roosevelt-1945 Roosevelt-1949 Truman-1953 Eisenhower-1957 Eisenhower-1961 Kennedy-1965 Johnson-1969 Nixon-1973 Nixon-1977 Carter-1981 Reagan-1985 Reagan-1989 Bush-1993 Clinton-1997 Clinton-2001 Bush-2005 Bush-2009 Obama-2013 Obama&quot;</code></pre>
 <p><code>tolower</code> and <code>toupper</code> change the case of character vectors.</p>
 <pre class="r"><code>tolower(s1)</code></pre>
-<pre><code>## [1] &quot;this file contains many fascinating example sentences.&quot;</code></pre>
+<pre><code>## [1] &quot;split this string&quot;</code></pre>
 <pre class="r"><code>toupper(s1)</code></pre>
-<pre><code>## [1] &quot;THIS FILE CONTAINS MANY FASCINATING EXAMPLE SENTENCES.&quot;</code></pre>
+<pre><code>## [1] &quot;SPLIT THIS STRING&quot;</code></pre>
 <p>Note that quanteda has a special wrapper for changing case, called <code>toLower()</code>, which is better than the built-in <code>tolower()</code> and is defined for multiple objects:</p>
 <pre class="r"><code>require(quanteda)
 tolower(c(&quot;This&quot;, &quot;is&quot;, &quot;Kεφαλαία Γράμματα&quot;))</code></pre>
@@ -182,8 +186,8 @@ c2 %in% c1</code></pre>
 <pre><code>## [1] FALSE  TRUE</code></pre>
 <p>The base functions for searching and replacing within text are similar to familiar commands from the other text manipulation environments, <code>grep</code> and <code>gsub</code>. The <code>grep</code> manual page provides an overview of these functions.</p>
 <p>The <code>grep</code> command tests whether a pattern occurs within a string:</p>
-<pre class="r"><code>grep('orange', 'these are oranges')</code></pre>
-<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>grep('orangef', 'these are oranges')</code></pre>
+<pre><code>## integer(0)</code></pre>
 <pre class="r"><code>grep('pear', 'these are oranges')</code></pre>
 <pre><code>## integer(0)</code></pre>
 <pre class="r"><code>grep('orange', c('apples', 'oranges', 'pears'))</code></pre>
@@ -196,12 +200,114 @@ c2 %in% c1</code></pre>
 <p>In addition to the base string operations, the <code>stringr</code> and <code>stringi</code> packages provide more extensive and more organized interfaces for string manipulation. Here we will look at some examples from the <code>stringr</code> package. You might need to install the <code>stringr</code> package using <code>install.packages</code>.</p>
 <p>For an overview of the most frequently used functions, see the vignette: <a href="https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html" class="uri">https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html</a>.</p>
 <p>For an index to in-depth explanations of each of the functions, see:</p>
+<pre class="r"><code>require(stringr)</code></pre>
+<pre><code>## Loading required package: stringr</code></pre>
 <pre class="r"><code>help(package='stringr')</code></pre>
+<p>defining a function:</p>
+<pre class="r"><code>vCount &lt;- function(inText){
+    vowels &lt;- c('a','e','i','o','u')
+    return(sum(str_count(inText, vowels)))
+}
+vCount('tts')</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>Replace with stringr:</p>
+<pre class="r"><code>help(package='stringr')
+
+fruits &lt;- c(&quot;one apple&quot;, &quot;two pears&quot;, &quot;three bananas&quot;)
+str_replace(fruits, &quot;[aeiou]&quot;, &quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;-ne apple&quot;     &quot;tw- pears&quot;     &quot;thr-e bananas&quot;</code></pre>
+<pre class="r"><code>str_replace_all(fruits, &quot;[aeiou]&quot;, &quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;-n- -ppl-&quot;     &quot;tw- p--rs&quot;     &quot;thr-- b-n-n-s&quot;</code></pre>
+<pre class="r"><code>str_replace(fruits, &quot;([aeiou])&quot;, &quot;&quot;)</code></pre>
+<pre><code>## [1] &quot;ne apple&quot;     &quot;tw pears&quot;     &quot;thre bananas&quot;</code></pre>
+<pre class="r"><code>str_replace(fruits, &quot;([aeiou])&quot;, &quot;\\1\\1&quot;)</code></pre>
+<pre><code>## [1] &quot;oone apple&quot;     &quot;twoo pears&quot;     &quot;threee bananas&quot;</code></pre>
+<pre class="r"><code>str_replace(fruits, &quot;[aeiou]&quot;, c(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;))</code></pre>
+<pre><code>## [1] &quot;1ne apple&quot;     &quot;tw2 pears&quot;     &quot;thr3e bananas&quot;</code></pre>
+<pre class="r"><code>str_replace(fruits, c(&quot;a&quot;, &quot;e&quot;, &quot;i&quot;), &quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;one -pple&quot;     &quot;two p-ars&quot;     &quot;three bananas&quot;</code></pre>
+<pre class="r"><code>fruits &lt;- c(&quot;one apple&quot;, &quot;two pears&quot;, &quot;three bananas&quot;)
+str_replace(fruits, &quot;[aeiou]&quot;, &quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;-ne apple&quot;     &quot;tw- pears&quot;     &quot;thr-e bananas&quot;</code></pre>
+<pre class="r"><code>str_replace_all(fruits, &quot;[aeiou]&quot;, &quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;-n- -ppl-&quot;     &quot;tw- p--rs&quot;     &quot;thr-- b-n-n-s&quot;</code></pre>
+<pre class="r"><code>str_replace_all(fruits, &quot;([aeiou])&quot;, &quot;&quot;)</code></pre>
+<pre><code>## [1] &quot;n ppl&quot;    &quot;tw prs&quot;   &quot;thr bnns&quot;</code></pre>
+<pre class="r"><code>str_replace_all(fruits, &quot;([aeiou])&quot;, &quot;\\1\\1&quot;)</code></pre>
+<pre><code>## [1] &quot;oonee aapplee&quot;      &quot;twoo peeaars&quot;       &quot;threeee baanaanaas&quot;</code></pre>
+<pre class="r"><code>str_replace_all(fruits, &quot;[aeiou]&quot;, c(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;))</code></pre>
+<pre><code>## [1] &quot;1n1 1ppl1&quot;     &quot;tw2 p22rs&quot;     &quot;thr33 b3n3n3s&quot;</code></pre>
+<pre class="r"><code>str_replace_all(fruits, c(&quot;a&quot;, &quot;e&quot;, &quot;i&quot;), &quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;one -pple&quot;     &quot;two p-ars&quot;     &quot;three bananas&quot;</code></pre>
+<pre class="r"><code># If you want to apply multiple patterns and replacements to the same
+# string, pass a named version to pattern.
+str_replace_all(str_c(fruits, collapse = &quot;---&quot;),
+ c(&quot;one&quot; = 1, &quot;two&quot; = 2, &quot;three&quot; = 3))</code></pre>
+<pre><code>## [1] &quot;1 apple---2 pears---3 bananas&quot;</code></pre>
+<p>Regex with stringr:</p>
+<pre class="r"><code>pattern &lt;- &quot;a.b&quot;
+strings &lt;- c(&quot;abb&quot;, &quot;a.b&quot;)
+str_detect(strings, pattern)</code></pre>
+<pre><code>## [1] TRUE TRUE</code></pre>
+<pre class="r"><code>str_detect(strings, fixed(pattern))</code></pre>
+<pre><code>## [1] FALSE  TRUE</code></pre>
+<pre class="r"><code>str_detect(strings, coll(pattern))</code></pre>
+<pre><code>## [1] FALSE  TRUE</code></pre>
+<pre class="r"><code># Word boundaries
+words &lt;- c(&quot;These are   some words.&quot;)
+str_count(words, boundary(&quot;word&quot;))</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>str_split(words, &quot; &quot;)[[1]]</code></pre>
+<pre><code>## [1] &quot;These&quot;  &quot;are&quot;    &quot;&quot;       &quot;&quot;       &quot;some&quot;   &quot;words.&quot;</code></pre>
+<pre class="r"><code>str_split(words, boundary(&quot;word&quot;))[[1]]</code></pre>
+<pre><code>## [1] &quot;These&quot; &quot;are&quot;   &quot;some&quot;  &quot;words&quot;</code></pre>
+<pre class="r"><code># Regular expression variations
+str_extract_all(&quot;The Cat in the Hat&quot;, &quot;[a-z]+&quot;)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;he&quot;  &quot;at&quot;  &quot;in&quot;  &quot;the&quot; &quot;at&quot;</code></pre>
+<pre class="r"><code>str_extract_all(&quot;The Cat in the Hat&quot;, regex(&quot;[a-z]+&quot;, TRUE))</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;The&quot; &quot;Cat&quot; &quot;in&quot;  &quot;the&quot; &quot;Hat&quot;</code></pre>
+<pre class="r"><code>str_extract_all(&quot;a\nb\nc&quot;, &quot;^.&quot;)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;a&quot;</code></pre>
+<pre class="r"><code>str_extract_all(&quot;a\nb\nc&quot;, regex(&quot;^.&quot;, multiline = TRUE))</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<pre class="r"><code>str_extract_all(&quot;a\nb\nc&quot;, &quot;a.&quot;)</code></pre>
+<pre><code>## [[1]]
+## character(0)</code></pre>
+<pre class="r"><code>str_extract_all(&quot;a\nb\nc&quot;, regex(&quot;a.&quot;, dotall = TRUE))</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;a\n&quot;</code></pre>
+<p>Trim:</p>
+<pre class="r"><code>str_trim(&quot;  String with trailing and leading white space\t&quot;)</code></pre>
+<pre><code>## [1] &quot;String with trailing and leading white space&quot;</code></pre>
+<pre class="r"><code>str_trim(&quot;\n\nString with trailing and leading white space\n\n&quot;)</code></pre>
+<pre><code>## [1] &quot;String with trailing and leading white space&quot;</code></pre>
 <p>To extract texts from a quanteda corpus object, the command is very simple:</p>
 <pre class="r"><code>mytexts &lt;- texts(subset(inaugCorpus, President == &quot;Washington&quot;))
 str(mytexts)</code></pre>
 <pre><code>##  Named chr [1:2] &quot;Fellow-Citizens of the Senate and of the House of Representatives:\n\nAmong the vicissitudes incident to life no event could ha&quot;| __truncated__ ...
 ##  - attr(*, &quot;names&quot;)= chr [1:2] &quot;1789-Washington&quot; &quot;1793-Washington&quot;</code></pre>
+<pre class="r"><code>fruit &lt;- c(&quot;apple&quot;, &quot;banana&quot;, &quot;pear&quot;, &quot;pinapple&quot;)
+str_detect(fruit, &quot;e&quot;)</code></pre>
+<pre><code>## [1]  TRUE FALSE  TRUE  TRUE</code></pre>
+<pre class="r"><code>fruit[str_detect(fruit, &quot;e&quot;)]</code></pre>
+<pre><code>## [1] &quot;apple&quot;    &quot;pear&quot;     &quot;pinapple&quot;</code></pre>
+<pre class="r"><code>str_detect(fruit, &quot;^a&quot;)</code></pre>
+<pre><code>## [1]  TRUE FALSE FALSE FALSE</code></pre>
+<pre class="r"><code>str_detect(fruit, &quot;a$&quot;)</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE FALSE</code></pre>
+<pre class="r"><code>str_detect(fruit, &quot;b&quot;)</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE FALSE</code></pre>
+<pre class="r"><code>str_detect(fruit, &quot;[aeiou]&quot;)</code></pre>
+<pre><code>## [1] TRUE TRUE TRUE TRUE</code></pre>
+<pre class="r"><code># Also vectorised over pattern
+str_detect(&quot;aecfg&quot;, letters)</code></pre>
+<pre><code>##  [1]  TRUE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE
+## [12] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [23] FALSE FALSE FALSE FALSE</code></pre>
 <p>We challenge you to do this as simply <a href="http://stackoverflow.com/questions/33193152/unable-to-convert-a-corpus-to-data-frame-in-r">using the <strong>tm</strong> package</a>.</p>
 
 
