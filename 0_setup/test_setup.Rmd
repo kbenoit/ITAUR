@@ -1,7 +1,7 @@
 ---
 title: "Setup test"
 author: "Kenneth Benoit and Paul Nulty"
-date: "18 October 2015"
+date: "16 October 2016"
 output: html_document
 ---
 
@@ -36,7 +36,8 @@ summary(ie2010Corpus)
 
 Create a document-feature matrix from this corpus, removing stop words:
 ```{r}
-ieDfm <- dfm(ie2010Corpus, ignoredFeatures = c(stopwords("english"), "will"), stem = TRUE)
+ieDfm <- dfm(ie2010Corpus, ignoredFeatures = c(stopwords("english"), "will"), 
+             stem = TRUE, verbose = FALSE)
 ```
 
 Look at the top occuring features:
