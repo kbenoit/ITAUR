@@ -19,11 +19,9 @@ In this section we will show how to load texts from different file sources. The 
     
 2.  a `VCorpus` object from the **tm** package, and
     ```{r}
-    require(tm)
     data(crude, package = "tm")
     myTmCorpus <- corpus(crude)
     summary(myTmCorpus, 5)
-    detach()
     ```
 
 3.  a `corpusSource` object, created by `textfile()`.
@@ -35,8 +33,8 @@ In this section we will show how to load texts from different file sources. The 
 In the simplest case, we would like to load a set of texts in plain text files from a single directory. To do this, we use the `textfile` command, and use the 'glob' operator '*' to indicate that we want to load multiple files:
 
 ```{r message=FALSE}
-myCorpus <- corpus(textfile(file='inaugural/*.txt'))
-myCorpus <- corpus(textfile(file='sotu/*.txt'))
+myCorpus <- corpus(textfile(file = 'inaugural/*.txt'))
+myCorpus <- corpus(textfile(file = 'sotu/*.txt'))
 ```
 
 Often, we have metadata encoded in the names of the files. For example, the inaugural addresses contain the year and the president's name in the name of the file. With the `docvarsfrom` argument, we can instruct the `textfile` command to consider these elements as document variables.
@@ -57,7 +55,7 @@ SOTUdocvars$type <- as.factor(SOTUdocvars$type)
 SOTUdocvars$party <- as.factor(SOTUdocvars$party)
 SOTUdocvars$nwords <- NULL
 
-sotuCorpus <- corpus(textfile(file='sotu/*.txt'), encodingFrom = "UTF-8-BOM")
+sotuCorpus <- corpus(textfile(file='sotu/*.txt', encoding = "UTF-8-BOM"))
 docvars(sotuCorpus) <- SOTUdocvars
 ```
 
@@ -78,7 +76,7 @@ Once the we have loaded a corpus with some document level variables, we can subs
 recentCorpus <- subset(inaugCorpus, Year > 1980)
 oldCorpus <- subset(inaugCorpus, Year < 1880)
 
-require(dplyr)
+require(magrittr)
 demCorpus <- subset(sotuCorpus, party == 'Democratic')
 demFeatures <- dfm(demCorpus, ignoredFeatures=stopwords('english')) %>%
     trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
@@ -91,8 +89,11 @@ repFeatures <- dfm(repCorpus, ignoredFeatures=stopwords('english')) %>%
 The `quanteda` corpus objects can be combined using the `+` operator:
 ```{r}
 inaugCorpus <- demCorpus + repCorpus
-allFeatures <- dfm(inaugCorpus, ignoredFeatures=stopwords('english'))%>%
-    trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
+inaugTopFeatures <- 
+    dfm(inaugCorpus, ignoredFeatures=stopwords('english'), verbose = FALSE) %>%
+        trim(minDoc = 3, minCount = 5) %>% 
+            weight(type = 'tfidf') %>% 
+                topfeatures
 
 ```
 
