@@ -39,7 +39,8 @@ One of the most fundamental text analysis tasks is tokenization. To tokenize a t
 ```{r}
 tokens <- tokenize('Today is Thursday in Canberra. It is yesterday in London.')
 
-vec <- c(one='This is text one', two='This, however, is the second text')
+vec <- c(one = 'This is text one', 
+         two = 'This, however, is the second text')
 tokenize(vec)
 ```
 
@@ -61,11 +62,13 @@ Once each text has been split into words, we can use the `dfm` function to creat
 
 ```{r}
 inaugDfm <- dfm(inaugTokens)
-trimmedInaugDfm <- trim(inaugDfm, minDoc=5, minCount=10)
-weightedTrimmedDfm <- weight(trimmedInaugDfm, type='tfidf')
+trimmedInaugDfm <- trim(inaugDfm, minDoc = 5, minCount = 10)
+weightedTrimmedDfm <- weight(trimmedInaugDfm, type = 'tfidf')
 
-require(dplyr)
-inaugDfm2 <- dfm(inaugTokens) %>% trim(minDoc=5, minCount=10) %>% weight(type='tfidf')
+require(magrittr)
+inaugDfm2 <- dfm(inaugTokens) %>% 
+    trim(minDoc = 5, minCount = 10) %>% 
+        weight(type = 'tfidf')
 ```
 
 Note that `dfm()` works on a variety of object types, including character vectors, corpus objects, and tokenized text objects.  This gives the user maximum flexibility and power, while also making it easy to achieve similar results by going directly from texts to a document-by-feature matrix.
@@ -88,13 +91,13 @@ summary(inaugTexts[52:57])
 We can use the `docvars` option to the `corpus` command to record the party with which each text is associated:
 
 ```{r}
-dv <- data.frame(Party = c('dem','dem','rep','rep','dem','dem'))
-recentCorpus <- corpus(inaugTexts[52:57], docvars=dv)
+dv <- data.frame(Party = c('dem', 'dem', 'rep', 'rep', 'dem', 'dem'))
+recentCorpus <- corpus(inaugTexts[52:57], docvars = dv)
 summary(recentCorpus)
 ```
 
 We can use this metadata to combine features across documents when creating a document-feature matrix:
 ```{r  fig.width=10, fig.height=8, warning=FALSE}
-partyDfm <- dfm(recentCorpus, groups='Party', ignoredFeatures=(stopwords('english')))
-wordcloud::comparison.cloud(t(as.matrix(partyDfm)))
+partyDfm <- dfm(recentCorpus, groups = 'Party', ignoredFeatures = (stopwords('english')))
+plot(partyDfm, comparison = TRUE)
 ```

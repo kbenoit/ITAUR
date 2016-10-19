@@ -38,10 +38,9 @@ txt <- "#TextAnalysis is MY <3 4U @myhandle gr8 #stuff :-)"
 tokenize(txt, removePunct=TRUE)
 tokenize(txt, removePunct=TRUE, removeTwitter=TRUE)
 (toks <- tokenize(toLower(txt), removePunct=TRUE, removeTwitter=TRUE))
-str(toks)
 
 # tokenize sentences
-(sents <- tokenize(ukimmigTexts[1], what = "sentence", simplify = TRUE)[1:5])
+(sents <- tokenize(ukimmigTexts[3], what = "sentence", simplify = TRUE)[1:5])
 # tokenize characters
 tokenize(ukimmigTexts[1], what = "character", simplify = TRUE)[1:100]
 
@@ -96,15 +95,17 @@ print(p)
 ## Presidential Inaugural Address Corpus
 presDfm <- dfm(inaugCorpus, ignoredFeatures = stopwords("english"))
 # compute some document similarities
-similarity(presDfm, "1985-Reagan", n=5, margin="documents")
+(docsim <- similarity(presDfm, "1985-Reagan", n=5, margin="documents"))
+as.matrix(docsim)
+
 similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "cosine")
 similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "Hellinger")
 similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "eJaccard")
 
 # compute some term similarities
-similarity(presDfm, c("fair", "health", "terror"), method="cosine")
-
-
+featsim <- similarity(presDfm, c("fair", "health", "terror"), margin = "features", 
+                      method="cosine")
+lapply(featsim, head)
 
 ## mining collocations
 
@@ -114,14 +115,15 @@ txt <- "Hey @kenbenoit #textasdata: The quick, brown fox jumped over the lazy do
 tokenize(toLower(txt), removePunct = TRUE, ngrams = 2)
 tokenize(toLower(txt), removePunct = TRUE, ngrams = c(1,3))
 
-# low-level options exist too (note: Need to port to C++)
-ngrams(tokens, c(1, 3, 5))
+# low-level options exist too
+ngrams(toks1, c(1, 3, 5))
 
 # form "skip-grams"
 tokens <- tokenize(toLower("Insurgents killed in ongoing fighting."),
                    removePunct = TRUE, simplify = TRUE)
-skipgrams(tokens, n = 2, k = 2, concatenator = " ")
-skipgrams(tokens, n = 3, k = 2, concatenator = " ")
+skipgrams(tokens, n = 2, skip = 0:1, concatenator = " ") 
+skipgrams(tokens, n = 2, skip = 0:2, concatenator = " ") 
+skipgrams(tokens, n = 3, skip = 0:2, concatenator = " ") 
 
 # mine bigrams
 collocs2 <- collocations(inaugTexts, size = 2, method = "all")
