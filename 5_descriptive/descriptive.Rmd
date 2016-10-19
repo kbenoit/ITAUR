@@ -1,7 +1,7 @@
 ---
 title: "Descriptive Analysis of Texts"
 author: "Kenneth Benoit and Paul Nulty"
-date: "18 October 2015"
+date: "19 October 2016"
 output: html_document
 ---
 
@@ -47,12 +47,12 @@ We can **identify documents and terms that are similar to one another**, using `
 presDfm <- dfm(inaugCorpus, ignoredFeatures = stopwords("english"))
 # compute some document similarities
 similarity(presDfm, "1985-Reagan", n=5, margin="documents")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "cosine")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "Hellinger")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "eJaccard")
+similarity(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "cosine")
+similarity(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "Hellinger")
+similarity(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "eJaccard")
 
 # compute some term similarities
-similarity(presDfm, c("fair", "health", "terror"), method="cosine")
+lapply(similarity(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine"), head, 10)
 ```
 
 And this can be used for **clustering documents**:
@@ -71,7 +71,7 @@ presCluster$labels <- docnames(presDfm)
 plot(presCluster)
 ```
 
-Or we could look at **term clustering** insteadd:
+Or we could look at **term clustering** instead:
 ```{r, fig.height=8, fig.width=12}
 # word dendrogram with tf-idf weighting
 wordDfm <- sort(weight(presDfm, "tfidf"))

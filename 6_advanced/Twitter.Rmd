@@ -1,13 +1,13 @@
 ---
 title: "Accessing Twitter Text"
 author: "Kenneth Benoit and Paul Nulty"
-date: "18 October 2015"
+date: "19 October 2016"
 output: html_document
 ---
 
 ### Overview
 
-In this ssection we will cover the following methods for mining and analyzing text from the twitter API:
+In this section we will cover the following methods for mining and analyzing text from the twitter API:
 
 * Creating a new application and getting access to the REST and streaming APIs
 * Using the REST and streaming APIs from within R
@@ -17,7 +17,7 @@ In this ssection we will cover the following methods for mining and analyzing te
 To access the REST and streaming APIs, you will need to create a twitter application, and generate authentication credentials associated with this application. To do this you will first need to have a twitter account. You will also need to install at least the following R packages: twitteR, 
 
 
-```{r}
+```{r, eval = FALSE}
 install.packages(c('twitteR', 'streamR', 'RCurl', 'ROAuth', 'httr'))
 ```
 
@@ -29,7 +29,7 @@ To register a twitter application and get your consumer keys:
 4. Go to the keys and access section of the app page, and copy your consumer key and consumer secret to the code below.
 5. (optional): For actions requiring write permissions, generate an access token and access secret .
 
-```{r, echo=FALSE}
+```{r, eval = FALSE}
 require(twitteR)
 require(streamR)
 require(ROAuth)
