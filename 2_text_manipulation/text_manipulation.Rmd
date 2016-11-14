@@ -4,7 +4,11 @@ author: Kenneth Benoit and Paul Nulty
 date: October 18th 2015
 output: html_document
 ---
-
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
 In this section we will work through some basic string manipulation functions in R.
 
 There are several useful string manipulation functions in the R base library. In addition, we will look at the `stringr` package which provides an additional interface for simple text manipulation.
@@ -129,7 +133,7 @@ help(package='stringr')
 defining a function:
 ```{r}
 
-vCount <- function(inText){
+vCount <- function(inText) {
     vowels <- c('a','e','i','o','u')
     return(sum(str_count(inText, vowels)))
 }
@@ -151,15 +155,6 @@ str_replace(fruits, "([aeiou])", "")
 str_replace(fruits, "([aeiou])", "\\1\\1")
 str_replace(fruits, "[aeiou]", c("1", "2", "3"))
 str_replace(fruits, c("a", "e", "i"), "-")
-
-fruits <- c("one apple", "two pears", "three bananas")
-str_replace(fruits, "[aeiou]", "-")
-str_replace_all(fruits, "[aeiou]", "-")
-
-str_replace_all(fruits, "([aeiou])", "")
-str_replace_all(fruits, "([aeiou])", "\\1\\1")
-str_replace_all(fruits, "[aeiou]", c("1", "2", "3"))
-str_replace_all(fruits, c("a", "e", "i"), "-")
 
 # If you want to apply multiple patterns and replacements to the same
 # string, pass a named version to pattern.

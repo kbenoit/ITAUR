@@ -4,7 +4,11 @@ author: "Kenneth Benoit and Paul Nulty"
 date: "19 October 2016"
 output: html_document
 ---
-
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
 quateda has a number of descriptive statistics available for reporting on texts.  The **simplest of these** is through the `summary()` method:
 ```{r}
 require(quanteda)
@@ -82,7 +86,7 @@ plot(wordCluster, xlab="", main="tf-idf Frequency weighting")
 ```
 
 Finally, there are number of helper functions to extract information from quanteda objects:
-```{r}
+```{r, collapse = FALSE}
 myCorpus <- subset(inaugCorpus, Year > 1980)
 
 # return the number of documents

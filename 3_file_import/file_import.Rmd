@@ -4,6 +4,13 @@ author: Kenneth Benoit and Paul Nulty
 date: October 18th 2015
 output: html_document
 ---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
+
 In this section we will show how to load texts from different file sources. The `quanteda` package loads a corpus from a `corpusSource', which is created using the `textfile` command.
 
 ### Three ways to create a `corpus` object

@@ -94,6 +94,7 @@ button.code-folding-btn:focus {
 </style>
 
 
+
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
@@ -128,32 +129,30 @@ $(document).ready(function () {
 <p><strong>quanteda can construct a <code>corpus</code> object</strong> from several input sources:</p>
 <ol style="list-style-type: decimal">
 <li><p>a character vector object</p>
-<pre class="r"><code>require(quanteda)</code></pre>
-<pre><code>## Loading required package: quanteda</code></pre>
-<pre><code>## quanteda version 0.9.8.3</code></pre>
-<pre><code>## 
-## Attaching package: 'quanteda'</code></pre>
-<pre><code>## The following object is masked from 'package:base':
+<pre class="r"><code>require(quanteda)
+## Loading required package: quanteda
+## quanteda version 0.9.8.11
 ## 
-##     sample</code></pre>
-<pre class="r"><code>myTinyCorpus &lt;- corpus(inaugTexts[1:2], notes = &quot;Just G.W.&quot;)
-summary(myTinyCorpus)</code></pre>
-<pre><code>## Corpus consisting of 2 documents.
+## Attaching package: 'quanteda'
+## The following object is masked from 'package:base':
+## 
+##     sample
+myTinyCorpus &lt;- corpus(inaugTexts[1:2], notes = &quot;Just G.W.&quot;)
+summary(myTinyCorpus)
+## Corpus consisting of 2 documents.
 ## 
 ##             Text Types Tokens Sentences
 ##  1789-Washington   626   1540        23
 ##  1793-Washington    96    147         4
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
-## Created: Mon Oct 17 03:22:38 2016
-## Notes:   Just G.W.</code></pre>
-<pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;/Users/kbenoit/GitHub/ITAUR/3_file_import&quot;</code></pre></li>
+## Created: Mon Nov 14 18:06:55 2016
+## Notes:   Just G.W.</code></pre></li>
 <li><p>a <code>VCorpus</code> object from the <strong>tm</strong> package, and</p>
 <pre class="r"><code>data(crude, package = &quot;tm&quot;)
 myTmCorpus &lt;- corpus(crude)
-summary(myTmCorpus, 5)</code></pre>
-<pre><code>## Corpus consisting of 20 documents, showing 5 documents.
+summary(myTmCorpus, 5)
+## Corpus consisting of 20 documents, showing 5 documents.
 ## 
 ##            Text Types Tokens Sentences                     author
 ##  reut-00001.xml    62    103         5                       &lt;NA&gt;
@@ -187,7 +186,7 @@ summary(myTmCorpus, 5)</code></pre>
 ##       &lt;NA&gt;
 ## 
 ## Source:  Converted from tm VCorpus 'crude'
-## Created: Mon Oct 17 03:22:38 2016
+## Created: Mon Nov 14 18:06:55 2016
 ## Notes:</code></pre></li>
 <li><p>a <code>corpusSource</code> object, created by <code>textfile()</code>.</p>
 <p>In most cases you will need to load input files from outside of R, so you will use this third method. The remainder of this tutorial focuses on <code>textfile()</code>, which is designed to be a simple, powerful, and all-purpose method to load texts.</p></li>
@@ -201,8 +200,8 @@ myCorpus &lt;- corpus(textfile(file = 'sotu/*.txt'))</code></pre>
 <p>Often, we have metadata encoded in the names of the files. For example, the inaugural addresses contain the year and the president’s name in the name of the file. With the <code>docvarsfrom</code> argument, we can instruct the <code>textfile</code> command to consider these elements as document variables.</p>
 <pre class="r"><code>mytf &lt;- textfile(&quot;inaugural/*.txt&quot;, docvarsfrom=&quot;filenames&quot;, dvsep=&quot;-&quot;, docvarnames=c(&quot;Year&quot;, &quot;President&quot;))
 inaugCorpus &lt;- corpus(mytf)
-summary(inaugCorpus, 5)</code></pre>
-<pre><code>## Corpus consisting of 57 documents, showing 5 documents.
+summary(inaugCorpus, 5)
+## Corpus consisting of 57 documents, showing 5 documents.
 ## 
 ##                 Text Types Tokens Sentences Year  President
 ##  1789-Washington.txt   626   1540        23 1789 Washington
@@ -212,7 +211,7 @@ summary(inaugCorpus, 5)</code></pre>
 ##   1805-Jefferson.txt   804   2381        45 1805  Jefferson
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
-## Created: Mon Oct 17 03:22:41 2016
+## Created: Mon Nov 14 18:06:57 2016
 ## Notes:</code></pre>
 <p>If the texts and document variables are stored separately, we can easily add document variables to the corpus, as long as the data frame containing them is of the same length as the texts:</p>
 <pre class="r"><code>SOTUdocvars &lt;- read.csv(&quot;SOTU_metadata.csv&quot;, stringsAsFactors = FALSE)
@@ -231,8 +230,8 @@ myCorpus &lt;- corpus(tf1)
 
 tf2 &lt;- textfile(&quot;text_example.csv&quot;, textField = &quot;Title&quot;)
 myCorpus &lt;- corpus(tf2)
-head(docvars(tf2))</code></pre>
-<pre><code>##   VOTE DocumentNo CouncilLink         Year Date.of.Meeting VotingDate
+head(docvars(tf2))
+##   VOTE DocumentNo CouncilLink         Year Date.of.Meeting VotingDate
 ## 1    1    5728/99             Jan-Dec 1999      08/02/1999 08/02/1999
 ## 2    2    5728/99             Jan-Dec 1999      08/02/1999 08/02/1999
 ## 3    3    5728/99             Jan-Dec 1999      08/02/1999 08/02/1999
@@ -257,59 +256,52 @@ head(docvars(tf2))</code></pre>
 <pre class="r"><code>recentCorpus &lt;- subset(inaugCorpus, Year &gt; 1980)
 oldCorpus &lt;- subset(inaugCorpus, Year &lt; 1880)
 
-require(magrittr)</code></pre>
-<pre><code>## Loading required package: magrittr</code></pre>
-<pre class="r"><code>demCorpus &lt;- subset(sotuCorpus, party == 'Democratic')
+require(magrittr)
+## Loading required package: magrittr
+demCorpus &lt;- subset(sotuCorpus, party == 'Democratic')
 demFeatures &lt;- dfm(demCorpus, ignoredFeatures=stopwords('english')) %&gt;%
-    trim(minDoc=3, minCount=5) %&gt;% weight(type='tfidf') %&gt;% topfeatures</code></pre>
-<pre><code>## Creating a dfm from a corpus ...</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 89 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 19,511 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## removed 166 features, from 174 supplied (glob) feature types</code></pre>
-<pre><code>##    ... created a 89 x 19346 sparse dfm
+    trim(minDoc=3, minCount=5) %&gt;% weight(type='tfidf') %&gt;% topfeatures
+## Creating a dfm from a corpus ...
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 89 documents, 19,512 features
+## ...
+## removed 166 features, from 174 supplied (glob) feature types
+##    ... created a 89 x 19,346 sparse dfm
 ##    ... complete. 
-## Elapsed time: 2.09 seconds.</code></pre>
-<pre><code>## Removing features occurring fewer than 5 times: 11948</code></pre>
-<pre><code>## Removing features occurring in fewer than 3 documents: 10173</code></pre>
-<pre class="r"><code>repCorpus &lt;- subset(sotuCorpus, party == 'Republican') 
+## Elapsed time: 0.709 seconds.
+## Removing features occurring fewer than 5 times: 11948
+## Removing features occurring in fewer than 3 documents: 10173
+
+repCorpus &lt;- subset(sotuCorpus, party == 'Republican') 
 repFeatures &lt;- dfm(repCorpus, ignoredFeatures=stopwords('english')) %&gt;%
-    trim(minDoc=3, minCount=5) %&gt;% weight(type='tfidf') %&gt;% topfeatures</code></pre>
-<pre><code>## Creating a dfm from a corpus ...</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 92 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 19,792 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## removed 162 features, from 174 supplied (glob) feature types</code></pre>
-<pre><code>##    ... created a 92 x 19631 sparse dfm
+    trim(minDoc=3, minCount=5) %&gt;% weight(type='tfidf') %&gt;% topfeatures
+## Creating a dfm from a corpus ...
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 92 documents, 19,793 features
+## ...
+## removed 162 features, from 174 supplied (glob) feature types
+##    ... created a 92 x 19,631 sparse dfm
 ##    ... complete. 
-## Elapsed time: 1.35 seconds.</code></pre>
-<pre><code>## Removing features occurring fewer than 5 times: 11982</code></pre>
-<pre><code>## Removing features occurring in fewer than 3 documents: 10120</code></pre>
+## Elapsed time: 0.477 seconds.
+## Removing features occurring fewer than 5 times: 11982
+## Removing features occurring in fewer than 3 documents: 10120</code></pre>
 <p>The <code>quanteda</code> corpus objects can be combined using the <code>+</code> operator:</p>
 <pre class="r"><code>inaugCorpus &lt;- demCorpus + repCorpus
 inaugTopFeatures &lt;- 
     dfm(inaugCorpus, ignoredFeatures=stopwords('english'), verbose = FALSE) %&gt;%
         trim(minDoc = 3, minCount = 5) %&gt;% 
             weight(type = 'tfidf') %&gt;% 
-                topfeatures</code></pre>
-<pre><code>## Removing features occurring fewer than 5 times: 15557</code></pre>
-<pre><code>## Removing features occurring in fewer than 3 documents: 13236</code></pre>
+                topfeatures
+## Removing features occurring fewer than 5 times: 15557
+## Removing features occurring in fewer than 3 documents: 13236</code></pre>
 <p>It should also be possible to load a zip file containing texts directly from a url. However, whether this operation succeeds or not can depend on access permission settings on your particular system (i.e. fails on Windows):</p>
 <pre class="r"><code>immigfiles &lt;- textfile(&quot;https://github.com/kbenoit/ME114/raw/master/day8/UKimmigTexts.zip&quot;)
 mycorpus &lt;- corpus(immigfiles)
@@ -327,6 +319,7 @@ summary(mycorpus)</code></pre>
 $(document).ready(function () {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 });
+
 
 </script>
 

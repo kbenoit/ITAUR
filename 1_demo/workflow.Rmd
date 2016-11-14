@@ -1,19 +1,19 @@
 ---
 title: "Example workflow"
-author: Paul Nulty
-date: October 18th 2015
+author: Kenneth Benoit and Paul Nulty
+date: November 14 2016
 output: html_document
 ---
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
 This file demonstrates a basic workflow to take some pre-loaded texts and perform elementary text analysis tasks quickly. The `quanteda` packages comes with a built-in set of inaugural addresses from US Presidents. We begin by loading quanteda and examining these texts. The `summary` command will output the name of each text along with the number of types, tokens and sentences contained in the text. Below we use R's indexing syntax to selectivly use the summary command on the first five texts.
 
 ```{R}
 require(quanteda)
-# install.packages
-
-require(devtools)
-?install_github
-# devtools
 
 summary(inaugTexts)
 summary(inaugTexts[1:5])
@@ -30,7 +30,7 @@ nchar(inaugTexts[5:7])
 
 One of the most fundamental text analysis tasks is tokenization. To tokenize a text is to split it into units, most commonly words, which can be counted and to form the basis of a quantitative analysis. The quanteda package has a function for tokenization: `tokenize`. Examine the manual page for this function.
 
-```{R}
+```{R, eval = FALSE}
 ?tokenize
 ```
 

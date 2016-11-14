@@ -14,7 +14,7 @@ encoding(ukimmigTexts)
 encoding(encodedTexts)
 
 # create a corpus from immigration texts
-immigCorpus <- corpus(ukimmigTexts, notes="Created as part of a demo.")
+immigCorpus <- corpus(ukimmigTexts, notes = "Created as part of a demo.")
 docvars(immigCorpus) <- data.frame(party = docnames(immigCorpus), year = 2010)
 summary(immigCorpus)
 
@@ -136,4 +136,5 @@ head(collocs3, 20)
 # remove parts of speech and inspect
 head(removeFeatures(collocs2, stopwords("english")), 20)
 head(removeFeatures(collocs3, stopwords("english")), 20)
+
 

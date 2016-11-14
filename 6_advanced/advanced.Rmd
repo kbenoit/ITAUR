@@ -4,7 +4,11 @@ author: "Kenneth Benoit and Paul Nulty"
 date: "19 October 2016"
 output: html_document
 ---
-
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
 In this section we will explore some text analysis and analysis of metadata from a corpus of tweets retrieved from the Twitter API. The tweets are a small sample from a collection of tweets relating to the European Parliament elections of 2015.
 
 Load the data frame containing the sample tweets:
@@ -51,7 +55,7 @@ We can use the `keptFeatures` argument to `dfm()` to analyse only hashtags for e
 dv <- data.frame(user = juncker$user_screen_name)
 jCorp <- corpus(juncker$text, docvars = dv)
 jd <- dfm(jCorp)
-jd <- selectFeatures(jd, "^#.*", "keep", valuetype = "regex") 
+jd <- selectFeatures(jd, "^#.+", "keep", valuetype = "regex") 
 # equivalent: jd <- selectFeatures(jd, "#*", "keep", valuetype = "glob") 
 topfeatures(jd, nfeature(jd))
 ```

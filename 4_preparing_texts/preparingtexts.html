@@ -128,12 +128,12 @@ $(document).ready(function () {
 <div id="tokenization" class="section level3">
 <h3>1. Tokenization</h3>
 <p>Tokenization in quanteda is very <em>conservative</em>: by default, it only removes separator characters.</p>
-<pre class="r"><code>require(quanteda, quietly = TRUE, warn.conflicts = FALSE)</code></pre>
-<pre><code>## quanteda version 0.9.9.2</code></pre>
-<pre class="r"><code>txt &lt;- c(text1=&quot;This is $10 in 999 different ways,\n up and down; left and right!&quot;,
-         text2=&quot;@kenbenoit working: on #quanteda 2day\t4ever, http://textasdata.com?page=123.&quot;)
-tokenize(txt)</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+<pre class="r"><code>require(quanteda, quietly = TRUE, warn.conflicts = FALSE)
+## quanteda version 0.9.8.11
+txt &lt;- c(text1 = &quot;This is $10 in 999 different ways,\n up and down; left and right!&quot;,
+         text2 = &quot;@kenbenoit working: on #quanteda 2day\t4ever, http://textasdata.com?page=123.&quot;)
+tokenize(txt)
+## tokenizedTexts from 2 documents.
 ## text1 :
 ##  [1] &quot;This&quot;      &quot;is&quot;        &quot;$&quot;         &quot;10&quot;        &quot;in&quot;       
 ##  [6] &quot;999&quot;       &quot;different&quot; &quot;ways&quot;      &quot;,&quot;         &quot;up&quot;       
@@ -145,21 +145,21 @@ tokenize(txt)</code></pre>
 ##  [5] &quot;#quanteda&quot;      &quot;2day&quot;           &quot;4ever&quot;          &quot;,&quot;             
 ##  [9] &quot;http&quot;           &quot;:&quot;              &quot;/&quot;              &quot;/&quot;             
 ## [13] &quot;textasdata.com&quot; &quot;?&quot;              &quot;page&quot;           &quot;=&quot;             
-## [17] &quot;123&quot;            &quot;.&quot;</code></pre>
-<pre class="r"><code>tokenize(txt, verbose = TRUE)</code></pre>
-<pre><code>## Starting tokenization...</code></pre>
-<pre><code>## ...preserving Twitter characters (#, @)</code></pre>
-<pre><code>## ...total elapsed: 0 seconds.</code></pre>
-<pre><code>## ...tokenizing texts</code></pre>
-<pre><code>## 
-##   ...removing separators.</code></pre>
-<pre><code>## ...total elapsed:  0.00100000000000011 seconds.</code></pre>
-<pre><code>## ...replacing Twitter characters (#, @)</code></pre>
-<pre><code>## ...total elapsed: 0 seconds.</code></pre>
-<pre><code>## ...replacing names</code></pre>
-<pre><code>## ...total elapsed:  0.00099999999999989 seconds.</code></pre>
-<pre><code>## Finished tokenizing and cleaning 2 texts.</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+## [17] &quot;123&quot;            &quot;.&quot;
+tokenize(txt, verbose = TRUE)
+## Starting tokenization...
+## ...preserving Twitter characters (#, @)
+## ...total elapsed: 0 seconds.
+## ...tokenizing texts
+## 
+##   ...removing separators.
+## ...total elapsed:  0 seconds.
+## ...replacing Twitter characters (#, @)
+## ...total elapsed: 0 seconds.
+## ...replacing names
+## ...total elapsed:  0 seconds.
+## Finished tokenizing and cleaning 2 texts.
+## tokenizedTexts from 2 documents.
 ## text1 :
 ##  [1] &quot;This&quot;      &quot;is&quot;        &quot;$&quot;         &quot;10&quot;        &quot;in&quot;       
 ##  [6] &quot;999&quot;       &quot;different&quot; &quot;ways&quot;      &quot;,&quot;         &quot;up&quot;       
@@ -171,9 +171,9 @@ tokenize(txt)</code></pre>
 ##  [5] &quot;#quanteda&quot;      &quot;2day&quot;           &quot;4ever&quot;          &quot;,&quot;             
 ##  [9] &quot;http&quot;           &quot;:&quot;              &quot;/&quot;              &quot;/&quot;             
 ## [13] &quot;textasdata.com&quot; &quot;?&quot;              &quot;page&quot;           &quot;=&quot;             
-## [17] &quot;123&quot;            &quot;.&quot;</code></pre>
-<pre class="r"><code>tokenize(txt, removeNumbers = TRUE,  removePunct = TRUE)</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+## [17] &quot;123&quot;            &quot;.&quot;
+tokenize(txt, removeNumbers = TRUE,  removePunct = TRUE)
+## tokenizedTexts from 2 documents.
 ## text1 :
 ##  [1] &quot;This&quot;      &quot;is&quot;        &quot;in&quot;        &quot;different&quot; &quot;ways&quot;     
 ##  [6] &quot;up&quot;        &quot;and&quot;       &quot;down&quot;      &quot;left&quot;      &quot;and&quot;      
@@ -182,9 +182,9 @@ tokenize(txt)</code></pre>
 ## text2 :
 ## [1] &quot;@kenbenoit&quot;     &quot;working&quot;        &quot;on&quot;             &quot;#quanteda&quot;     
 ## [5] &quot;2day&quot;           &quot;4ever&quot;          &quot;http&quot;           &quot;textasdata.com&quot;
-## [9] &quot;page&quot;</code></pre>
-<pre class="r"><code>tokenize(txt, removeNumbers = FALSE, removePunct = TRUE)</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+## [9] &quot;page&quot;
+tokenize(txt, removeNumbers = FALSE, removePunct = TRUE)
+## tokenizedTexts from 2 documents.
 ## text1 :
 ##  [1] &quot;This&quot;      &quot;is&quot;        &quot;10&quot;        &quot;in&quot;        &quot;999&quot;      
 ##  [6] &quot;different&quot; &quot;ways&quot;      &quot;up&quot;        &quot;and&quot;       &quot;down&quot;     
@@ -193,9 +193,9 @@ tokenize(txt)</code></pre>
 ## text2 :
 ##  [1] &quot;@kenbenoit&quot;     &quot;working&quot;        &quot;on&quot;             &quot;#quanteda&quot;     
 ##  [5] &quot;2day&quot;           &quot;4ever&quot;          &quot;http&quot;           &quot;textasdata.com&quot;
-##  [9] &quot;page&quot;           &quot;123&quot;</code></pre>
-<pre class="r"><code>tokenize(txt, removeNumbers = TRUE,  removePunct = FALSE)</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+##  [9] &quot;page&quot;           &quot;123&quot;
+tokenize(txt, removeNumbers = TRUE,  removePunct = FALSE)
+## tokenizedTexts from 2 documents.
 ## text1 :
 ##  [1] &quot;This&quot;      &quot;is&quot;        &quot;$&quot;         &quot;in&quot;        &quot;different&quot;
 ##  [6] &quot;ways&quot;      &quot;,&quot;         &quot;up&quot;        &quot;and&quot;       &quot;down&quot;     
@@ -206,9 +206,9 @@ tokenize(txt)</code></pre>
 ##  [5] &quot;#quanteda&quot;      &quot;2day&quot;           &quot;4ever&quot;          &quot;,&quot;             
 ##  [9] &quot;http&quot;           &quot;:&quot;              &quot;/&quot;              &quot;/&quot;             
 ## [13] &quot;textasdata.com&quot; &quot;?&quot;              &quot;page&quot;           &quot;=&quot;             
-## [17] &quot;.&quot;</code></pre>
-<pre class="r"><code>tokenize(txt, removeNumbers = FALSE, removePunct = FALSE)</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+## [17] &quot;.&quot;
+tokenize(txt, removeNumbers = FALSE, removePunct = FALSE)
+## tokenizedTexts from 2 documents.
 ## text1 :
 ##  [1] &quot;This&quot;      &quot;is&quot;        &quot;$&quot;         &quot;10&quot;        &quot;in&quot;       
 ##  [6] &quot;999&quot;       &quot;different&quot; &quot;ways&quot;      &quot;,&quot;         &quot;up&quot;       
@@ -220,9 +220,9 @@ tokenize(txt)</code></pre>
 ##  [5] &quot;#quanteda&quot;      &quot;2day&quot;           &quot;4ever&quot;          &quot;,&quot;             
 ##  [9] &quot;http&quot;           &quot;:&quot;              &quot;/&quot;              &quot;/&quot;             
 ## [13] &quot;textasdata.com&quot; &quot;?&quot;              &quot;page&quot;           &quot;=&quot;             
-## [17] &quot;123&quot;            &quot;.&quot;</code></pre>
-<pre class="r"><code>tokenize(txt, removeNumbers = FALSE, removePunct = FALSE, removeSeparators = FALSE)</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+## [17] &quot;123&quot;            &quot;.&quot;
+tokenize(txt, removeNumbers = FALSE, removePunct = FALSE, removeSeparators = FALSE)
+## tokenizedTexts from 2 documents.
 ## text1 :
 ##  [1] &quot;This&quot;      &quot; &quot;         &quot;is&quot;        &quot; &quot;         &quot;$&quot;        
 ##  [6] &quot;10&quot;        &quot; &quot;         &quot;in&quot;        &quot; &quot;         &quot;999&quot;      
@@ -243,9 +243,9 @@ tokenize(txt)</code></pre>
 tokenize(c(&quot;Kurt Vongeut said; only assholes use semi-colons.&quot;,
            &quot;Today is Thursday in Canberra:  It is yesterday in London.&quot;,
            &quot;Today is Thursday in Canberra:  \nIt is yesterday in London.&quot;,
-           &quot;To be?  Or\not to be?&quot;),
-          what = &quot;sentence&quot;)</code></pre>
-<pre><code>## tokenizedText object from 4 documents.
+           &quot;To be?  Or\nnot to be?&quot;),
+          what = &quot;sentence&quot;)
+## tokenizedTexts from 4 documents.
 ## Component 1 :
 ## [1] &quot;Kurt Vongeut said; only assholes use semi-colons.&quot;
 ## 
@@ -256,22 +256,23 @@ tokenize(c(&quot;Kurt Vongeut said; only assholes use semi-colons.&quot;,
 ## [1] &quot;Today is Thursday in Canberra:   It is yesterday in London.&quot;
 ## 
 ## Component 4 :
-## [1] &quot;To be?&quot;       &quot;Or ot to be?&quot;</code></pre>
-<pre class="r"><code>tokenize(inaugTexts[2], what = &quot;sentence&quot;)</code></pre>
-<pre><code>## tokenizedText object from 1 document.
+## [1] &quot;To be?&quot;        &quot;Or not to be?&quot;
+tokenize(inaugTexts[2], what = &quot;sentence&quot;)
+## tokenizedTexts from 1 document.
 ## 1793-Washington :
 ## [1] &quot;Fellow citizens, I am again called upon by the voice of my country to execute the functions of its Chief Magistrate.&quot;                                                                                                                                                                                                                                       
 ## [2] &quot;When the occasion proper for it shall arrive, I shall endeavor to express the high sense I entertain of this distinguished honor, and of the confidence which has been reposed in me by the people of united America.&quot;                                                                                                                                      
 ## [3] &quot;Previous to the execution of any official act of the President the Constitution requires an oath of office.&quot;                                                                                                                                                                                                                                                
-## [4] &quot;This oath I am now about to take, and in your presence: That if it shall be found during my administration of the Government I have in any instance violated willingly or knowingly the injunctions thereof, I may (besides incurring constitutional punishment) be subject to the upbraidings of all who are now witnesses of the present solemn ceremony.&quot;</code></pre>
-<pre class="r"><code># character level
-tokenize(&quot;My big fat text package.&quot;, what = &quot;character&quot;)</code></pre>
-<pre><code>## tokenizedText object from 1 document.
+## [4] &quot;This oath I am now about to take, and in your presence: That if it shall be found during my administration of the Government I have in any instance violated willingly or knowingly the injunctions thereof, I may (besides incurring constitutional punishment) be subject to the upbraidings of all who are now witnesses of the present solemn ceremony.&quot;
+
+# character level
+tokenize(&quot;My big fat text package.&quot;, what = &quot;character&quot;)
+## tokenizedTexts from 1 document.
 ## Component 1 :
 ##  [1] &quot;M&quot; &quot;y&quot; &quot;b&quot; &quot;i&quot; &quot;g&quot; &quot;f&quot; &quot;a&quot; &quot;t&quot; &quot;t&quot; &quot;e&quot; &quot;x&quot; &quot;t&quot; &quot;p&quot; &quot;a&quot; &quot;c&quot; &quot;k&quot; &quot;a&quot;
-## [18] &quot;g&quot; &quot;e&quot; &quot;.&quot;</code></pre>
-<pre class="r"><code>tokenize(&quot;My big fat text package.&quot;, what = &quot;character&quot;, removeSeparators = FALSE)</code></pre>
-<pre><code>## tokenizedText object from 1 document.
+## [18] &quot;g&quot; &quot;e&quot; &quot;.&quot;
+tokenize(&quot;My big fat text package.&quot;, what = &quot;character&quot;, removeSeparators = FALSE)
+## tokenizedTexts from 1 document.
 ## Component 1 :
 ##  [1] &quot;M&quot; &quot;y&quot; &quot; &quot; &quot;b&quot; &quot;i&quot; &quot;g&quot; &quot; &quot; &quot;f&quot; &quot;a&quot; &quot;t&quot; &quot; &quot; &quot;t&quot; &quot;e&quot; &quot;x&quot; &quot;t&quot; &quot; &quot; &quot;p&quot;
 ## [18] &quot;a&quot; &quot;c&quot; &quot;k&quot; &quot;a&quot; &quot;g&quot; &quot;e&quot; &quot;.&quot;</code></pre>
@@ -281,34 +282,35 @@ tokenize(&quot;My big fat text package.&quot;, what = &quot;character&quot;)</co
 <h3>2. Conversion to lower case</h3>
 <p>This is a tricky one in our workflow, since it is a form of equivalency declaration, rather than a tokenization step. It turns out that it is more efficient to perform at the pre-tokenization stage.</p>
 <p>As a result, the method <code>toLower()</code> is defined for many classes of quanteda objects.</p>
-<pre class="r"><code>methods(toLower)</code></pre>
-<pre><code>## [1] toLower.character*      toLower.corpus*         toLower.NULL*          
-## [4] toLower.tokenizedTexts*
+<pre class="r"><code>methods(toLower)
+## [1] toLower.character*      toLower.corpus*         toLower.NULL*          
+## [4] toLower.tokenizedTexts* toLower.tokens*        
 ## see '?methods' for accessing help and source code</code></pre>
 <p>We include options designed to preserve acronyms.</p>
 <pre class="r"><code>test1 &lt;- c(text1 = &quot;England and France are members of NATO and UNESCO&quot;,
            text2 = &quot;NASA sent a rocket into space.&quot;)
-toLower(test1)</code></pre>
-<pre><code>##                                               text1 
+toLower(test1)
+##                                               text1 
 ## &quot;england and france are members of nato and unesco&quot; 
 ##                                               text2 
-##                    &quot;nasa sent a rocket into space.&quot;</code></pre>
-<pre class="r"><code>toLower(test1, keepAcronyms = TRUE)</code></pre>
-<pre><code>##                                               text1 
+##                    &quot;nasa sent a rocket into space.&quot;
+toLower(test1, keepAcronyms = TRUE)
+##                                               text1 
 ## &quot;england and france are members of NATO and UNESCO&quot; 
 ##                                               text2 
-##                    &quot;NASA sent a rocket into space.&quot;</code></pre>
-<pre class="r"><code>test2 &lt;- tokenize(test1, removePunct=TRUE)
-toLower(test2)</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+##                    &quot;NASA sent a rocket into space.&quot;
+
+test2 &lt;- tokenize(test1, removePunct=TRUE)
+toLower(test2)
+## tokenizedTexts from 2 documents.
 ## text1 :
 ## [1] &quot;england&quot; &quot;and&quot;     &quot;france&quot;  &quot;are&quot;     &quot;members&quot; &quot;of&quot;      &quot;nato&quot;   
 ## [8] &quot;and&quot;     &quot;unesco&quot; 
 ## 
 ## text2 :
-## [1] &quot;nasa&quot;   &quot;sent&quot;   &quot;a&quot;      &quot;rocket&quot; &quot;into&quot;   &quot;space&quot;</code></pre>
-<pre class="r"><code>toLower(test2, keepAcronyms = TRUE)</code></pre>
-<pre><code>## tokenizedText object from 2 documents.
+## [1] &quot;nasa&quot;   &quot;sent&quot;   &quot;a&quot;      &quot;rocket&quot; &quot;into&quot;   &quot;space&quot;
+toLower(test2, keepAcronyms = TRUE)
+## tokenizedTexts from 2 documents.
 ## text1 :
 ## [1] &quot;england&quot; &quot;and&quot;     &quot;france&quot;  &quot;are&quot;     &quot;members&quot; &quot;of&quot;      &quot;NATO&quot;   
 ## [8] &quot;and&quot;     &quot;UNESCO&quot; 
@@ -317,20 +319,21 @@ toLower(test2)</code></pre>
 ## [1] &quot;NASA&quot;   &quot;sent&quot;   &quot;a&quot;      &quot;rocket&quot; &quot;into&quot;   &quot;space&quot;</code></pre>
 <p>toLower is based on stringi, and is therefore nicely Unicode compliant.</p>
 <pre class="r"><code># Russian
-cat(iconv(encodedTexts[8], &quot;windows-1251&quot;, &quot;UTF-8&quot;))</code></pre>
-<pre><code>## &quot;8-битные&quot; oncodings являются частью прошлого. 0€. Дефис-ели. Тильда ~ тире - и ± § 50.</code></pre>
-<pre class="r"><code>cat(toLower(iconv(encodedTexts[8], &quot;windows-1251&quot;, &quot;UTF-8&quot;)))</code></pre>
-<pre><code>## &quot;8-битные&quot; oncodings являются частью прошлого. 0€. дефис-ели. тильда ~ тире - и ± § 50.</code></pre>
-<pre class="r"><code>head(toLower(stopwords(&quot;russian&quot;)), 20)</code></pre>
-<pre><code>##  [1] &quot;и&quot;   &quot;в&quot;   &quot;во&quot;  &quot;не&quot;  &quot;что&quot; &quot;он&quot;  &quot;на&quot;  &quot;я&quot;   &quot;с&quot;   &quot;со&quot;  &quot;как&quot;
-## [12] &quot;а&quot;   &quot;то&quot;  &quot;все&quot; &quot;она&quot; &quot;так&quot; &quot;его&quot; &quot;но&quot;  &quot;да&quot;  &quot;ты&quot;</code></pre>
-<pre class="r"><code># Arabic
-cat(iconv(encodedTexts[6], &quot;ISO-8859-6&quot;, &quot;UTF-8&quot;))</code></pre>
-<pre><code>## ترميزات 8 بت هي موديل قديم. 0 . الواصلة أكل. تيلدا ~ م اندفاعة - و  50 .</code></pre>
-<pre class="r"><code>cat(toLower(iconv(encodedTexts[6], &quot;ISO-8859-6&quot;, &quot;UTF-8&quot;)))</code></pre>
-<pre><code>## ترميزات 8 بت هي موديل قديم. 0 . الواصلة أكل. تيلدا ~ م اندفاعة - و  50 .</code></pre>
-<pre class="r"><code>head(toLower(stopwords(&quot;arabic&quot;)), 20)</code></pre>
-<pre><code>##  [1] &quot;فى&quot;    &quot;في&quot;    &quot;كل&quot;    &quot;لم&quot;    &quot;لن&quot;    &quot;له&quot;    &quot;من&quot;    &quot;هو&quot;   
+cat(iconv(encodedTexts[8], &quot;windows-1251&quot;, &quot;UTF-8&quot;))
+## &quot;8-битные&quot; oncodings являются частью прошлого. 0€. Дефис-ели. Тильда ~ тире - и ± § 50.
+cat(toLower(iconv(encodedTexts[8], &quot;windows-1251&quot;, &quot;UTF-8&quot;)))
+## &quot;8-битные&quot; oncodings являются частью прошлого. 0€. дефис-ели. тильда ~ тире - и ± § 50.
+head(toLower(stopwords(&quot;russian&quot;)), 20)
+##  [1] &quot;и&quot;   &quot;в&quot;   &quot;во&quot;  &quot;не&quot;  &quot;что&quot; &quot;он&quot;  &quot;на&quot;  &quot;я&quot;   &quot;с&quot;   &quot;со&quot;  &quot;как&quot;
+## [12] &quot;а&quot;   &quot;то&quot;  &quot;все&quot; &quot;она&quot; &quot;так&quot; &quot;его&quot; &quot;но&quot;  &quot;да&quot;  &quot;ты&quot;
+
+# Arabic
+cat(iconv(encodedTexts[6], &quot;ISO-8859-6&quot;, &quot;UTF-8&quot;))
+## ترميزات 8 بت هي موديل قديم. 0 . الواصلة أكل. تيلدا ~ م اندفاعة - و  50 .
+cat(toLower(iconv(encodedTexts[6], &quot;ISO-8859-6&quot;, &quot;UTF-8&quot;)))
+## ترميزات 8 بت هي موديل قديم. 0 . الواصلة أكل. تيلدا ~ م اندفاعة - و  50 .
+head(toLower(stopwords(&quot;arabic&quot;)), 20)
+##  [1] &quot;فى&quot;    &quot;في&quot;    &quot;كل&quot;    &quot;لم&quot;    &quot;لن&quot;    &quot;له&quot;    &quot;من&quot;    &quot;هو&quot;   
 ##  [9] &quot;هي&quot;    &quot;قوة&quot;   &quot;كما&quot;   &quot;لها&quot;   &quot;منذ&quot;   &quot;وقد&quot;   &quot;ولا&quot;   &quot;نفسه&quot; 
 ## [17] &quot;لقاء&quot;  &quot;مقابل&quot; &quot;هناك&quot;  &quot;وقال&quot;</code></pre>
 <p><strong>Note</strong>: dfm, the Swiss army knife, converts to lower case by default, but this can be turned off using the <code>toLower = FALSE</code> argument.</p>
@@ -340,52 +343,47 @@ cat(iconv(encodedTexts[6], &quot;ISO-8859-6&quot;, &quot;UTF-8&quot;))</code></p
 <p>This can be done when creating a dfm:</p>
 <pre class="r"><code># with English stopwords and stemming
 dfmsInaug2 &lt;- dfm(subset(inaugCorpus, Year &gt; 1980),
-                  ignoredFeatures = stopwords(&quot;english&quot;), stem = TRUE)</code></pre>
-<pre><code>## Creating a dfm from a corpus ...</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 9 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 3,113 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## removed 128 features, from 174 supplied (glob) feature types</code></pre>
-<pre><code>## ... stemming features (English)</code></pre>
-<pre><code>## ```
+                  ignoredFeatures = stopwords(&quot;english&quot;), stem = TRUE)
+## Creating a dfm from a corpus ...
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 9 documents, 3,114 features
+## ...
+## removed 128 features, from 174 supplied (glob) feature types
+## ... stemming features (English)
+## ```
 </code></pre>
 </div>
 <div id="trimmed-781-feature-variants" class="section level2">
 <h2>, trimmed 781 feature variants</h2>
-<pre><code></code></pre>
 </div>
 <div id="created-a-9-x-2205-sparse-dfm" class="section level2">
-<h2>… created a 9 x 2205 sparse dfm</h2>
+<h2>… created a 9 x 2,205 sparse dfm</h2>
 </div>
 <div id="complete." class="section level2">
 <h2>… complete.</h2>
 </div>
-<div id="elapsed-time-0.171-seconds." class="section level2">
-<h2>Elapsed time: 0.171 seconds.</h2>
+<div id="elapsed-time-0.082-seconds." class="section level2">
+<h2>Elapsed time: 0.082 seconds.</h2>
 <p>```</p>
 <p>Or can be done <strong>after</strong> creating a dfm:</p>
 <pre class="r"><code>myDfm &lt;- dfm(c(&quot;My Christmas was ruined by your opposition tax plan.&quot;,
                &quot;Does the United_States or Sweden have more progressive taxation?&quot;),
              toLower = FALSE, verbose = FALSE)
-selectFeatures(myDfm, c(&quot;s$&quot;, &quot;.y&quot;), &quot;keep&quot;, valuetype = &quot;regex&quot;)</code></pre>
-<pre><code>## kept 6 features, from 2 supplied (regex) feature types</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 6 features.
+selectFeatures(myDfm, c(&quot;s$&quot;, &quot;.y&quot;), &quot;keep&quot;, valuetype = &quot;regex&quot;)
+## kept 6 features, from 2 supplied (regex) feature types
+## Document-feature matrix of: 2 documents, 6 features (50% sparse).
 ## 2 x 6 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    My Christmas was by Does United_States
 ##   text1  1         1   1  1    0             0
-##   text2  0         0   0  0    1             1</code></pre>
-<pre class="r"><code>selectFeatures(myDfm, c(&quot;s$&quot;, &quot;.y&quot;), &quot;remove&quot;, valuetype = &quot;regex&quot;)</code></pre>
-<pre><code>## removed 6 features, from 2 supplied (regex) feature types</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 12 features.
+##   text2  0         0   0  0    1             1
+selectFeatures(myDfm, c(&quot;s$&quot;, &quot;.y&quot;), &quot;remove&quot;, valuetype = &quot;regex&quot;)
+## removed 6 features, from 2 supplied (regex) feature types
+## Document-feature matrix of: 2 documents, 12 features (50% sparse).
 ## 2 x 12 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    ruined your opposition tax plan the or Sweden have more
@@ -394,23 +392,23 @@ selectFeatures(myDfm, c(&quot;s$&quot;, &quot;.y&quot;), &quot;keep&quot;, value
 ##        features
 ## docs    progressive taxation
 ##   text1           0        0
-##   text2           1        1</code></pre>
-<pre class="r"><code>selectFeatures(myDfm, stopwords(&quot;english&quot;), &quot;keep&quot;, valuetype = &quot;fixed&quot;)</code></pre>
-<pre><code>## kept 7 features, from 174 supplied (fixed) feature types</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 7 features.
-## 2 x 7 sparse Matrix of class &quot;dfmSparse&quot;
+##   text2           1        1
+selectFeatures(myDfm, stopwords(&quot;english&quot;), &quot;keep&quot;, valuetype = &quot;fixed&quot;)
+## kept 9 features, from 174 supplied (fixed) feature types
+## Document-feature matrix of: 2 documents, 9 features (50% sparse).
+## 2 x 9 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
-## docs    was by your the or have more
-##   text1   1  1    1   0  0    0    0
-##   text2   0  0    0   1  1    1    1</code></pre>
-<pre class="r"><code>selectFeatures(myDfm, stopwords(&quot;english&quot;), &quot;remove&quot;, valuetype = &quot;fixed&quot;)</code></pre>
-<pre><code>## removed 7 features, from 174 supplied (fixed) feature types</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 11 features.
-## 2 x 11 sparse Matrix of class &quot;dfmSparse&quot;
+## docs    My was by your Does the or have more
+##   text1  1   1  1    1    0   0  0    0    0
+##   text2  0   0  0    0    1   1  1    1    1
+selectFeatures(myDfm, stopwords(&quot;english&quot;), &quot;remove&quot;, valuetype = &quot;fixed&quot;)
+## removed 9 features, from 174 supplied (fixed) feature types
+## Document-feature matrix of: 2 documents, 9 features (50% sparse).
+## 2 x 9 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
-## docs    My Christmas ruined opposition tax plan Does United_States Sweden
-##   text1  1         1      1          1   1    1    0             0      0
-##   text2  0         0      0          0   0    0    1             1      1
+## docs    Christmas ruined opposition tax plan United_States Sweden
+##   text1         1      1          1   1    1             0      0
+##   text2         0      0          0   0    0             1      1
 ##        features
 ## docs    progressive taxation
 ##   text1           0        0
@@ -421,114 +419,101 @@ testText &lt;- &quot;The quick brown fox named Seamus jumps over the lazy dog al
              the newspaper from a boy named Seamus, in his mouth.&quot;
 testCorpus &lt;- corpus(testText)
 # note: &quot;also&quot; is not in the default stopwords(&quot;english&quot;)
-features(dfm(testCorpus, ignoredFeatures = stopwords(&quot;english&quot;)))</code></pre>
-<pre><code>## Creating a dfm from a corpus ...</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 1 document</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 18 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## removed 7 features, from 174 supplied (glob) feature types</code></pre>
-<pre><code>##    ... created a 1 x 12 sparse dfm
+features(dfm(testCorpus, ignoredFeatures = stopwords(&quot;english&quot;)))
+## Creating a dfm from a corpus ...
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 1 document, 19 features
+## ...
+## removed 7 features, from 174 supplied (glob) feature types
+##    ... created a 1 x 12 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.009 seconds.</code></pre>
-<pre><code>##  [1] &quot;quick&quot;     &quot;brown&quot;     &quot;fox&quot;       &quot;named&quot;     &quot;seamus&quot;   
+## Elapsed time: 0.009 seconds.
+##  [1] &quot;quick&quot;     &quot;brown&quot;     &quot;fox&quot;       &quot;named&quot;     &quot;seamus&quot;   
 ##  [6] &quot;jumps&quot;     &quot;lazy&quot;      &quot;dog&quot;       &quot;also&quot;      &quot;newspaper&quot;
-## [11] &quot;boy&quot;       &quot;mouth&quot;</code></pre>
-<pre class="r"><code># for ngrams
-features(dfm(testCorpus, ngrams = 2, ignoredFeatures = stopwords(&quot;english&quot;)))</code></pre>
-<pre><code>## Creating a dfm from a corpus ...</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 1 document</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 21 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## removed 13 features, from 174 supplied (glob) feature types</code></pre>
-<pre><code>##    ... created a 1 x 9 sparse dfm
+## [11] &quot;boy&quot;       &quot;mouth&quot;
+# for ngrams
+features(dfm(testCorpus, ngrams = 2, ignoredFeatures = stopwords(&quot;english&quot;)))
+## Creating a dfm from a corpus ...
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 1 document, 22 features
+## ...
+## removed 13 features, from 174 supplied (glob) feature types
+##    ... created a 1 x 9 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.01 seconds.</code></pre>
-<pre><code>## [1] &quot;quick_brown&quot;  &quot;brown_fox&quot;    &quot;fox_named&quot;    &quot;named_seamus&quot;
+## Elapsed time: 0.01 seconds.
+## [1] &quot;quick_brown&quot;  &quot;brown_fox&quot;    &quot;fox_named&quot;    &quot;named_seamus&quot;
 ## [5] &quot;seamus_jumps&quot; &quot;lazy_dog&quot;     &quot;dog_also&quot;     &quot;also_named&quot;  
-## [9] &quot;boy_named&quot;</code></pre>
-<pre class="r"><code>features(dfm(testCorpus, ngrams = 1:2, ignoredFeatures = stopwords(&quot;english&quot;)))</code></pre>
-<pre><code>## Creating a dfm from a corpus ...</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 1 document</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 40 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## removed 20 features, from 174 supplied (glob) feature types</code></pre>
-<pre><code>##    ... created a 1 x 21 sparse dfm
+## [9] &quot;boy_named&quot;
+features(dfm(testCorpus, ngrams = 1:2, ignoredFeatures = stopwords(&quot;english&quot;)))
+## Creating a dfm from a corpus ...
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 1 document, 41 features
+## ...
+## removed 20 features, from 174 supplied (glob) feature types
+##    ... created a 1 x 21 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.01 seconds.</code></pre>
-<pre><code>##  [1] &quot;quick&quot;        &quot;brown&quot;        &quot;fox&quot;          &quot;named&quot;       
+## Elapsed time: 0.089 seconds.
+##  [1] &quot;quick&quot;        &quot;brown&quot;        &quot;fox&quot;          &quot;named&quot;       
 ##  [5] &quot;seamus&quot;       &quot;jumps&quot;        &quot;lazy&quot;         &quot;dog&quot;         
 ##  [9] &quot;also&quot;         &quot;newspaper&quot;    &quot;boy&quot;          &quot;mouth&quot;       
 ## [13] &quot;quick_brown&quot;  &quot;brown_fox&quot;    &quot;fox_named&quot;    &quot;named_seamus&quot;
 ## [17] &quot;seamus_jumps&quot; &quot;lazy_dog&quot;     &quot;dog_also&quot;     &quot;also_named&quot;  
-## [21] &quot;boy_named&quot;</code></pre>
-<pre class="r"><code>## removing stopwords before constructing ngrams
+## [21] &quot;boy_named&quot;
+
+## removing stopwords before constructing ngrams
 tokensAll &lt;- tokenize(toLower(testText), removePunct = TRUE)
 tokensNoStopwords &lt;- removeFeatures(tokensAll, stopwords(&quot;english&quot;))
 tokensNgramsNoStopwords &lt;- ngrams(tokensNoStopwords, 2)
-features(dfm(tokensNgramsNoStopwords, verbose = FALSE))</code></pre>
-<pre><code>##  [1] &quot;quick_brown&quot;      &quot;brown_fox&quot;        &quot;fox_named&quot;       
+features(dfm(tokensNgramsNoStopwords, verbose = FALSE))
+##  [1] &quot;quick_brown&quot;      &quot;brown_fox&quot;        &quot;fox_named&quot;       
 ##  [4] &quot;named_seamus&quot;     &quot;seamus_jumps&quot;     &quot;jumps_lazy&quot;      
 ##  [7] &quot;lazy_dog&quot;         &quot;dog_also&quot;         &quot;also_named&quot;      
 ## [10] &quot;seamus_newspaper&quot; &quot;newspaper_boy&quot;    &quot;boy_named&quot;       
-## [13] &quot;seamus_mouth&quot;</code></pre>
-<pre class="r"><code># keep only certain words
-dfm(testCorpus, keptFeatures = &quot;*s&quot;, verbose = FALSE)  # keep only words ending in &quot;s&quot;</code></pre>
-<pre><code>## Document-feature matrix of: 1 document, 3 features.
+## [13] &quot;seamus_mouth&quot;
+
+# keep only certain words
+dfm(testCorpus, keptFeatures = &quot;*s&quot;, verbose = FALSE)  # keep only words ending in &quot;s&quot;
+## Document-feature matrix of: 1 document, 3 features (0% sparse).
 ## 1 x 3 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    seamus jumps his
-##   text1      3     1   1</code></pre>
-<pre class="r"><code>dfm(testCorpus, keptFeatures = &quot;s$&quot;, valuetype = &quot;regex&quot;, verbose = FALSE)</code></pre>
-<pre><code>## Document-feature matrix of: 1 document, 3 features.
+##   text1      3     1   1
+dfm(testCorpus, keptFeatures = &quot;s$&quot;, valuetype = &quot;regex&quot;, verbose = FALSE)
+## Document-feature matrix of: 1 document, 3 features (0% sparse).
 ## 1 x 3 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    seamus jumps his
-##   text1      3     1   1</code></pre>
-<pre class="r"><code># testing Twitter functions
+##   text1      3     1   1
+
+# testing Twitter functions
 testTweets &lt;- c(&quot;My homie @justinbieber #justinbieber shopping in #LA yesterday #beliebers&quot;,
                 &quot;2all the ha8ers including my bro #justinbieber #emabiggestfansjustinbieber&quot;,
                 &quot;Justin Bieber #justinbieber #belieber #fetusjustin #EMABiggestFansJustinBieber&quot;)
-dfm(testTweets, keptFeatures = &quot;#*&quot;, removeTwitter = FALSE)  # keep only hashtags</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 3 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 18 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## kept 6 features, from 1 supplied (glob) feature types</code></pre>
-<pre><code>##    ... created a 3 x 6 sparse dfm
+dfm(testTweets, keptFeatures = &quot;#*&quot;, removeTwitter = FALSE)  # keep only hashtags
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 3 documents, 19 features
+## ...
+## kept 6 features, from 1 supplied (glob) feature types
+##    ... created a 3 x 6 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.01 seconds.</code></pre>
-<pre><code>## Document-feature matrix of: 3 documents, 6 features.
+## Elapsed time: 0.007 seconds.
+## Document-feature matrix of: 3 documents, 6 features (50% sparse).
 ## 3 x 6 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    #justinbieber #la #beliebers #emabiggestfansjustinbieber #belieber
@@ -539,24 +524,20 @@ dfm(testTweets, keptFeatures = &quot;#*&quot;, removeTwitter = FALSE)  # keep on
 ## docs    #fetusjustin
 ##   text1            0
 ##   text2            0
-##   text3            1</code></pre>
-<pre class="r"><code>dfm(testTweets, keptFeatures = &quot;^#.*$&quot;, valuetype = &quot;regex&quot;, removeTwitter = FALSE)</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 3 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 18 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## kept 6 features, from 1 supplied (regex) feature types</code></pre>
-<pre><code>##    ... created a 3 x 6 sparse dfm
+##   text3            1
+dfm(testTweets, keptFeatures = &quot;^#.*$&quot;, valuetype = &quot;regex&quot;, removeTwitter = FALSE)
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 3 documents, 19 features
+## ...
+## kept 6 features, from 1 supplied (regex) feature types
+##    ... created a 3 x 6 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.007 seconds.</code></pre>
-<pre><code>## Document-feature matrix of: 3 documents, 6 features.
+## Elapsed time: 0.007 seconds.
+## Document-feature matrix of: 3 documents, 6 features (50% sparse).
 ## 3 x 6 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    #justinbieber #la #beliebers #emabiggestfansjustinbieber #belieber
@@ -572,89 +553,77 @@ dfm(testTweets, keptFeatures = &quot;#*&quot;, removeTwitter = FALSE)  # keep on
 <pre class="r"><code># selecting on a dfm
 textVec1 &lt;- c(&quot;This is text one.&quot;, &quot;This, the second text.&quot;, &quot;Here: the third text.&quot;)
 textVec2 &lt;- c(&quot;Here are new words.&quot;, &quot;New words in this text.&quot;)
-features(dfm1 &lt;- dfm(textVec1))</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 3 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 7 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>##    ... created a 3 x 8 sparse dfm
+features(dfm1 &lt;- dfm(textVec1))
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 3 documents, 8 features
+##    ... created a 3 x 8 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.006 seconds.</code></pre>
-<pre><code>## [1] &quot;this&quot;   &quot;is&quot;     &quot;text&quot;   &quot;one&quot;    &quot;the&quot;    &quot;second&quot; &quot;here&quot;   &quot;third&quot;</code></pre>
-<pre class="r"><code>features(dfm2a &lt;- dfm(textVec2))</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 2 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 6 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>##    ... created a 2 x 7 sparse dfm
+## Elapsed time: 0.006 seconds.
+## [1] &quot;this&quot;   &quot;is&quot;     &quot;text&quot;   &quot;one&quot;    &quot;the&quot;    &quot;second&quot; &quot;here&quot;   &quot;third&quot;
+features(dfm2a &lt;- dfm(textVec2))
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 2 documents, 7 features
+##    ... created a 2 x 7 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.005 seconds.</code></pre>
-<pre><code>## [1] &quot;here&quot;  &quot;are&quot;   &quot;new&quot;   &quot;words&quot; &quot;in&quot;    &quot;this&quot;  &quot;text&quot;</code></pre>
-<pre class="r"><code>(dfm2b &lt;- selectFeatures(dfm2a, dfm1))</code></pre>
-<pre><code>## found 3 features from 8 supplied types in a dfm,</code></pre>
-<pre><code>##  padding 0s for another 5</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 8 features.
+## Elapsed time: 0.005 seconds.
+## [1] &quot;here&quot;  &quot;are&quot;   &quot;new&quot;   &quot;words&quot; &quot;in&quot;    &quot;this&quot;  &quot;text&quot;
+(dfm2b &lt;- selectFeatures(dfm2a, dfm1))
+## found 3 features from 8 supplied types in a dfm,
+##  padding 0s for another 5
+## Document-feature matrix of: 2 documents, 8 features (81.2% sparse).
 ## 2 x 8 sparse Matrix of class &quot;dfmSparse&quot;
 ##       this is text one the second here third
 ## text1    0  0    0   0   0      0    1     0
-## text2    1  0    1   0   0      0    0     0</code></pre>
-<pre class="r"><code>identical(features(dfm1), features(dfm2b))</code></pre>
-<pre><code>## [1] TRUE</code></pre>
+## text2    1  0    1   0   0      0    0     0
+identical(features(dfm1), features(dfm2b))
+## [1] TRUE</code></pre>
 <div id="applying-equivalency-classes-dictionaries-thesaruses" class="section level3">
 <h3>4. Applying equivalency classes: dictionaries, thesaruses</h3>
 <p>Dictionary creation is done through the <code>dictionary()</code> function, which classes a named list of characters as a dictionary.</p>
 <pre class="r"><code># import the Laver-Garry dictionary from http://bit.ly/1FH2nvf
 lgdict &lt;- dictionary(file = &quot;http://www.kenbenoit.net/courses/essex2014qta/LaverGarry.cat&quot;,
                      format = &quot;wordstat&quot;)
-dfm(inaugTexts, dictionary = lgdict)</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 57 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 9,214 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## applying a dictionary consisting of 20 keys</code></pre>
-<pre><code>##    ... created a 57 x 20 sparse dfm
+dfm(inaugTexts, dictionary = lgdict)
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 57 documents, 9,215 features
+## ...
+## applying a dictionary consisting of 20 keys
+##    ... created a 57 x 20 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.653 seconds.</code></pre>
-<pre><code>## Document-feature matrix of: 57 documents, 20 features.</code></pre>
-<pre class="r"><code># import a LIWC formatted dictionary
+## Elapsed time: 0.552 seconds.
+## Document-feature matrix of: 57 documents, 20 features (0% sparse).
+
+# import a LIWC formatted dictionary
 liwcdict &lt;- dictionary(file = &quot;~/Dropbox/QUANTESS/dictionaries/LIWC/LIWC2001_English.dic&quot;,
                        format = &quot;LIWC&quot;)
-dfm(inaugTexts, dictionary = liwcdict)</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 57 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 9,214 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## applying a dictionary consisting of 68 keys</code></pre>
-<pre><code>##    ... created a 57 x 68 sparse dfm
+dfm(inaugTexts, dictionary = liwcdict)
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 57 documents, 9,215 features
+## ...
+## Warning in applyDictionary.dfm(dfmresult, dictionary, exclusive = ifelse(!
+## is.null(thesaurus), : You will probably not get correct behaviour applying
+## a dictionary with multi-word keys to a dfm.
+## applying a dictionary consisting of 68 keys
+##    ... created a 57 x 68 sparse dfm
 ##    ... complete. 
-## Elapsed time: 4.49 seconds.</code></pre>
-<pre><code>## Document-feature matrix of: 57 documents, 68 features.</code></pre>
+## Elapsed time: 4.66 seconds.
+## Document-feature matrix of: 57 documents, 68 features (0% sparse).</code></pre>
 <p>We apply dictionaries to a dfm using the <code>applyDictionary()</code> function. Through the <code>valuetype</code>, argument, we can match patterns of one of three types: <code>&quot;glob&quot;</code>, <code>&quot;regex&quot;</code>, or <code>&quot;fixed&quot;</code>.</p>
 <pre class="r"><code>myDict &lt;- dictionary(list(christmas = c(&quot;Christmas&quot;, &quot;Santa&quot;, &quot;holiday&quot;),
                           opposition = c(&quot;Opposition&quot;, &quot;reject&quot;, &quot;notincorpus&quot;),
@@ -664,8 +633,8 @@ dfm(inaugTexts, dictionary = liwcdict)</code></pre>
 myDfm &lt;- dfm(c(&quot;My Christmas was ruined by your opposition tax plan.&quot;,
                &quot;Does the United_States or Sweden have more progressive taxation?&quot;),
              ignoredFeatures = stopwords(&quot;english&quot;), verbose = FALSE)
-myDfm</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 9 features.
+myDfm
+## Document-feature matrix of: 2 documents, 9 features (50% sparse).
 ## 2 x 9 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    christmas ruined opposition tax plan united_states sweden
@@ -674,53 +643,56 @@ myDfm</code></pre>
 ##        features
 ## docs    progressive taxation
 ##   text1           0        0
-##   text2           1        1</code></pre>
-<pre class="r"><code># glob format
-applyDictionary(myDfm, myDict, valuetype = &quot;glob&quot;)</code></pre>
-<pre><code>## applying a dictionary consisting of 5 keys</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 5 features.
+##   text2           1        1
+
+# glob format
+applyDictionary(myDfm, myDict, valuetype = &quot;glob&quot;)
+## applying a dictionary consisting of 5 keys
+## Document-feature matrix of: 2 documents, 5 features (0% sparse).
 ## 2 x 5 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    christmas opposition taxglob taxregex country
 ##   text1         1          1       1        0       0
-##   text2         0          0       1        0       2</code></pre>
-<pre class="r"><code>applyDictionary(myDfm, myDict, valuetype = &quot;glob&quot;, case_insensitive = FALSE)</code></pre>
-<pre><code>## applying a dictionary consisting of 5 keys</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 5 features.
+##   text2         0          0       1        0       2
+applyDictionary(myDfm, myDict, valuetype = &quot;glob&quot;, case_insensitive = FALSE)
+## applying a dictionary consisting of 5 keys
+## Document-feature matrix of: 2 documents, 5 features (0% sparse).
 ## 2 x 5 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    christmas opposition taxglob taxregex country
 ##   text1         0          0       1        0       0
-##   text2         0          0       1        0       0</code></pre>
-<pre class="r"><code># regex v. glob format: note that &quot;united_states&quot; is a regex match for &quot;tax*&quot;
-applyDictionary(myDfm, myDict, valuetype = &quot;glob&quot;)</code></pre>
-<pre><code>## applying a dictionary consisting of 5 keys</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 5 features.
+##   text2         0          0       1        0       0
+
+# regex v. glob format: note that &quot;united_states&quot; is a regex match for &quot;tax*&quot;
+applyDictionary(myDfm, myDict, valuetype = &quot;glob&quot;)
+## applying a dictionary consisting of 5 keys
+## Document-feature matrix of: 2 documents, 5 features (0% sparse).
 ## 2 x 5 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    christmas opposition taxglob taxregex country
 ##   text1         1          1       1        0       0
-##   text2         0          0       1        0       2</code></pre>
-<pre class="r"><code>applyDictionary(myDfm, myDict, valuetype = &quot;regex&quot;, case_insensitive = TRUE)</code></pre>
-<pre><code>## applying a dictionary consisting of 5 keys</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 5 features.
+##   text2         0          0       1        0       2
+applyDictionary(myDfm, myDict, valuetype = &quot;regex&quot;, case_insensitive = TRUE)
+## applying a dictionary consisting of 5 keys
+## Document-feature matrix of: 2 documents, 5 features (0% sparse).
 ## 2 x 5 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    christmas opposition taxglob taxregex country
 ##   text1         1          1       1        0       0
-##   text2         0          0       2        1       2</code></pre>
-<pre class="r"><code># fixed format: no pattern matching
-applyDictionary(myDfm, myDict, valuetype = &quot;fixed&quot;)</code></pre>
-<pre><code>## applying a dictionary consisting of 5 keys</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 5 features.
+##   text2         0          0       2        1       2
+
+# fixed format: no pattern matching
+applyDictionary(myDfm, myDict, valuetype = &quot;fixed&quot;)
+## applying a dictionary consisting of 5 keys
+## Document-feature matrix of: 2 documents, 5 features (0% sparse).
 ## 2 x 5 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    christmas opposition taxglob taxregex country
 ##   text1         1          1       0        0       0
-##   text2         0          0       0        0       2</code></pre>
-<pre class="r"><code>applyDictionary(myDfm, myDict, valuetype = &quot;fixed&quot;, case_insensitive = FALSE)</code></pre>
-<pre><code>## applying a dictionary consisting of 5 keys</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 5 features.
+##   text2         0          0       0        0       2
+applyDictionary(myDfm, myDict, valuetype = &quot;fixed&quot;, case_insensitive = FALSE)
+## applying a dictionary consisting of 5 keys
+## Document-feature matrix of: 2 documents, 5 features (0% sparse).
 ## 2 x 5 sparse Matrix of class &quot;dfmSparse&quot;
 ##        features
 ## docs    christmas opposition taxglob taxregex country
@@ -735,25 +707,24 @@ mydict &lt;- dictionary(list(christmas = c(&quot;Christmas&quot;, &quot;Santa&qu
                           taxation = &quot;taxation&quot;,
                           taxregex = &quot;tax*&quot;,
                           country = &quot;united states&quot;))
-dictDfm &lt;- dfm(mycorpus, dictionary = mydict)</code></pre>
-<pre><code>## Creating a dfm from a corpus ...</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 29 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 6,275 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## applying a dictionary consisting of 6 keys</code></pre>
-<pre><code>##    ... created a 29 x 6 sparse dfm
+dictDfm &lt;- dfm(mycorpus, dictionary = mydict)
+## Creating a dfm from a corpus ...
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 29 documents, 6,276 features
+## ...
+## Warning in applyDictionary.dfm(dfmresult, dictionary, exclusive = ifelse(!
+## is.null(thesaurus), : You will probably not get correct behaviour applying
+## a dictionary with multi-word keys to a dfm.
+## applying a dictionary consisting of 6 keys
+##    ... created a 29 x 6 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.084 seconds.</code></pre>
-<pre class="r"><code>head(dictDfm)</code></pre>
-<pre><code>## Document-feature matrix of: 29 documents, 6 features.
+## Elapsed time: 0.06 seconds.
+head(dictDfm)
+## Document-feature matrix of: 29 documents, 6 features (0% sparse).
 ## (showing first 6 documents and first 6 features)
 ##                 features
 ## docs             christmas opposition taxing taxation taxregex country
@@ -767,23 +738,19 @@ dictDfm &lt;- dfm(mycorpus, dictionary = mydict)</code></pre>
 <pre class="r"><code>mytexts &lt;- c(&quot;British English tokenises differently, with more colour.&quot;,
              &quot;American English tokenizes color as one word.&quot;)
 mydict &lt;- dictionary(list(color = &quot;colo*r&quot;, tokenize = &quot;tokeni?e*&quot;))
-dfm(mytexts, thesaurus = mydict)</code></pre>
-<pre><code>## 
-##    ... lowercasing</code></pre>
-<pre><code>## 
-##    ... tokenizing</code></pre>
-<pre><code>## 
-##    ... indexing documents: 2 documents</code></pre>
-<pre><code>## 
-##    ... indexing features:</code></pre>
-<pre><code>## 12 feature types</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## ...</code></pre>
-<pre><code>## applying a dictionary consisting of 2 keys</code></pre>
-<pre><code>##    ... created a 2 x 11 sparse dfm
+dfm(mytexts, thesaurus = mydict)
+## 
+##    ... lowercasing
+## 
+##    ... tokenizing
+## 
+##    ... found 2 documents, 13 features
+## ...
+## applying a dictionary consisting of 2 keys
+##    ... created a 2 x 11 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.025 seconds.</code></pre>
-<pre><code>## Document-feature matrix of: 2 documents, 11 features.
+## Elapsed time: 0.02 seconds.
+## Document-feature matrix of: 2 documents, 11 features (36.4% sparse).
 ## 2 x 11 sparse Matrix of class &quot;dfmSparse&quot;
 ##       british english differently with more american as one word COLOR
 ## text1       1       1           1    1    1        0  0   0    0     1
@@ -795,34 +762,50 @@ dfm(mytexts, thesaurus = mydict)</code></pre>
 <div id="stemming" class="section level3">
 <h3>5. Stemming</h3>
 <p>Stemming relies on the <code>SnowballC</code> package’s implementation of the Porter stemmer, and is available for the following languages:</p>
-<pre class="r"><code>SnowballC::getStemLanguages()</code></pre>
-<pre><code>##  [1] &quot;danish&quot;     &quot;dutch&quot;      &quot;english&quot;    &quot;finnish&quot;    &quot;french&quot;    
+<pre class="r"><code>SnowballC::getStemLanguages()
+##  [1] &quot;danish&quot;     &quot;dutch&quot;      &quot;english&quot;    &quot;finnish&quot;    &quot;french&quot;    
 ##  [6] &quot;german&quot;     &quot;hungarian&quot;  &quot;italian&quot;    &quot;norwegian&quot;  &quot;porter&quot;    
 ## [11] &quot;portuguese&quot; &quot;romanian&quot;   &quot;russian&quot;    &quot;spanish&quot;    &quot;swedish&quot;   
 ## [16] &quot;turkish&quot;</code></pre>
 <p>It’s not perfect:</p>
-<pre class="r"><code>wordstem(c(&quot;win&quot;, &quot;winning&quot;, &quot;wins&quot;, &quot;won&quot;, &quot;winner&quot;))</code></pre>
-<pre><code>## [1] &quot;win&quot;    &quot;win&quot;    &quot;win&quot;    &quot;won&quot;    &quot;winner&quot;</code></pre>
+<pre class="r"><code>wordstem(c(&quot;win&quot;, &quot;winning&quot;, &quot;wins&quot;, &quot;won&quot;, &quot;winner&quot;))
+## [1] &quot;win&quot;    &quot;win&quot;    &quot;win&quot;    &quot;won&quot;    &quot;winner&quot;</code></pre>
 <p>but it’s fast.</p>
 <p>Stemmed objects must be tokenized, but can be of many different quanteda classes:</p>
-<pre class="r"><code>methods(wordstem)</code></pre>
-<pre><code>## [1] wordstem.character*      wordstem.dfm*           
-## [3] wordstem.tokenizedTexts*
-## see '?methods' for accessing help and source code</code></pre>
-<pre class="r"><code>wordstem(&quot;This is a winning package, of many packages.&quot;)</code></pre>
-<pre><code>## Error in wordstem.character(&quot;This is a winning package, of many packages.&quot;): whitespace detected: you can only stem tokenized texts</code></pre>
-<pre class="r"><code>wordstem(tokenize(&quot;This is a winning package, of many packages.&quot;))</code></pre>
-<pre><code>## tokenizedText object from 1 document.
+<pre class="r"><code>methods(wordstem)
+## [1] wordstem.character*      wordstem.dfm*           
+## [3] wordstem.tokenizedTexts* wordstem.tokens*        
+## see '?methods' for accessing help and source code
+wordstem(&quot;This is a winning package, of many packages.&quot;)
+## Error in wordstem.character(&quot;This is a winning package, of many packages.&quot;): whitespace detected: you can only stem tokenized texts
+wordstem(tokenize(&quot;This is a winning package, of many packages.&quot;))
+## tokenizedTexts from 1 document.
 ## Component 1 :
 ##  [1] &quot;Thi&quot;    &quot;i&quot;      &quot;a&quot;      &quot;win&quot;    &quot;packag&quot; &quot;,&quot;      &quot;of&quot;    
 ##  [8] &quot;mani&quot;   &quot;packag&quot; &quot;.&quot;</code></pre>
-<pre class="r"><code>head(wordstem(dfm(inaugTexts[1:2], verbose = FALSE)))</code></pre>
+<p>Some text operations can be conducted directly on the dfm:</p>
+<pre class="r"><code>dfm1 &lt;- dfm(inaugTexts[1:2], verbose = FALSE)
+head(features(dfm1))</code></pre>
+<pre><code>## [1] &quot;fellow-citizens&quot; &quot;of&quot;              &quot;the&quot;             &quot;senate&quot;         
+## [5] &quot;and&quot;             &quot;house&quot;</code></pre>
+<pre class="r"><code>head(features(wordstem(dfm1)))</code></pre>
 <pre><code>## ```
 </code></pre>
 </div>
 </div>
-<div id="document-feature-matrix-of-2-documents-573-features." class="section level2">
-<h2>Document-feature matrix of: 2 documents, 573 features.</h2>
+<div id="fellow-citizen-of-the-senat" class="section level2">
+<h2>[1] “fellow-citizen” “of” “the” “senat”</h2>
+</div>
+<div id="and-hous" class="section level2">
+<h2>[5] “and” “hous”</h2>
+<p>```</p>
+<pre class="r"><code># same as 
+head(dfm(inaugTexts[1:2], stem = TRUE, verbose = FALSE))</code></pre>
+<pre><code>## ```
+</code></pre>
+</div>
+<div id="document-feature-matrix-of-2-documents-572-features-44.7-sparse." class="section level2">
+<h2>Document-feature matrix of: 2 documents, 572 features (44.7% sparse).</h2>
 </div>
 <div id="showing-first-2-documents-and-first-6-features" class="section level2">
 <h2>(showing first 2 documents and first 6 features)</h2>
@@ -837,29 +820,6 @@ dfm(mytexts, thesaurus = mydict)</code></pre>
 <h2>1789-Washington 1 71 116 1 48 2</h2>
 </div>
 <div id="washington-0-11-13-0-2-0" class="section level2">
-<h2>1793-Washington 0 11 13 0 2 0</h2>
-<p>```</p>
-<pre class="r"><code># same as 
-head(dfm(inaugTexts[1:2], stem = TRUE, verbose = FALSE))</code></pre>
-<pre><code>## ```
-</code></pre>
-</div>
-<div id="document-feature-matrix-of-2-documents-572-features." class="section level2">
-<h2>Document-feature matrix of: 2 documents, 572 features.</h2>
-</div>
-<div id="showing-first-2-documents-and-first-6-features-1" class="section level2">
-<h2>(showing first 2 documents and first 6 features)</h2>
-</div>
-<div id="features-1" class="section level2">
-<h2>features</h2>
-</div>
-<div id="docs-fellow-citizen-of-the-senat-and-hous-1" class="section level2">
-<h2>docs fellow-citizen of the senat and hous</h2>
-</div>
-<div id="washington-1-71-116-1-48-2-1" class="section level2">
-<h2>1789-Washington 1 71 116 1 48 2</h2>
-</div>
-<div id="washington-0-11-13-0-2-0-1" class="section level2">
 <h2>1793-Washington 0 11 13 0 2 0</h2>
 <p>```</p>
 <div id="dfm-and-its-many-options" class="section level3">

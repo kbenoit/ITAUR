@@ -1,7 +1,7 @@
 ---
 title: "Motivation and quanteda principles"
-author: "Kenneth Benoit and Paul Nulty"
-date: "18 October 2015"
+author: "Kenneth Benoit"
+date: "14 November 2016"
 output: beamer_presentation
 ---
 
@@ -24,7 +24,7 @@ output: beamer_presentation
 2. A corpus should be capable of holding additional objects that will be associated with the corpus, such as dictionaries, stopword, and phrase lists, that will propagate downstream. 
     
 3. Downstream objects should record the settings used to produce them.
-    * includes: tokenized texts (`tokenizedTexts`), document-feature matrixes (`dfm`)
+    * includes: tokenized texts (`tokens`), document-feature matrixes (`dfm`)
     * settings examples are: `tolower`, `stem`, `removeTwitter` etc.
     * also include any objects used in feature selection, such as dictionaries or stopword lists
 
@@ -41,9 +41,8 @@ output: beamer_presentation
 
 1.  Creating the corpus
 
-    * reading files, probably using `textfile()`
+    * reading files, now in a separate text package called **readtexts**  
     * creating a corpus using `corpus()`
-    * converting encodings
     * adding document variables (`docvars`) and metadata (`metadoc` and `metacorpus`).
 
 2.  Defining and delimiting documents
@@ -54,14 +53,14 @@ output: beamer_presentation
 
 3.  Defining and delimiting textual features, using:
     
-    * `tokenize`, to indentify instances of defined features ("tokens") and extract 
+    * `tokens`, to indentify instances of defined features ("tokens") and extract 
        them as vectors
     *  usually these will consist of terms, but may also consist of:
         *   `ngrams` and `skipgrams`, sequences of adjacent or nearby tokens
         *   multi-word expressions, through `phrasetotoken`
     *  in this step we also apply rules that will keep or ignore elements, such as 
         * punctuation
-        * digitsm, including or currency-prefixed digits
+        * numbers, including or currency-prefixed digits
         * URLs
         * Twitter tags
         * inter-token separators

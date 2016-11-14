@@ -1,9 +1,15 @@
 ---
 title: "Setup test"
 author: "Kenneth Benoit and Paul Nulty"
-date: "16 October 2016"
+date: "14 November 2016"
 output: html_document
 ---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
 
 #### Preliminaries: Installation
 
