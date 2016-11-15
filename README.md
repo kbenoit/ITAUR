@@ -92,9 +92,20 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 6: Advanced analysis and working with other text packages
 
-*  [Advanced analysis and working with other packages](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/6_advanced/advanced.html)
+#### Advanced Analysis
+
+*  [Advanced analysis](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/6_advanced/advanced.html)
+*  [Analyzing social media](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/6_advanced/social_media.html)  
 *  **Exercise:** Step through execution of the [.Rmd file](6_advanced/advanced.Rmd)
 *  **Twitter analysis example**, and the instructions for setting up your own Twitter app, in [Twitter.Rmd](6_advanced/Twitter.Rmd). 
+
+#### Integration with other packages
+
+* [**stm**](http://www.structuraltopicmodel.com).  See the `convert()` function, but also I have an outstanding pull request with the **stm** package maintainer to work directly on a **quanteda**  dfm-class object.  
+* [**readtext**](https://github.com/kbenoit/readtext): Import and handling for plain and formatted text files.  Will replace `quanteda::textfile()`.  
+* [**spacyr**](https://github.com/kbenoit/spacyr): an R wrapper to the spaCy "industrial strength natural language processing" Python library from http://spacy.io.  
+* [**tidytext**](https://github.com/juliasilge/tidytext): Text mining using dplyr, ggplot2, and other tidy tools.  
+
 
 
 ### Module 7: Tell us about your problems

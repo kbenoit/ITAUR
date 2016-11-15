@@ -15,3 +15,5 @@ vignettes/*.pdf
 .Rproj.user
 .RData
 README.html
+
+6_advanced/social_media.Rmd
