@@ -43,7 +43,7 @@ Designed to be done before the course or after, to augment what is presented dur
 
 *  [Sanchez, G. (2013) Handling and Processing Strings in R Trowchez Editions. Berkeley, 2013.](http://www.gastonsanchez.com/Handling and Processing Strings in R.pdf)  
 *  [**stringi** package page](http://www.rexamine.com/resources/stringi/), which also includes a good discussion of the [ICU library](http://site.icu-project.org)  
-*  Some guides to regular expressions: (Zytrax.com's User Guide)[http://www.zytrax.com/tech/web/regex.htm]
+*  Some guides to regular expressions: [Zytrax.com's User Guide](http://www.zytrax.com/tech/web/regex.htm)
  or the comprehensive resources from http://www.regular-expressions.info  
 *  See the [`quanteda` tag on Stack Overflow](http://stackoverflow.com/questions/tagged/quanteda), where you can pose questions and see some brilliant answers by our development team.
 
