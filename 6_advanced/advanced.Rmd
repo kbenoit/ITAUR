@@ -97,7 +97,7 @@ dotchart(ieWF@theta,
 Topic models:
 ```{r}
 require(topicmodels)
-mycorpus <- subset(inaugCorpus, Year>1950)
+mycorpus <- corpus_subset(inaugCorpus, Year>1950)
 quantdfm <- dfm(mycorpus, verbose=FALSE, stem=TRUE,
                 remove=c(stopwords('english'),'will','us','nation', 'can','peopl*','americ*'))
 ldadfm <- convert(quantdfm, to="topicmodels")
