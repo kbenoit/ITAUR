@@ -55,8 +55,8 @@ We can use the `keptFeatures` argument to `dfm()` to analyse only hashtags for e
 dv <- data.frame(user = juncker$user_screen_name)
 jCorp <- corpus(juncker$text, docvars = dv)
 jd <- dfm(jCorp)
-jd <- selectFeatures(jd, "^#.+", "keep", valuetype = "regex") 
-# equivalent: jd <- selectFeatures(jd, "#*", "keep", valuetype = "glob") 
+jd <- dfm_select(jd, "^#.+", "keep", valuetype = "regex") 
+# equivalent: jd <- dfm_select(jd, "#*", "keep", valuetype = "glob") 
 topfeatures(jd, nfeature(jd))
 ```
 
@@ -99,7 +99,7 @@ Topic models:
 require(topicmodels)
 mycorpus <- subset(inaugCorpus, Year>1950)
 quantdfm <- dfm(mycorpus, verbose=FALSE, stem=TRUE,
-                ignoredFeatures=c(stopwords('english'),'will','us','nation', 'can','peopl*','americ*'))
+                remove=c(stopwords('english'),'will','us','nation', 'can','peopl*','americ*'))
 ldadfm <- convert(quantdfm, to="topicmodels")
 lda <- LDA(ldadfm, control = list(alpha = 0.1), k=20)
 terms(lda, 10)
