@@ -5,8 +5,8 @@
 
 [Kenneth Benoit](kbenoit@lse.ac.uk), Department of Methodology, LSE  
 
-**Date:** November 15, 2016  
-**quanteda version:** 0.9.8.11 (GitHub)  
+**Date:** Updated for Week commencing 24 April 2017
+**quanteda version:** 0.9.9.50 (CRAN)  
 
 This repository contains the workshop materials for a one-day version of a workshop [Introduction to Text Analysis Using R](link here) taught by Kenneth Benoit.  This workshop and the materials it contains are funded by by the European Research Council grant ERC-2011-StG 283794-QUANTESS: *Quantitative Analysis of Text for Social Science*.
 
@@ -102,6 +102,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 #### Integration with other packages
 
 * [**stm**](http://www.structuraltopicmodel.com).  See the `convert()` function, but also I have an outstanding pull request with the **stm** package maintainer to work directly on a **quanteda**  dfm-class object.  
+* [**tokenizers**](http://github.com/ropensci/tokenizers).  A package for tokenizing text in many different and flexible ways.
 * [**readtext**](https://github.com/kbenoit/readtext): Import and handling for plain and formatted text files.  Will replace `quanteda::textfile()`.  
 * [**spacyr**](https://github.com/kbenoit/spacyr): an R wrapper to the spaCy "industrial strength natural language processing" Python library from http://spacy.io.  
 * [**tidytext**](https://github.com/juliasilge/tidytext): Text mining using dplyr, ggplot2, and other tidy tools.  
@@ -110,7 +111,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 7: Tell us about your problems
 
-*  This session is intended for students to describe their own challenges and for the instructors to describe how to solve them.  If you have some data you'd like us to work on live, as part of our interactive answers to your problems, you are encouraged to put them somewhere that can be accessed online, so that we will be able to access them in the class.
+*  This session is intended for students to describe their own challenges and for the instructors to describe how to solve them.  If you have some data you'd like us to work on live, as part of our interactive answers to your problems, you are encouraged to put them somewhere that can be accessed online, so that we will be able to access them in the class.  Feel free to file issues at https://github.com/kbenoit/ITAUR/issues or even [fork the repository](https://help.github.com/articles/fork-a-repo/), [make a change, and issue a pull request](https://help.github.com/articles/creating-a-pull-request-from-a-fork/) to correct it!
 
 
 
