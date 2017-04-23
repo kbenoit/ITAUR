@@ -80,15 +80,15 @@ head(docvars(tf2))
 Once the we have loaded a corpus with some document level variables, we can subset the corpus using these variables, create document-feature matrices by aggregating on the variables, or extract the texts concatenated by variable.
 
 ```{r}
-recentCorpus <- subset(inaugCorpus, Year > 1980)
-oldCorpus <- subset(inaugCorpus, Year < 1880)
+recentCorpus <- corpus_subset(inaugCorpus, Year > 1980)
+oldCorpus <- corpus_subset(inaugCorpus, Year < 1880)
 
 require(magrittr)
-demCorpus <- subset(sotuCorpus, party == 'Democratic')
+demCorpus <- corpus_subset(sotuCorpus, party == 'Democratic')
 demFeatures <- dfm(demCorpus, remove=stopwords('english')) %>%
     trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
 
-repCorpus <- subset(sotuCorpus, party == 'Republican') 
+repCorpus <- corpus_subset(sotuCorpus, party == 'Republican') 
 repFeatures <- dfm(repCorpus, remove=stopwords('english')) %>%
     trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
 ```
