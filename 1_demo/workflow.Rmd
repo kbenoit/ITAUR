@@ -107,6 +107,6 @@ summary(recentCorpus)
 
 We can use this metadata to combine features across documents when creating a document-feature matrix:
 ```{r  fig.width=10, fig.height=8, warning=FALSE}
-partyDfm <- dfm(recentCorpus, groups = 'Party', ignoredFeatures = (stopwords('english')))
+partyDfm <- dfm(recentCorpus, groups = 'Party', remove = (stopwords('english')))
 plot(partyDfm, comparison = TRUE)
 ```
