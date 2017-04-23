@@ -74,8 +74,8 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 3: Getting textual data into R
 
-*  [Getting textual data into R](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/3_file_import/file_import.html)
-*  **Exercise:** Step through execution of the [.Rmd file](3_file_import/file_import.Rmd).
+*  [Getting textual data into R](3_file_import/file_import.md)
+*  **Exercise:** Try importing some texts of your own.
 *  Sample data files: [SOTU_metadata.csv](https://github.com/kbenoit/ITAUR/blob/master/data/SOTU_metadata.csv), [inaugTexts.csv](https://github.com/kbenoit/ITAUR/blob/master/data/inaugTexts.csv), [tweetSample.RData](https://github.com/kbenoit/ITAUR/blob/master/data/tweetSample.RData)
 
 
