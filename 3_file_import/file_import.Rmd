@@ -85,11 +85,11 @@ oldCorpus <- subset(inaugCorpus, Year < 1880)
 
 require(magrittr)
 demCorpus <- subset(sotuCorpus, party == 'Democratic')
-demFeatures <- dfm(demCorpus, ignoredFeatures=stopwords('english')) %>%
+demFeatures <- dfm(demCorpus, remove=stopwords('english')) %>%
     trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
 
 repCorpus <- subset(sotuCorpus, party == 'Republican') 
-repFeatures <- dfm(repCorpus, ignoredFeatures=stopwords('english')) %>%
+repFeatures <- dfm(repCorpus, remove=stopwords('english')) %>%
     trim(minDoc=3, minCount=5) %>% weight(type='tfidf') %>% topfeatures
 ```
 
@@ -97,7 +97,7 @@ The `quanteda` corpus objects can be combined using the `+` operator:
 ```{r}
 inaugCorpus <- demCorpus + repCorpus
 inaugTopFeatures <- 
-    dfm(inaugCorpus, ignoredFeatures=stopwords('english'), verbose = FALSE) %>%
+    dfm(inaugCorpus, remove=stopwords('english'), verbose = FALSE) %>%
         trim(minDoc = 3, minCount = 5) %>% 
             weight(type = 'tfidf') %>% 
                 topfeatures
