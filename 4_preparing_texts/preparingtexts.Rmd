@@ -27,7 +27,7 @@ tokens(txt, remove_numbers = TRUE,  remove_punct = TRUE)
 tokens(txt, remove_numbers = FALSE, remove_punct = TRUE)
 tokens(txt, remove_numbers = TRUE,  remove_punct = FALSE)
 tokens(txt, remove_numbers = FALSE, remove_punct = FALSE)
-tokens(txt, remove_numbers = FALSE, remove_punct = FALSE, removeSeparators = FALSE)
+tokens(txt, remove_numbers = FALSE, remove_punct = FALSE, remove_separators = FALSE)
 ```
 
 There are several options to the `what` argument: 
@@ -42,7 +42,7 @@ tokens(inaugTexts[2], what = "sentence")
 
 # character level
 tokens("My big fat text package.", what = "character")
-tokens("My big fat text package.", what = "character", removeSeparators = FALSE)
+tokens("My big fat text package.", what = "character", remove_separators = FALSE)
 ```
 
 Two other options, for really fast and simple tokenization are `"fastestword"` and `"fasterword"`, if performance is a key issue.  These are less intelligent than the boundary detection used in the default `"word"` method, which is based on stringi\ICU boundary detection.
@@ -88,7 +88,7 @@ head(tolower(stopwords("arabic")), 20)
 This can be done when creating a dfm:
 ```{r}
 # with English stopwords and stemming
-dfmsInaug2 <- dfm(subset(inaugCorpus, Year > 1980),
+dfmsInaug2 <- dfm(corpus_subset(inaugCorpus, Year > 1980),
                   remove = stopwords("english"), stem = TRUE)
 ```
 
@@ -189,7 +189,7 @@ dfm_lookup(myDfm, myDict, valuetype = "fixed", case_insensitive = FALSE)
 It is also possible to pass through a dictionary at the time of `dfm()` creation.
 ```{r}
 # dfm with dictionaries
-mycorpus <- subset(inaugCorpus, Year>1900)
+mycorpus <- corpus_subset(inaugCorpus, Year>1900)
 mydict <- dictionary(list(christmas = c("Christmas", "Santa", "holiday"),
                           opposition = c("Opposition", "reject", "notincorpus"),
                           taxing = "taxing",
