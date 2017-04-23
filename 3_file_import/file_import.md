@@ -14,75 +14,75 @@ Creating a `corpus` object
 
 ### a character vector object
 
-    ```r
-    require(quanteda, warn.conflicts = FALSE, quietly = TRUE)
-    ## quanteda version 0.9.9.50
-    ## Using 7 of 8 cores for parallel computing
-    myCorpus <- corpus(data_char_ukimmig2010, notes = "My first corpus")
-    ## Warning in corpus.character(data_char_ukimmig2010, notes = "My first
-    ## corpus"): Argument notes not used.
-    summary(myCorpus)
-    ## Corpus consisting of 9 documents.
-    ## 
-    ##          Text Types Tokens Sentences
-    ##           BNP  1126   3330        88
-    ##     Coalition   144    268         4
-    ##  Conservative   252    503        15
-    ##        Greens   325    687        21
-    ##        Labour   296    703        29
-    ##        LibDem   257    499        14
-    ##            PC    80    118         5
-    ##           SNP    90    136         4
-    ##          UKIP   346    739        27
-    ## 
-    ## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
-    ## Created: Sun Apr 23 23:19:47 2017
-    ## Notes:
-    ```
+``` r
+require(quanteda, warn.conflicts = FALSE, quietly = TRUE)
+## quanteda version 0.9.9.50
+## Using 7 of 8 cores for parallel computing
+myCorpus <- corpus(data_char_ukimmig2010, notes = "My first corpus")
+## Warning in corpus.character(data_char_ukimmig2010, notes = "My first
+## corpus"): Argument notes not used.
+summary(myCorpus)
+## Corpus consisting of 9 documents.
+## 
+##          Text Types Tokens Sentences
+##           BNP  1126   3330        88
+##     Coalition   144    268         4
+##  Conservative   252    503        15
+##        Greens   325    687        21
+##        Labour   296    703        29
+##        LibDem   257    499        14
+##            PC    80    118         5
+##           SNP    90    136         4
+##          UKIP   346    739        27
+## 
+## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
+## Created: Sun Apr 23 23:24:09 2017
+## Notes:
+```
 
 ### a `VCorpus` object from the **tm** package, and
 
-    ```r
-    data(crude, package = "tm")
-    myTmCorpus <- corpus(crude)
-    summary(myTmCorpus, 5)
-    ## Corpus consisting of 20 documents, showing 5 documents.
-    ## 
-    ##            Text Types Tokens Sentences                     author
-    ##  reut-00001.xml    62    103         5                       <NA>
-    ##  reut-00002.xml   240    497        19 BY TED D'AFFLISIO, Reuters
-    ##  reut-00004.xml    47     62         4                       <NA>
-    ##  reut-00005.xml    55     74         5                       <NA>
-    ##  reut-00006.xml    67     97         4                       <NA>
-    ##        datetimestamp description
-    ##  1987-02-26 17:00:56            
-    ##  1987-02-26 17:34:11            
-    ##  1987-02-26 18:18:00            
-    ##  1987-02-26 18:21:01            
-    ##  1987-02-26 19:00:57            
-    ##                                          heading  id language
-    ##         DIAMOND SHAMROCK (DIA) CUTS CRUDE PRICES 127       en
-    ##  OPEC MAY HAVE TO MEET TO FIRM PRICES - ANALYSTS 144       en
-    ##        TEXACO CANADA <TXC> LOWERS CRUDE POSTINGS 191       en
-    ##        MARATHON PETROLEUM REDUCES CRUDE POSTINGS 194       en
-    ##        HOUSTON OIL <HO> RESERVES STUDY COMPLETED 211       en
-    ##             origin topics lewissplit     cgisplit oldid places people orgs
-    ##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5670    usa   <NA> <NA>
-    ##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5687    usa   <NA> opec
-    ##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5734 canada   <NA> <NA>
-    ##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5737    usa   <NA> <NA>
-    ##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5754    usa   <NA> <NA>
-    ##  exchanges
-    ##       <NA>
-    ##       <NA>
-    ##       <NA>
-    ##       <NA>
-    ##       <NA>
-    ## 
-    ## Source:  Converted from tm VCorpus 'crude'
-    ## Created: Sun Apr 23 23:19:47 2017
-    ## Notes:
-    ```
+``` r
+data(crude, package = "tm")
+myTmCorpus <- corpus(crude)
+summary(myTmCorpus, 5)
+## Corpus consisting of 20 documents, showing 5 documents.
+## 
+##            Text Types Tokens Sentences                     author
+##  reut-00001.xml    62    103         5                       <NA>
+##  reut-00002.xml   240    497        19 BY TED D'AFFLISIO, Reuters
+##  reut-00004.xml    47     62         4                       <NA>
+##  reut-00005.xml    55     74         5                       <NA>
+##  reut-00006.xml    67     97         4                       <NA>
+##        datetimestamp description
+##  1987-02-26 17:00:56            
+##  1987-02-26 17:34:11            
+##  1987-02-26 18:18:00            
+##  1987-02-26 18:21:01            
+##  1987-02-26 19:00:57            
+##                                          heading  id language
+##         DIAMOND SHAMROCK (DIA) CUTS CRUDE PRICES 127       en
+##  OPEC MAY HAVE TO MEET TO FIRM PRICES - ANALYSTS 144       en
+##        TEXACO CANADA <TXC> LOWERS CRUDE POSTINGS 191       en
+##        MARATHON PETROLEUM REDUCES CRUDE POSTINGS 194       en
+##        HOUSTON OIL <HO> RESERVES STUDY COMPLETED 211       en
+##             origin topics lewissplit     cgisplit oldid places people orgs
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5670    usa   <NA> <NA>
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5687    usa   <NA> opec
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5734 canada   <NA> <NA>
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5737    usa   <NA> <NA>
+##  Reuters-21578 XML    YES      TRAIN TRAINING-SET  5754    usa   <NA> <NA>
+##  exchanges
+##       <NA>
+##       <NA>
+##       <NA>
+##       <NA>
+##       <NA>
+## 
+## Source:  Converted from tm VCorpus 'crude'
+## Created: Sun Apr 23 23:24:09 2017
+## Notes:
+```
 
 ### Texts read by the **readtext** package
 
@@ -128,7 +128,7 @@ summary(data_corpus_inaugural, 5)
 ##   1805-Jefferson.txt   804   2381        45 1805  Jefferson
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
-## Created: Sun Apr 23 23:19:49 2017
+## Created: Sun Apr 23 23:24:11 2017
 ## Notes:
 ```
 

@@ -23,18 +23,18 @@ In this section we will show how to load texts from different sources and create
 **quanteda can construct a `corpus` object** from several input sources:
 
 ###  a character vector object  
-    ```{r}
-    require(quanteda, warn.conflicts = FALSE, quietly = TRUE)
-    myCorpus <- corpus(data_char_ukimmig2010, notes = "My first corpus")
-    summary(myCorpus)
-    ```
+```{r}
+require(quanteda, warn.conflicts = FALSE, quietly = TRUE)
+myCorpus <- corpus(data_char_ukimmig2010, notes = "My first corpus")
+summary(myCorpus)
+```
     
 ###  a `VCorpus` object from the **tm** package, and
-    ```{r}
-    data(crude, package = "tm")
-    myTmCorpus <- corpus(crude)
-    summary(myTmCorpus, 5)
-    ```
+```{r}
+data(crude, package = "tm")
+myTmCorpus <- corpus(crude)
+summary(myTmCorpus, 5)
+```
 
 ###  Texts read by the **readtext** package
 
