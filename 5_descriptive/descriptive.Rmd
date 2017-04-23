@@ -34,14 +34,14 @@ scrabble(c("cat", "quixotry", "zoo"))
 
 We can analyze the **lexical diversity** of texts, using `lexdiv()` on a dfm:
 ```{r}
-myDfm <- dfm(subset(inaugCorpus, Year > 1980), verbose = FALSE)
+myDfm <- dfm(corpus_subset(inaugCorpus, Year > 1980), verbose = FALSE)
 lexdiv(myDfm, "R")
 dotchart(sort(lexdiv(myDfm, "R")))
 ```
 
 We can analyze the **readability** of texts, using `readability()` on a vector of texts or a corpus:
 ```{r}
-readab <- readability(subset(inaugCorpus, Year > 1980), measure = "Flesch.Kincaid")
+readab <- readability(corpus_subset(inaugCorpus, Year > 1980), measure = "Flesch.Kincaid")
 dotchart(sort(readab))
 ```
 
