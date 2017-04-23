@@ -58,7 +58,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 *  [CRAN](https://cran.r-project.org) for downloading and installing R
 *  [GitHub page for the **quanteda** package](https://github.com/kbenoit/quanteda)
-*  **Exercise:**  Try running this RMarkdown file: [test_setup.Rmd](0_setup/test_setup.Rmd).  If it builds without error and looks like [this](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/0_setup/test_setup.html), then you have successfully configured your system.
+*  **Exercise:**  Try running this RMarkdown file: [test_setup.Rmd](http://rawgit.com/kbenoit/master/0_setup/test_setup.Rmd).  If it builds without error and looks like [this]http://rawgit.com/kbenoit/ITAUR/master/0_setup/test_setup.html), then you have successfully configured your system.
 
 ### Module 1: Overview and demonstration of text analysis using R
 
@@ -68,8 +68,8 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 2: Basic text data types and functions for text
 
-*  [Basic text manipulation using R](http://htmlpreview.github.io/?https://github.com/kbenoit/ITAUR/blob/master/2_text_manipulation/text_manipulation.html)
-*  **Exercise:** Step through execution of the [.Rmd file](2_text_manipulation/text_manipulation.Rmd).
+*  [Basic text manipulation using R](2_text_manipulation/text_manipulation.md)
+*  **Exercise:** Step through execution of the [.Rmd file](http://rawgit.com/kbenoit/master/2_text_manipulation/text_manipulation.Rmd).
 
 
 ### Module 3: Getting textual data into R
