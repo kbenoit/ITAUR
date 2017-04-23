@@ -1,10 +1,13 @@
 ---
-title: "Example workflow"
-author: Kenneth Benoit
-date: 20 April 2017
+output:
   md_document:
     variant: markdown_github
 ---
+
+# Introduction and Workflow
+
+### Kenneth Benoit
+### Date: 20 April 2017
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
