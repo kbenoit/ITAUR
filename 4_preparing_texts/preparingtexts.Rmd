@@ -21,28 +21,28 @@ Tokenization in quanteda is very *conservative*: by default, it only removes sep
 require(quanteda, quietly = TRUE, warn.conflicts = FALSE)
 txt <- c(text1 = "This is $10 in 999 different ways,\n up and down; left and right!",
          text2 = "@kenbenoit working: on #quanteda 2day\t4ever, http://textasdata.com?page=123.")
-tokenize(txt)
-tokenize(txt, verbose = TRUE)
-tokenize(txt, removeNumbers = TRUE,  removePunct = TRUE)
-tokenize(txt, removeNumbers = FALSE, removePunct = TRUE)
-tokenize(txt, removeNumbers = TRUE,  removePunct = FALSE)
-tokenize(txt, removeNumbers = FALSE, removePunct = FALSE)
-tokenize(txt, removeNumbers = FALSE, removePunct = FALSE, removeSeparators = FALSE)
+tokens(txt)
+tokens(txt, verbose = TRUE)
+tokens(txt, remove_numbers = TRUE,  remove_punct = TRUE)
+tokens(txt, remove_numbers = FALSE, remove_punct = TRUE)
+tokens(txt, remove_numbers = TRUE,  remove_punct = FALSE)
+tokens(txt, remove_numbers = FALSE, remove_punct = FALSE)
+tokens(txt, remove_numbers = FALSE, remove_punct = FALSE, removeSeparators = FALSE)
 ```
 
 There are several options to the `what` argument: 
 ```{r}
 # sentence level
-tokenize(c("Kurt Vongeut said; only assholes use semi-colons.",
+tokens(c("Kurt Vongeut said; only assholes use semi-colons.",
            "Today is Thursday in Canberra:  It is yesterday in London.",
            "Today is Thursday in Canberra:  \nIt is yesterday in London.",
            "To be?  Or\nnot to be?"),
           what = "sentence")
-tokenize(inaugTexts[2], what = "sentence")
+tokens(inaugTexts[2], what = "sentence")
 
 # character level
-tokenize("My big fat text package.", what = "character")
-tokenize("My big fat text package.", what = "character", removeSeparators = FALSE)
+tokens("My big fat text package.", what = "character")
+tokens("My big fat text package.", what = "character", removeSeparators = FALSE)
 ```
 
 Two other options, for really fast and simple tokenization are `"fastestword"` and `"fasterword"`, if performance is a key issue.  These are less intelligent than the boundary detection used in the default `"word"` method, which is based on stringi\ICU boundary detection.
@@ -51,37 +51,37 @@ Two other options, for really fast and simple tokenization are `"fastestword"` a
 
 This is a tricky one in our workflow, since it is a form of equivalency declaration, rather than a tokenization step.  It turns out that it is more efficient to perform at the pre-tokenization stage. 
 
-As a result, the method `toLower()` is defined for many classes of quanteda objects.
+As a result, the method `tolower()` is defined for many classes of quanteda objects.
 ```{r}
-methods(toLower)
+methods(tolower)
 ```
 
 We include options designed to preserve acronyms.
 ```{r}
 test1 <- c(text1 = "England and France are members of NATO and UNESCO",
            text2 = "NASA sent a rocket into space.")
-toLower(test1)
-toLower(test1, keepAcronyms = TRUE)
+tolower(test1)
+tolower(test1, keepAcronyms = TRUE)
 
-test2 <- tokenize(test1, removePunct=TRUE)
-toLower(test2)
-toLower(test2, keepAcronyms = TRUE)
+test2 <- tokens(test1, remove_punct=TRUE)
+tolower(test2)
+tolower(test2, keepAcronyms = TRUE)
 ```
 
-toLower is based on stringi, and is therefore nicely Unicode compliant.
+tolower is based on stringi, and is therefore nicely Unicode compliant.
 ```{r}
 # Russian
 cat(iconv(encodedTexts[8], "windows-1251", "UTF-8"))
-cat(toLower(iconv(encodedTexts[8], "windows-1251", "UTF-8")))
-head(toLower(stopwords("russian")), 20)
+cat(tolower(iconv(encodedTexts[8], "windows-1251", "UTF-8")))
+head(tolower(stopwords("russian")), 20)
 
 # Arabic
 cat(iconv(encodedTexts[6], "ISO-8859-6", "UTF-8"))
-cat(toLower(iconv(encodedTexts[6], "ISO-8859-6", "UTF-8")))
-head(toLower(stopwords("arabic")), 20)
+cat(tolower(iconv(encodedTexts[6], "ISO-8859-6", "UTF-8")))
+head(tolower(stopwords("arabic")), 20)
 ```
 
-**Note**: dfm, the Swiss army knife, converts to lower case by default, but this can be turned off using the `toLower = FALSE` argument.
+**Note**: dfm, the Swiss army knife, converts to lower case by default, but this can be turned off using the `tolower = FALSE` argument.
 
 ### 3. Removing and selecting features
 
@@ -89,7 +89,7 @@ This can be done when creating a dfm:
 ```{r}
 # with English stopwords and stemming
 dfmsInaug2 <- dfm(subset(inaugCorpus, Year > 1980),
-                  ignoredFeatures = stopwords("english"), stem = TRUE)
+                  remove = stopwords("english"), stem = TRUE)
 ```
 
 
@@ -97,11 +97,11 @@ Or can be done **after** creating a dfm:
 ```{r}
 myDfm <- dfm(c("My Christmas was ruined by your opposition tax plan.",
                "Does the United_States or Sweden have more progressive taxation?"),
-             toLower = FALSE, verbose = FALSE)
-selectFeatures(myDfm, c("s$", ".y"), "keep", valuetype = "regex")
-selectFeatures(myDfm, c("s$", ".y"), "remove", valuetype = "regex")
-selectFeatures(myDfm, stopwords("english"), "keep", valuetype = "fixed")
-selectFeatures(myDfm, stopwords("english"), "remove", valuetype = "fixed")
+             tolower = FALSE, verbose = FALSE)
+dfm_select(myDfm, c("s$", ".y"), "keep", valuetype = "regex")
+dfm_select(myDfm, c("s$", ".y"), "remove", valuetype = "regex")
+dfm_select(myDfm, stopwords("english"), "keep", valuetype = "fixed")
+dfm_select(myDfm, stopwords("english"), "remove", valuetype = "fixed")
 ```
 
 More examples:
@@ -111,27 +111,27 @@ testText <- "The quick brown fox named Seamus jumps over the lazy dog also named
              the newspaper from a boy named Seamus, in his mouth."
 testCorpus <- corpus(testText)
 # note: "also" is not in the default stopwords("english")
-features(dfm(testCorpus, ignoredFeatures = stopwords("english")))
+featnames(dfm(testCorpus, remove = stopwords("english")))
 # for ngrams
-features(dfm(testCorpus, ngrams = 2, ignoredFeatures = stopwords("english")))
-features(dfm(testCorpus, ngrams = 1:2, ignoredFeatures = stopwords("english")))
+featnames(dfm(testCorpus, ngrams = 2, remove = stopwords("english")))
+featnames(dfm(testCorpus, ngrams = 1:2, remove = stopwords("english")))
 
 ## removing stopwords before constructing ngrams
-tokensAll <- tokenize(toLower(testText), removePunct = TRUE)
-tokensNoStopwords <- removeFeatures(tokensAll, stopwords("english"))
-tokensNgramsNoStopwords <- ngrams(tokensNoStopwords, 2)
-features(dfm(tokensNgramsNoStopwords, verbose = FALSE))
+tokensAll <- tokens(tolower(testText), remove_punct = TRUE)
+tokensNoStopwords <- tokens_remove(tokensAll, stopwords("english"))
+tokensNgramsNoStopwords <- tokens_ngrams(tokensNoStopwords, 2)
+featnames(dfm(tokensNgramsNoStopwords, verbose = FALSE))
 
 # keep only certain words
-dfm(testCorpus, keptFeatures = "*s", verbose = FALSE)  # keep only words ending in "s"
-dfm(testCorpus, keptFeatures = "s$", valuetype = "regex", verbose = FALSE)
+dfm(testCorpus, select = "*s", verbose = FALSE)  # keep only words ending in "s"
+dfm(testCorpus, select = "s$", valuetype = "regex", verbose = FALSE)
 
 # testing Twitter functions
 testTweets <- c("My homie @justinbieber #justinbieber shopping in #LA yesterday #beliebers",
                 "2all the ha8ers including my bro #justinbieber #emabiggestfansjustinbieber",
                 "Justin Bieber #justinbieber #belieber #fetusjustin #EMABiggestFansJustinBieber")
-dfm(testTweets, keptFeatures = "#*", removeTwitter = FALSE)  # keep only hashtags
-dfm(testTweets, keptFeatures = "^#.*$", valuetype = "regex", removeTwitter = FALSE)
+dfm(testTweets, select = "#*", remove_twitter = FALSE)  # keep only hashtags
+dfm(testTweets, select = "^#.*$", valuetype = "regex", remove_twitter = FALSE)
 ```
 
 
@@ -140,10 +140,10 @@ One very nice feature is the ability to create a new dfm with the same feature s
 # selecting on a dfm
 textVec1 <- c("This is text one.", "This, the second text.", "Here: the third text.")
 textVec2 <- c("Here are new words.", "New words in this text.")
-features(dfm1 <- dfm(textVec1))
-features(dfm2a <- dfm(textVec2))
-(dfm2b <- selectFeatures(dfm2a, dfm1))
-identical(features(dfm1), features(dfm2b))
+featnames(dfm1 <- dfm(textVec1))
+featnames(dfm2a <- dfm(textVec2))
+(dfm2b <- dfm_select(dfm2a, dfm1))
+identical(featnames(dfm1), featnames(dfm2b))
 ```
 
 ### 4. Applying equivalency classes: dictionaries, thesaruses
@@ -161,7 +161,7 @@ liwcdict <- dictionary(file = "~/Dropbox/QUANTESS/dictionaries/LIWC/LIWC2001_Eng
 dfm(inaugTexts, dictionary = liwcdict)
 ```
 
-We apply dictionaries to a dfm using the `applyDictionary()` function.  Through the `valuetype`, argument, we can match patterns of one of three types: `"glob"`, `"regex"`, or `"fixed"`.
+We apply dictionaries to a dfm using the `dfm_lookup()` function.  Through the `valuetype`, argument, we can match patterns of one of three types: `"glob"`, `"regex"`, or `"fixed"`.
 ```{r}
 myDict <- dictionary(list(christmas = c("Christmas", "Santa", "holiday"),
                           opposition = c("Opposition", "reject", "notincorpus"),
@@ -170,20 +170,20 @@ myDict <- dictionary(list(christmas = c("Christmas", "Santa", "holiday"),
                           country = c("United_States", "Sweden")))
 myDfm <- dfm(c("My Christmas was ruined by your opposition tax plan.",
                "Does the United_States or Sweden have more progressive taxation?"),
-             ignoredFeatures = stopwords("english"), verbose = FALSE)
+             remove = stopwords("english"), verbose = FALSE)
 myDfm
 
 # glob format
-applyDictionary(myDfm, myDict, valuetype = "glob")
-applyDictionary(myDfm, myDict, valuetype = "glob", case_insensitive = FALSE)
+dfm_lookup(myDfm, myDict, valuetype = "glob")
+dfm_lookup(myDfm, myDict, valuetype = "glob", case_insensitive = FALSE)
 
 # regex v. glob format: note that "united_states" is a regex match for "tax*"
-applyDictionary(myDfm, myDict, valuetype = "glob")
-applyDictionary(myDfm, myDict, valuetype = "regex", case_insensitive = TRUE)
+dfm_lookup(myDfm, myDict, valuetype = "glob")
+dfm_lookup(myDfm, myDict, valuetype = "regex", case_insensitive = TRUE)
 
 # fixed format: no pattern matching
-applyDictionary(myDfm, myDict, valuetype = "fixed")
-applyDictionary(myDfm, myDict, valuetype = "fixed", case_insensitive = FALSE)
+dfm_lookup(myDfm, myDict, valuetype = "fixed")
+dfm_lookup(myDfm, myDict, valuetype = "fixed", case_insensitive = FALSE)
 ```
 
 It is also possible to pass through a dictionary at the time of `dfm()` creation.
@@ -226,15 +226,15 @@ Stemmed objects must be tokenized, but can be of many different quanteda classes
 ```{r, error = TRUE}
 methods(wordstem)
 wordstem("This is a winning package, of many packages.")
-wordstem(tokenize("This is a winning package, of many packages."))
+wordstem(tokens("This is a winning package, of many packages."))
 ```
 
 Some text operations can be conducted directly on the dfm:
 
 ```{r collapse = FALSE}
 dfm1 <- dfm(inaugTexts[1:2], verbose = FALSE)
-head(features(dfm1))
-head(features(wordstem(dfm1)))
+head(featnames(dfm1))
+head(featnames(wordstem(dfm1)))
 
 # same as 
 head(dfm(inaugTexts[1:2], stem = TRUE, verbose = FALSE))
@@ -242,17 +242,17 @@ head(dfm(inaugTexts[1:2], stem = TRUE, verbose = FALSE))
 
 ### 6. `dfm()` and its many options
 
-Operates on `character` (vectors), `corpus`, or `tokenizedText` objects,
+Operates on `character` (vectors), `corpus`, or `tokens` objects,
 
 ```{r, eval=FALSE}
 ## S3 method for class 'character'
-dfm(x, verbose = TRUE, toLower = TRUE,
-  removeNumbers = TRUE, removePunct = TRUE, removeSeparators = TRUE,
-  removeTwitter = FALSE, stem = FALSE, ignoredFeatures = NULL,
-  keptFeatures = NULL, matrixType = c("sparse", "dense"),
-  language = "english", thesaurus = NULL, dictionary = NULL,
-  valuetype = c("glob", "regex", "fixed"), dictionary_regex = FALSE, ...)
+dfm(x, tolower = TRUE, stem = FALSE, select = NULL, remove = NULL,
+    thesaurus = NULL, dictionary = NULL, valuetype = c("glob", "regex",
+    "fixed"), groups = NULL, verbose = quanteda_options("verbose"), ...)
 ```
+
+
+
 
 
 
