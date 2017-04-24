@@ -87,18 +87,18 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 5: Descriptive analysis
 
-*  [Descriptive analysis of texts](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/5_descriptive/descriptive.html)
-*  **Exercise:** Step through execution of the [.Rmd file](5_descriptive/descriptive.Rmd).
+*  [Descriptive analysis of texts](5_descriptive/descriptive.md)
+*  **Exercise:** Step through execution of the [.Rmd file](http://rawgit.com/kbenoit/ITAUR/5_descriptive/descriptive.Rmd).
 
 
 ### Module 6: Advanced analysis and working with other text packages
 
 #### Advanced Analysis
 
-*  [Advanced analysis](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/6_advanced/advanced.html)
-*  [Analyzing social media](http://htmlpreview.github.com/?https://github.com/kbenoit/ITAUR/blob/master/6_advanced/social_media.html)  
-*  **Exercise:** Step through execution of the [.Rmd file](6_advanced/advanced.Rmd)
-*  **Twitter analysis example**, and the instructions for setting up your own Twitter app, in [Twitter.Rmd](6_advanced/Twitter.Rmd). 
+*  [Advanced analysis](6_advanced/advanced.md)
+*  [Analyzing social media](6_advanced/social_media.md)  
+*  **Exercise:** Step through execution of the [.Rmd file](http://rawgit.com/kbenoit/ITAUR/6_advanced/advanced.Rmd)
+*  **Twitter analysis example**, and the instructions for setting up your own Twitter app, in [Twitter.Rmd](http://rawgit.com/kbenoit/ITAUR/6_advanced/Twitter.Rmd). 
 
 #### Integration with other packages
 
