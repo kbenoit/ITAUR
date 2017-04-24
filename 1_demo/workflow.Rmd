@@ -92,7 +92,7 @@ methods(dfm)
 
 Likewise, you can also figure out what methods are defined for any given *class* of object, using the same function:
 ```{r}
-methods(class = "tokenizedTexts")
+methods(class = "tokens")
 ```
 
 If we are interested in analysing the texts with respect to some other variables, we can create a corpus object to associate the texts with this metadata. For example, consider the last six inaugural addresses:
@@ -111,5 +111,5 @@ summary(recentCorpus)
 We can use this metadata to combine features across documents when creating a document-feature matrix:
 ```{r  fig.width=10, fig.height=8, warning=FALSE}
 partyDfm <- dfm(recentCorpus, groups = 'Party', remove = (stopwords('english')))
-plot(partyDfm, comparison = TRUE)
+textplot_wordcloud(partyDfm, comparison = TRUE)
 ```
