@@ -10,11 +10,12 @@ help(package="quanteda")
 ## create a corpus from a text vector of UK immigration texts
 summary(data_char_ukimmig2010)
 str(data_char_ukimmig2010)
-encoding(data_char_ukimmig2010)
 
 # create a corpus from immigration texts
-immigCorpus <- corpus(data_char_ukimmig2010, notes = "Created as part of a demo.")
-docvars(immigCorpus) <- data.frame(party = names(data_char_ukimmig2010), year = 2010)
+immigCorpus <- corpus(data_char_ukimmig2010, 
+                      metacorpus = list(notes = "Created as part of a demo."))
+docvars(immigCorpus) <- data.frame(party = names(data_char_ukimmig2010), 
+                                   year = 2010)
 summary(immigCorpus)
 
 # explore using kwic
@@ -22,37 +23,42 @@ kwic(immigCorpus, "deport", window = 3)
 kwic(immigCorpus, "illegal immig*", window = 3)
 
 # extract a document-feature matrix
-immigDfm <- dfm(subset(immigCorpus, party=="BNP"))
-plot(immigDfm)
-immigDfm <- dfm(subset(immigCorpus, party=="BNP"), ignoredFeatures = stopwords("english"))
-plot(immigDfm, random.color = TRUE, rot.per = .25, colors = sample(colors()[2:128], 5))
+immigDfm <- dfm(corpus_subset(immigCorpus, party == "BNP"))
+textplot_wordcloud(immigDfm)
+immigDfm <- dfm(corpus_subset(immigCorpus, party == "BNP"), 
+                remove = stopwords("english"))
+textplot_wordcloud(immigDfm, 
+                   random.color = TRUE, rot.per = .25, 
+                   colors = sample(colors()[2:128], 5))
 
 # change units to sentences
-immigCorpusSent <- changeunits(immigCorpus, to = "sentences")
+immigCorpusSent <- corpus_reshape(immigCorpus, to = "sentences")
 summary(immigCorpusSent, 20)
 
 
 ## tokenize some texts
 txt <- "#TextAnalysis is MY <3 4U @myhandle gr8 #stuff :-)"
-tokenize(txt, removePunct=TRUE)
-tokenize(txt, removePunct=TRUE, removeTwitter=TRUE)
-(toks <- tokenize(toLower(txt), removePunct=TRUE, removeTwitter=TRUE))
+tokens(txt, remove_punct = TRUE)
+tokens(txt, remove_punct = TRUE, remove_twitter = FALSE)
+tokens(txt, remove_punct = TRUE, remove_twitter = TRUE)
+(toks <- tokens(char_tolower(txt), remove_punct = TRUE, 
+                remove_twitter = TRUE))
 
 # tokenize sentences
-(sents <- tokenize(ukimmigTexts[3], what = "sentence", simplify = TRUE)[1:5])
+(sents <- tokens(data_char_ukimmig2010[3], what = "sentence"))
 # tokenize characters
-tokenize(ukimmigTexts[1], what = "character", simplify = TRUE)[1:100]
+tokens(data_char_ukimmig2010[5], what = "character")[[1]][1:100]
 
 
 ## some descriptive statistics
 
 ## create a document-feature matrix from the inaugural corpus
-summary(inaugCorpus)
-presDfm <- dfm(inaugCorpus)
-presDfm
+summary(data_corpus_inaugural)
+presDfm <- dfm(data_corpus_inaugural)
+head(presDfm)
 docnames(presDfm)
 # concatenate by president name                 
-presDfm <- dfm(inaugCorpus, groups="President")
+presDfm <- dfm(data_corpus_inaugural, groups = "President", verbose = TRUE)
 presDfm
 docnames(presDfm)
 
@@ -69,12 +75,12 @@ plot(2008:2012, lexdiv(dfmFM, "C"), xlab="Year", ylab="Herndan's C", type="b",
 
 
 # plot some readability statistics
-data(SOTUCorpus, package = "quantedaData")
-fk <- readability(SOTUCorpus, "Flesch.Kincaid")
-year <- lubridate::year(docvars(SOTUCorpus, "Date"))
+data(data_corpus_SOTU, package = "quantedaData")
+fk <- textstat_readability(data_corpus_SOTU, "Flesch.Kincaid")
+year <- lubridate::year(docvars(data_corpus_SOTU, "Date"))
 require(ggplot2)
 partyColours <- c("blue", "blue", "black", "black", "red", "red")
-p <- ggplot(data = docvars(SOTUCorpus), aes(x = year, y = fk)) + #, group = delivery)) +
+p <- ggplot(data = docvars(data_corpus_SOTU), aes(x = year, y = fk)) + #, group = delivery)) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_blank(),
@@ -92,10 +98,9 @@ print(p)
 
 
 ## Presidential Inaugural Address Corpus
-presDfm <- dfm(inaugCorpus, ignoredFeatures = stopwords("english"))
+presDfm <- dfm(data_corpus_inaugural, remove = stopwords("english"))
 # compute some document similarities
-(docsim <- similarity(presDfm, "1985-Reagan", n=5, margin="documents"))
-as.matrix(docsim)
+as.list(textstat_simil(presDfm, "1985-Reagan", n = 10, margin = "documents"))
 
 similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "cosine")
 similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "Hellinger")
@@ -110,22 +115,22 @@ lapply(featsim, head)
 
 # form ngrams
 txt <- "Hey @kenbenoit #textasdata: The quick, brown fox jumped over the lazy dog!"
-(toks1 <- tokenize(toLower(txt), removePunct = TRUE))
-tokenize(toLower(txt), removePunct = TRUE, ngrams = 2)
-tokenize(toLower(txt), removePunct = TRUE, ngrams = c(1,3))
+(toks1 <- tokens(char_tolower(txt), remove_punct = TRUE))
+tokens(char_tolower(txt), remove_punct = TRUE, ngrams = 2)
+tokens(char_tolower(txt), remove_punct = TRUE, ngrams = c(1,3))
 
 # low-level options exist too
-ngrams(toks1, c(1, 3, 5))
+tokens_ngrams(toks1, c(1, 3, 5))
 
 # form "skip-grams"
-tokens <- tokenize(toLower("Insurgents killed in ongoing fighting."),
-                   removePunct = TRUE, simplify = TRUE)
-skipgrams(tokens, n = 2, skip = 0:1, concatenator = " ") 
-skipgrams(tokens, n = 2, skip = 0:2, concatenator = " ") 
-skipgrams(tokens, n = 3, skip = 0:2, concatenator = " ") 
+toks <- tokens("insurgents killed in ongoing fighting")
+tokens_skipgrams(toks, n = 2, skip = 0:1, concatenator = " ") 
+tokens_skipgrams(toks, n = 2, skip = 0:2, concatenator = " ") 
+tokens_skipgrams(toks, n = 3, skip = 0:2, concatenator = " ") 
 
 # mine bigrams
-collocs2 <- collocations(inaugTexts, size = 2, method = "all")
+toks <- tokens(data_corpus_inaugural)
+collocs2 <- textstat_collocations(toks, max_size = 2, method = "lr")
 head(collocs2, 20)
 
 # mine trigrams
