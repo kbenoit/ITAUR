@@ -81,8 +81,8 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 4: Processing and preparing texts for analysis
 
-*  [Text processing in R](http://www.kenbenoit.net/files/preparingtexts.html)
-*  **Exercise:** Step through execution of the [.Rmd file](4_preparing_texts/preparingtexts.Rmd).
+*  [Text processing in R](4_preparing_texts/preparingtexts.md)
+*  **Exercise:** Step through execution of the [.Rmd file](http://rawgit.com/kbenoit/ITAUR/4_preparing_texts/preparingtexts.Rmd).
 
 
 ### Module 5: Descriptive analysis

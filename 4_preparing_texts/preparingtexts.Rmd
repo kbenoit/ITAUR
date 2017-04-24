@@ -1,9 +1,14 @@
 ---
-title: "Preparing and processing texts"
-author: "Kenneth Benoit and Paul Nulty"
-date: "19 October 2016"
-output: html_document
+output:
+  md_document:
+    variant: markdown_github
 ---
+
+# Preparing texts for analysis
+
+### Kenneth Benoit
+### 24 April 2017
+
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE
@@ -34,62 +39,63 @@ There are several options to the `what` argument:
 ```{r}
 # sentence level
 tokens(c("Kurt Vongeut said; only assholes use semi-colons.",
-           "Today is Thursday in Canberra:  It is yesterday in London.",
-           "Today is Thursday in Canberra:  \nIt is yesterday in London.",
-           "To be?  Or\nnot to be?"),
-          what = "sentence")
-tokens(inaugTexts[2], what = "sentence")
+         "Today is Thursday in Canberra:  It is yesterday in London.",
+         "Today is Thursday in Canberra:  \nIt is yesterday in London.",
+         "To be?  Or\nnot to be?"),
+       what = "sentence")
+tokens(data_corpus_inaugural[2], what = "sentence")
 
 # character level
 tokens("My big fat text package.", what = "character")
 tokens("My big fat text package.", what = "character", remove_separators = FALSE)
 ```
 
-Two other options, for really fast and simple tokenization are `"fastestword"` and `"fasterword"`, if performance is a key issue.  These are less intelligent than the boundary detection used in the default `"word"` method, which is based on stringi\ICU boundary detection.
+Two other options, for really fast and simple tokenization are `"fastestword"` and `"fasterword"`, if performance is a key issue.  These are less intelligent than the boundary detection used in the default `"word"` method, which is based on stringi/ICU boundary detection.
 
 ### 2. Conversion to lower case
 
 This is a tricky one in our workflow, since it is a form of equivalency declaration, rather than a tokenization step.  It turns out that it is more efficient to perform at the pre-tokenization stage. 
 
-As a result, the method `tolower()` is defined for many classes of quanteda objects.
-```{r}
-methods(tolower)
-```
-
-We include options designed to preserve acronyms.
+The **quanteda** functions `*_tolower` include options designed to preserve acronyms.
 ```{r}
 test1 <- c(text1 = "England and France are members of NATO and UNESCO",
            text2 = "NASA sent a rocket into space.")
-tolower(test1)
-tolower(test1, keepAcronyms = TRUE)
+char_tolower(test1)
+char_tolower(test1, keep_acronyms = TRUE)
 
 test2 <- tokens(test1, remove_punct=TRUE)
-tolower(test2)
-tolower(test2, keepAcronyms = TRUE)
+tokens_tolower(test2)
+tokens_tolower(test2, keep_acronyms = TRUE)
 ```
 
-tolower is based on stringi, and is therefore nicely Unicode compliant.
+The **quanteda** `*_tolower` functions are based on `stringi::stri_trans_tolower()`, and is therefore nicely Unicode compliant.
 ```{r}
+data(data_char_encodedtexts, package = "readtext")
+
 # Russian
-cat(iconv(encodedTexts[8], "windows-1251", "UTF-8"))
-cat(tolower(iconv(encodedTexts[8], "windows-1251", "UTF-8")))
-head(tolower(stopwords("russian")), 20)
+cat(iconv(data_char_encodedtexts[8], "windows-1251", "UTF-8"))
+cat(tolower(iconv(data_char_encodedtexts[8], "windows-1251", "UTF-8")))
+head(char_tolower(stopwords("russian")), 20)
+head(char_toupper(stopwords("russian")), 20)
 
 # Arabic
-cat(iconv(encodedTexts[6], "ISO-8859-6", "UTF-8"))
-cat(tolower(iconv(encodedTexts[6], "ISO-8859-6", "UTF-8")))
-head(tolower(stopwords("arabic")), 20)
+cat(iconv(data_char_encodedtexts[6], "ISO-8859-6", "UTF-8"))
+cat(tolower(iconv(data_char_encodedtexts[6], "ISO-8859-6", "UTF-8")))
+head(char_toupper(stopwords("arabic")), 20)
 ```
 
 **Note**: dfm, the Swiss army knife, converts to lower case by default, but this can be turned off using the `tolower = FALSE` argument.
+
 
 ### 3. Removing and selecting features
 
 This can be done when creating a dfm:
 ```{r}
 # with English stopwords and stemming
-dfmsInaug2 <- dfm(corpus_subset(inaugCorpus, Year > 1980),
+dfmsInaug2 <- dfm(corpus_subset(data_corpus_inaugural, Year > 1980),
                   remove = stopwords("english"), stem = TRUE)
+dfmsInaug2
+head(dfmsInaug2)
 ```
 
 
@@ -97,11 +103,11 @@ Or can be done **after** creating a dfm:
 ```{r}
 myDfm <- dfm(c("My Christmas was ruined by your opposition tax plan.",
                "Does the United_States or Sweden have more progressive taxation?"),
-             tolower = FALSE, verbose = FALSE)
-dfm_select(myDfm, c("s$", ".y"), "keep", valuetype = "regex")
-dfm_select(myDfm, c("s$", ".y"), "remove", valuetype = "regex")
-dfm_select(myDfm, stopwords("english"), "keep", valuetype = "fixed")
-dfm_select(myDfm, stopwords("english"), "remove", valuetype = "fixed")
+             tolower = FALSE, verbose = TRUE)
+dfm_select(myDfm, features = c("s$", ".y"), selection = "keep", valuetype = "regex")
+dfm_select(myDfm, features = c("s$", ".y"), selection = "remove", valuetype = "regex")
+dfm_select(myDfm, features = stopwords("english"), selection = "keep", valuetype = "fixed")
+dfm_select(myDfm, features = stopwords("english"), selection = "remove", valuetype = "fixed")
 ```
 
 More examples:
@@ -151,14 +157,14 @@ identical(featnames(dfm1), featnames(dfm2b))
 Dictionary creation is done through the `dictionary()` function, which classes a named list of characters as a dictionary.
 ```{r}
 # import the Laver-Garry dictionary from http://bit.ly/1FH2nvf
-lgdict <- dictionary(file = "http://www.kenbenoit.net/courses/essex2014qta/LaverGarry.cat",
-                     format = "wordstat")
-dfm(inaugTexts, dictionary = lgdict)
+lgdict <- dictionary(file = "LaverGarry.cat")
+budgdfm <- dfm(data_corpus_irishbudget2010, dictionary = lgdict, verbose = TRUE)
+head(budgdfm)
 
 # import a LIWC formatted dictionary
-liwcdict <- dictionary(file = "~/Dropbox/QUANTESS/dictionaries/LIWC/LIWC2001_English.dic",
-                       format = "LIWC")
-dfm(inaugTexts, dictionary = liwcdict)
+liwcdict <- dictionary(file = "~/Dropbox/QUANTESS/dictionaries/LIWC/LIWC2015_English_Flat.dic")
+dictdfm <- dfm(data_corpus_inaugural, dictionary = liwcdict, verbose = TRUE)
+dictdfm[50:58, c("money", "power")]
 ```
 
 We apply dictionaries to a dfm using the `dfm_lookup()` function.  Through the `valuetype`, argument, we can match patterns of one of three types: `"glob"`, `"regex"`, or `"fixed"`.
@@ -189,7 +195,7 @@ dfm_lookup(myDfm, myDict, valuetype = "fixed", case_insensitive = FALSE)
 It is also possible to pass through a dictionary at the time of `dfm()` creation.
 ```{r}
 # dfm with dictionaries
-mycorpus <- corpus_subset(inaugCorpus, Year>1900)
+mycorpus <- corpus_subset(data_corpus_inaugural, Year > 1900)
 mydict <- dictionary(list(christmas = c("Christmas", "Santa", "holiday"),
                           opposition = c("Opposition", "reject", "notincorpus"),
                           taxing = "taxing",
@@ -217,27 +223,28 @@ SnowballC::getStemLanguages()
 
 It's not perfect:
 ```{r}
-wordstem(c("win", "winning", "wins", "won", "winner"))
+char_wordstem(c("win", "winning", "wins", "won", "winner"))
 ```
 but it's fast.
 
 Stemmed objects must be tokenized, but can be of many different quanteda classes:
 
 ```{r, error = TRUE}
-methods(wordstem)
-wordstem("This is a winning package, of many packages.")
-wordstem(tokens("This is a winning package, of many packages."))
+txt <- "From 10k packages, quanteda is an text analysis package, for analysing texts."
+char_wordstem(txt)
+(toks <- tokens_wordstem(tokens(txt, remove_punct = TRUE)))
+dfm_wordstem(dfm(toks))
 ```
 
 Some text operations can be conducted directly on the dfm:
 
 ```{r collapse = FALSE}
-dfm1 <- dfm(inaugTexts[1:2], verbose = FALSE)
+dfm1 <- dfm(data_corpus_inaugural[1:2], verbose = FALSE)
 head(featnames(dfm1))
-head(featnames(wordstem(dfm1)))
+head(featnames(dfm_wordstem(dfm1)))
 
 # same as 
-head(dfm(inaugTexts[1:2], stem = TRUE, verbose = FALSE))
+head(dfm(data_corpus_inaugural[1:2], stem = TRUE, verbose = FALSE))
 ```
 
 ### 6. `dfm()` and its many options
@@ -245,11 +252,13 @@ head(dfm(inaugTexts[1:2], stem = TRUE, verbose = FALSE))
 Operates on `character` (vectors), `corpus`, or `tokens` objects,
 
 ```{r, eval=FALSE}
-## S3 method for class 'character'
 dfm(x, tolower = TRUE, stem = FALSE, select = NULL, remove = NULL,
-    thesaurus = NULL, dictionary = NULL, valuetype = c("glob", "regex",
-    "fixed"), groups = NULL, verbose = quanteda_options("verbose"), ...)
+  thesaurus = NULL, dictionary = NULL, 
+  valuetype = c("glob", "regex", "fixed"), 
+  groups = NULL, 
+  verbose = quanteda_options("verbose"), ...)
 ```
+
 
 
 
