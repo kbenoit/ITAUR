@@ -1,5 +1,5 @@
-Accessing Twitter Text
-======================
+Analyzing Meida Text
+====================
 
 ### Kohei Watanabe
 
@@ -12,10 +12,9 @@ This section explains specific techniques useful in analyzing news articles:
 -   Constructing subject specific `tokens` object using `kwic`
 -   Identifying and concatenating multi-word expressions using `textstat_collocations()`
 
-Characteristics of news articles/transcripts
---------------------------------------------
+### Characteristics of news articles/transcripts
 
-It is common to construct a corpus of articles (or transcripts) with keyword queries, but such a corpus still contain a lot of noises, because a news article is a set sentences and paragraphs on various subjects. To focus our analysis on particular subjects, we can construct a `tokens` by `kwic()`.
+It is common to construct a corpus of news articles (or transcripts) from databses with keyword queries, but such a corpus still contains a lot of noises, because a news article is a set sentences and paragraphs on various subjects. To focus our analysis on particular subjects, we can construct a `tokens` by `kwic()`.
 
 1.  Construct a `tokens` as usual from a corpus
 2.  Run `kwic()` on the `tokens` to create a `kwic`
@@ -78,9 +77,7 @@ toks_britain <- as.tokens(britain)
 
 ### Run relative frequency analysis
 
-\`\`\`r
-
-dfm\_europe &lt;- dfm(toks\_europe) dfm\_britain &lt;- dfm(toks\_britain) kwds &lt;- textstat\_keyness(rbind(dfm\_europe, dfm\_britain), target = seq\_along(toks\_europe)) \#\# \`\`\`
+`r dfm_europe <- dfm(toks_europe) dfm_britain <- dfm(toks_britain) kwds <- textstat_keyness(rbind(dfm_europe, dfm_britain), target = seq_along(toks_europe)) ##`
 
 ``` r
 head(kwds, 20)
@@ -150,7 +147,7 @@ plot(freq_dict_europe, ylab = 'Frequency', xlab = 'Category', xaxt = 'n',
 axis(1, at = 1:4, labels = names(freq_dict_europe))
 grid()
 points(freq_dict_britain, col = 'red', pch = 2)
-legend('bottomleft', legend = c('Europe', 'Britain'), col = c('black', 'red'), pch = 1:2)
+legend('topright', legend = c('Europe', 'Britain'), col = c('black', 'red'), pch = 1:2)
 ```
 
 ![](Guardian_files/figure-markdown_github/unnamed-chunk-5-1.png) \#\#\# Identifying and concatenating multi-word expressions
@@ -171,65 +168,36 @@ head(col)
 ## 5    White House 37.95508 0.005670581   473  6693.331 0
 ## 6  Boris Johnson 38.56260 0.005950435   677  6480.636 0
 toks_multi <- tokens_compound(toks, col)
-head(toks[['text166563']], 100)
-##   [1] "Scottish"     "voters"       "hoping"       ""            
-##   [5] ""             "vote"         ""             "leave"       
-##   [9] ""             "European"     "Union"        ""            
-##  [13] "spark"        ""             "second"       "independence"
-##  [17] "referendum"   ""             "first"        "consider"    
-##  [21] ""             "\""           "solidarity"   ""            
-##  [25] "people"       "across"       ""             "continent"   
-##  [29] "\""           ","            "Jeremy"       "Corbyn"      
-##  [33] ""             "suggested"    "."            "|"           
-##  [37] ""             "SNP"          "leader"       ""            
-##  [41] "Scottish"     "first"        "minister"     ","           
-##  [45] "Nicola"       "Sturgeon"     ","            ""            
-##  [49] "repeatedly"   "said"         ""             ""            
-##  [53] "vote"         ""             "leave"        ""            
-##  [57] "European"     "Union"        ""             "trigger"     
-##  [61] "another"      "vote"         ""             "Scotland's"  
-##  [65] "future"       ","            ""             "former"      
-##  [69] "Tory"         "prime"        "minister"     "Sir"         
-##  [73] "John"         "Major"        "said"         "earlier"     
-##  [77] ""             "week"         ""             ""            
-##  [81] "vote"         ""             "quit"         ""            
-##  [85] "EU"           ""             "\""           "tear"        
-##  [89] "apart"        ""             "UK"           "\""          
-##  [93] "."            "|"            ""             ""            
-##  [97] "campaign"     "visit"        ""             "Aberdeen"
-head(toks_multi[['text166563']], 100)
-##   [1] "Scottish"        "voters"          "hoping"         
-##   [4] ""                ""                "vote"           
-##   [7] ""                "leave"           ""               
-##  [10] "European_Union"  ""                "spark"          
-##  [13] ""                "second"          "independence"   
-##  [16] "referendum"      ""                "first"          
-##  [19] "consider"        ""                "\""             
-##  [22] "solidarity"      ""                "people"         
-##  [25] "across"          ""                "continent"      
-##  [28] "\""              ","               "Jeremy_Corbyn"  
-##  [31] ""                "suggested"       "."              
-##  [34] "|"               ""                "SNP"            
-##  [37] "leader"          ""                "Scottish"       
-##  [40] "first"           "minister"        ","              
-##  [43] "Nicola_Sturgeon" ","               ""               
-##  [46] "repeatedly"      "said"            ""               
-##  [49] ""                "vote"            ""               
-##  [52] "leave"           ""                "European_Union" 
-##  [55] ""                "trigger"         "another"        
-##  [58] "vote"            ""                "Scotland's"     
-##  [61] "future"          ","               ""               
-##  [64] "former"          "Tory"            "prime"          
-##  [67] "minister"        "Sir_John_Major"  "Sir_John"       
-##  [70] "John_Major"      "said"            "earlier"        
-##  [73] ""                "week"            ""               
-##  [76] ""                "vote"            ""               
-##  [79] "quit"            ""                "EU"             
-##  [82] ""                "\""              "tear"           
-##  [85] "apart"           ""                "UK"             
-##  [88] "\""              "."               "|"              
-##  [91] ""                ""                "campaign"       
-##  [94] "visit"           ""                "Aberdeen"       
-##  [97] ""                "Saturday"        ","              
-## [100] "Corbyn"
+head(toks[['text166563']], 50)
+##  [1] "Scottish"     "voters"       "hoping"       ""            
+##  [5] ""             "vote"         ""             "leave"       
+##  [9] ""             "European"     "Union"        ""            
+## [13] "spark"        ""             "second"       "independence"
+## [17] "referendum"   ""             "first"        "consider"    
+## [21] ""             "\""           "solidarity"   ""            
+## [25] "people"       "across"       ""             "continent"   
+## [29] "\""           ","            "Jeremy"       "Corbyn"      
+## [33] ""             "suggested"    "."            "|"           
+## [37] ""             "SNP"          "leader"       ""            
+## [41] "Scottish"     "first"        "minister"     ","           
+## [45] "Nicola"       "Sturgeon"     ","            ""            
+## [49] "repeatedly"   "said"
+head(toks_multi[['text166563']], 50)
+##  [1] "Scottish"        "voters"          "hoping"         
+##  [4] ""                ""                "vote"           
+##  [7] ""                "leave"           ""               
+## [10] "European_Union"  ""                "spark"          
+## [13] ""                "second"          "independence"   
+## [16] "referendum"      ""                "first"          
+## [19] "consider"        ""                "\""             
+## [22] "solidarity"      ""                "people"         
+## [25] "across"          ""                "continent"      
+## [28] "\""              ","               "Jeremy_Corbyn"  
+## [31] ""                "suggested"       "."              
+## [34] "|"               ""                "SNP"            
+## [37] "leader"          ""                "Scottish"       
+## [40] "first"           "minister"        ","              
+## [43] "Nicola_Sturgeon" ","               ""               
+## [46] "repeatedly"      "said"            ""               
+## [49] ""                "vote"
 ```

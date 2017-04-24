@@ -4,7 +4,7 @@ output:
     variant: markdown_github
 ---
 
-# Accessing Twitter Text
+# Analyzing Meida Text
 
 ### Kohei Watanabe
 ### 24 April 2017
@@ -22,9 +22,9 @@ This section explains specific techniques useful in analyzing news articles:
 * Constructing subject specific `tokens` object using `kwic`
 * Identifying and concatenating multi-word expressions using `textstat_collocations()`
 
-## Characteristics of news articles/transcripts
+### Characteristics of news articles/transcripts
 
-It is common to construct a corpus of articles (or transcripts) with keyword queries, but such a corpus still contain a lot of noises, because a news article is a set sentences and paragraphs on various subjects. To focus our analysis on particular subjects, we can construct a `tokens` by `kwic()`.
+It is common to construct a corpus of news articles (or transcripts) from databses with keyword queries, but such a corpus still contains a lot of noises, because a news article is a set sentences and paragraphs on various subjects. To focus our analysis on particular subjects, we can construct a `tokens` by `kwic()`.
 
 1. Construct a `tokens` as usual from a corpus
 2. Run `kwic()` on the `tokens` to create a `kwic` 
@@ -52,7 +52,6 @@ toks_britain <- as.tokens(britain)
 
 ### Run relative frequency analysis
 ```{r}
-
 dfm_europe <- dfm(toks_europe)
 dfm_britain <- dfm(toks_britain)
 kwds <- textstat_keyness(rbind(dfm_europe, dfm_britain), target = seq_along(toks_europe))
@@ -81,10 +80,11 @@ plot(freq_dict_europe, ylab = 'Frequency', xlab = 'Category', xaxt = 'n',
 axis(1, at = 1:4, labels = names(freq_dict_europe))
 grid()
 points(freq_dict_britain, col = 'red', pch = 2)
-legend('bottomleft', legend = c('Europe', 'Britain'), col = c('black', 'red'), pch = 1:2)
+legend('topright', legend = c('Europe', 'Britain'), col = c('black', 'red'), pch = 1:2)
 
 ```
 ### Identifying and concatenating multi-word expressions
+
 ```{r}
 require(quanteda)
 load('guardianSample.RData')
@@ -94,7 +94,7 @@ col <- textstat_collocations(toks, method = 'bj', max_size = 5,
                              features = "^[A-Z][A-Za-z0-9]+$", valuetype = "regex", case_insensitive = FALSE)
 head(col)
 toks_multi <- tokens_compound(toks, col)
-head(toks[['text166563']], 100)
-head(toks_multi[['text166563']], 100)
+head(toks[['text166563']], 50)
+head(toks_multi[['text166563']], 50)
 
 ```
