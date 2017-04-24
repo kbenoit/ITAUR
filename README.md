@@ -96,7 +96,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 #### Advanced Analysis
 
 *  [Advanced analysis](6_advanced/advanced.md)
-*  [Analyzing social media](6_advanced/social_media.md)  
+*  [Analyzing social media](6_advanced/social_media.Rmd)  
 *  **Exercise:** Step through execution of the [.Rmd file](http://rawgit.com/kbenoit/ITAUR/6_advanced/advanced.Rmd)
 *  **Twitter analysis example**, and the instructions for setting up your own Twitter app, in [Twitter.Rmd](http://rawgit.com/kbenoit/ITAUR/6_advanced/Twitter.Rmd). 
 

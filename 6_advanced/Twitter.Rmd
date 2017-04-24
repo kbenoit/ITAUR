@@ -1,9 +1,13 @@
 ---
-title: "Accessing Twitter Text"
-author: "Kenneth Benoit and Paul Nulty"
-date: "19 October 2016"
-output: html_document
+output:
+  md_document:
+    variant: markdown_github
 ---
+
+# Accessing Twitter Text
+
+### Kenneth Benoit
+### 24 April 2017
 
 ### Overview
 

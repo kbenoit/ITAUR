@@ -1,0 +1,45 @@
+Accessing Twitter Text
+======================
+
+### Kenneth Benoit
+
+### 24 April 2017
+
+### Overview
+
+In this section we will cover the following methods for mining and analyzing text from the twitter API:
+
+-   Creating a new application and getting access to the REST and streaming APIs
+-   Using the REST and streaming APIs from within R
+
+### Accessing the twitter APIs
+
+To access the REST and streaming APIs, you will need to create a twitter application, and generate authentication credentials associated with this application. To do this you will first need to have a twitter account. You will also need to install at least the following R packages: twitteR,
+
+``` r
+install.packages(c('twitteR', 'streamR', 'RCurl', 'ROAuth', 'httr'))
+```
+
+To register a twitter application and get your consumer keys:
+
+1.  Go to <https://apps.twitter.com> in a web browser.
+2.  Click on 'create new app'.
+3.  Give your app a unique name, a description, any relevant web address, and agree to the terms and conditions. Set the callback URL to <http://127.0.0.1:1410>. You might have to add a cellphone number your twitter account.
+4.  Go to the keys and access section of the app page, and copy your consumer key and consumer secret to the code below.
+5.  (optional): For actions requiring write permissions, generate an access token and access secret .
+
+``` r
+require(twitteR)
+require(streamR)
+require(ROAuth)
+
+consumerKey <- 'your key here'
+consumerSecret <- 'your secret here'
+
+# Try this first, to use twitteR
+setup_twitter_oauth(consumerKey, consumerSecret)
+results <- searchTwitter('#DemDebate')
+df <- as.data.frame(t(sapply(results, as.data.frame)))
+```
+
+Then try these instructions, to use streamR: <https://github.com/pablobarbera/streamR#installation-and-authentication>
