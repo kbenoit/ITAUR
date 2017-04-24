@@ -8,14 +8,13 @@ require(quanteda)
 help(package="quanteda")
 
 ## create a corpus from a text vector of UK immigration texts
-summary(ukimmigTexts)
-str(ukimmigTexts)
-encoding(ukimmigTexts)
-encoding(encodedTexts)
+summary(data_char_ukimmig2010)
+str(data_char_ukimmig2010)
+encoding(data_char_ukimmig2010)
 
 # create a corpus from immigration texts
-immigCorpus <- corpus(ukimmigTexts, notes = "Created as part of a demo.")
-docvars(immigCorpus) <- data.frame(party = docnames(immigCorpus), year = 2010)
+immigCorpus <- corpus(data_char_ukimmig2010, notes = "Created as part of a demo.")
+docvars(immigCorpus) <- data.frame(party = names(data_char_ukimmig2010), year = 2010)
 summary(immigCorpus)
 
 # explore using kwic
