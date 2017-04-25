@@ -96,6 +96,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 *  [Advanced analysis](6_advanced/advanced.md)
 *  [Analyzing social media](6_advanced/social_media.Rmd)  
+*  [Analyzing a new corpus: Example from the _Guardian_](6_advanced/Guardian.md)
 *  **Exercise:** Step through execution of the [.Rmd file](https://raw.githubusercontent.com/kbenoit/ITAUR/master/6_advanced/advanced.Rmd)
 *  **Twitter analysis example**, and the instructions for setting up your own Twitter app, in [Twitter.Rmd](https://raw.githubusercontent.com/kbenoit/ITAUR/master/6_advanced/Twitter.Rmd). 
 
