@@ -16,7 +16,7 @@ Creating a `corpus` object
 
 ``` r
 require(quanteda, warn.conflicts = FALSE, quietly = TRUE)
-## quanteda version 0.9.9.50
+## quanteda version 0.9.9.51
 ## Using 7 of 8 cores for parallel computing
 myCorpus <- corpus(data_char_ukimmig2010, notes = "My first corpus")
 ## Warning in corpus.character(data_char_ukimmig2010, notes = "My first
@@ -36,7 +36,7 @@ summary(myCorpus)
 ##          UKIP   346    739        27
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
-## Created: Sun Apr 23 23:24:09 2017
+## Created: Tue Apr 25 12:57:44 2017
 ## Notes:
 ```
 
@@ -80,7 +80,7 @@ summary(myTmCorpus, 5)
 ##       <NA>
 ## 
 ## Source:  Converted from tm VCorpus 'crude'
-## Created: Sun Apr 23 23:24:09 2017
+## Created: Tue Apr 25 12:57:44 2017
 ## Notes:
 ```
 
@@ -128,7 +128,7 @@ summary(data_corpus_inaugural, 5)
 ##   1805-Jefferson.txt   804   2381        45 1805  Jefferson
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
-## Created: Sun Apr 23 23:24:11 2017
+## Created: Tue Apr 25 12:57:47 2017
 ## Notes:
 ```
 
@@ -144,6 +144,15 @@ SOTUdocvars$nwords <- NULL
 
 sotuCorpus <- corpus(readtext("sotu/*.txt", encoding = "UTF-8-BOM"))
 docvars(sotuCorpus) <- SOTUdocvars
+```
+
+On some non-English Windows operation systems, the `"%B %d, %Y"` pattern does not work. If it happens, change locale (language setting) temporarily:
+
+``` r
+lct <- Sys.getlocale("LC_TIME") # get original locale
+Sys.setlocale("LC_TIME", "C") # set C's basic locale
+SOTUdocvars$Date <- as.Date(SOTUdocvars$Date, "%B %d, %Y")
+Sys.setlocale("LC_TIME", lct) # set original locale
 ```
 
 Another common case is that our texts are stored alongside the document variables in a structured file, such as a json, csv or excel file. The textfile command can read in the texts and document variables simultaneously from these files when the name of the field containing the texts is specified.
