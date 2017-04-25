@@ -1,4 +1,4 @@
-Analyzing Meida Text
+Analyzing Media Text
 ====================
 
 ### Kohei Watanabe
@@ -14,7 +14,7 @@ This section explains specific techniques useful in analyzing news articles:
 
 ### Characteristics of news articles/transcripts
 
-It is common to construct a corpus of news articles (or transcripts) from databses with keyword queries, but such a corpus still contains a lot of noises, because a news article is a set sentences and paragraphs on various subjects. To focus our analysis on particular subjects, we can construct a `tokens` by `kwic()`.
+It is common to construct a corpus of news articles (or transcripts) from databases with keyword queries, but such a corpus still contains a lot of noises, because a news article is a set sentences and paragraphs on various subjects. To focus our analysis on particular subjects, we can construct a `tokens` by `kwic()`.
 
 1.  Construct a `tokens` as usual from a corpus
 2.  Run `kwic()` on the `tokens` to create a `kwic`
@@ -75,7 +75,7 @@ toks_europe <- as.tokens(europe)
 toks_britain <- as.tokens(britain)
 ```
 
-### Run relative frequency analysis
+### Relative frequency analysis
 
 `r dfm_europe <- dfm(toks_europe) dfm_britain <- dfm(toks_britain) kwds <- textstat_keyness(rbind(dfm_europe, dfm_britain), target = seq_along(toks_europe)) ##`
 
@@ -126,7 +126,7 @@ tail(kwds, 20)
 ## uk         -3496.19987 0.000000e+00     2375        8198
 ```
 
-### Run dictionary analysis
+### Targetted dictionary analysis
 
 ``` r
 dict <- dictionary(people = c('people', 'citizen*'), 
@@ -139,9 +139,8 @@ dfm_dict_britain <- dfm(toks_britain, dictionary = dict)
 
 freq_dict_europe <- colSums(dfm_dict_europe) / sum(ntoken(toks_europe))
 freq_dict_britain <- colSums(dfm_dict_britain) / sum(ntoken(toks_britain))
-```
 
-``` r
+
 plot(freq_dict_europe, ylab = 'Frequency', xlab = 'Category', xaxt = 'n', 
      ylim = c(0, 0.01), xlim = c(0.5, 4.5), main = "Frequency of keywords")
 axis(1, at = 1:4, labels = names(freq_dict_europe))
@@ -150,7 +149,9 @@ points(freq_dict_britain, col = 'red', pch = 2)
 legend('topright', legend = c('Europe', 'Britain'), col = c('black', 'red'), pch = 1:2)
 ```
 
-![](Guardian_files/figure-markdown_github/unnamed-chunk-5-1.png) \#\#\# Identifying and concatenating multi-word expressions
+![](Guardian_files/figure-markdown_github/unnamed-chunk-4-1.png)
+
+### Identifying and concatenating multi-word expressions
 
 ``` r
 require(quanteda)
