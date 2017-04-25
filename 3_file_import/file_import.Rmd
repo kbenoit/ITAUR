@@ -84,7 +84,7 @@ sotuCorpus <- corpus(readtext("sotu/*.txt", encoding = "UTF-8-BOM"))
 docvars(sotuCorpus) <- SOTUdocvars
 ```
 
-On some non-English Windows operation systems, the "%B %d, %Y" pattern does not work. If it happens, change locale (language setting) temporarily 
+On some non-English Windows operation systems, the `"%B %d, %Y"` pattern does not work. If it happens, change locale (language setting) temporarily:
 ```{r, eval = FALSE}
 lct <- Sys.getlocale("LC_TIME") # get original locale
 Sys.setlocale("LC_TIME", "C") # set C's basic locale
