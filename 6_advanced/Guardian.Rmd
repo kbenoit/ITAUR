@@ -57,7 +57,6 @@ dfm_britain <- dfm(toks_britain)
 kwds <- textstat_keyness(rbind(dfm_europe, dfm_britain), target = seq_along(toks_europe))
 head(kwds, 20)
 tail(kwds, 20)
-
 ```
 
 ### Targetted dictionary analysis 
