@@ -73,7 +73,7 @@ data(data_corpus_amicus, package = "quantedaData")
 refs <- docvars(data_corpus_amicus, "trainclass")
 refs <- (as.numeric(refs) - 1.5)*2
 amicusDfm <- dfm(data_corpus_amicus)
-wm <- textmodel(amicusDfm, y = refs, model = "wordscores")
+wm <- textmodel_wordscores(amicusDfm, y = refs)
 summary(wm)
 preds <- predict(wm, newdata = amicusDfm)
 summary(preds)

@@ -12,7 +12,7 @@ Load the data frame containing the sample tweets:
 ``` r
 require(quanteda)
 ## Loading required package: quanteda
-## quanteda version 0.9.9.50
+## quanteda version 0.9.9.51
 ## Using 7 of 8 cores for parallel computing
 ## 
 ## Attaching package: 'quanteda'
@@ -142,10 +142,10 @@ data(data_corpus_amicus, package = "quantedaData")
 refs <- docvars(data_corpus_amicus, "trainclass")
 refs <- (as.numeric(refs) - 1.5)*2
 amicusDfm <- dfm(data_corpus_amicus)
-wm <- textmodel(amicusDfm, y = refs, model = "wordscores")
+wm <- textmodel_wordscores(amicusDfm, y = refs)
 summary(wm)
 ## Call:
-##  textmodel_wordscores(x = x, y = y)
+##  textmodel_wordscores(x = amicusDfm, y = refs)
 ## 
 ## Reference Document Statistics:
 ## (ref scores and feature count statistics)
@@ -408,7 +408,7 @@ summary(ieWF)
 ## 2010_BUDGET_03_Joan_Burton_LAB         1.10011977
 ## 2010_BUDGET_04_Arthur_Morgan_SF        0.16881502
 ## 2010_BUDGET_05_Brian_Cowen_FF         -1.72809951
-## 2010_BUDGET_06_Enda_Kenny_FG           0.75289406
+## 2010_BUDGET_06_Enda_Kenny_FG           0.75289405
 ## 2010_BUDGET_07_Kieran_ODonnell_FG      0.57672554
 ## 2010_BUDGET_08_Eamon_Gilmore_LAB       0.60136202
 ## 2010_BUDGET_09_Michael_Higgins_LAB     1.08237288
@@ -438,48 +438,48 @@ quantdfm <- dfm(mycorpus, verbose = FALSE, remove.punct = TRUE,
 ldadfm <- convert(quantdfm, to="topicmodels")
 lda <- LDA(ldadfm, control = list(alpha = 0.1), k = 20)
 terms(lda, 10)
-##       Topic 1   Topic 2    Topic 3    Topic 4    Topic 5    Topic 6
-##  [1,] ","       ","        ","        ","        ","        "."    
-##  [2,] "."       "new"      "."        "."        "."        "-"    
-##  [3,] "-"       "time"     "-"        "-"        "-"        ";"    
-##  [4,] ";"       "-"        "let"      "must"     "new"      "world"
-##  [5,] "country" ":"        "world"    ";"        "must"     ":"    
-##  [6,] ":"       "together" "sides"    "time"     ";"        "life" 
-##  [7,] "one"     "great"    "new"      "make"     "strength" "time" 
-##  [8,] "every"   "."        "pledge"   "every"    "together" "new"  
-##  [9,] "world"   "world"    "ask"      "together" "spirit"   "today"
-## [10,] "great"   "work"     "citizens" "citizens" "world"    "make" 
-##       Topic 7    Topic 8  Topic 9  Topic 10  Topic 11 Topic 12  Topic 13 
-##  [1,] ","        ","      ","      ","       ","      ","       ","      
-##  [2,] "."        "."      "."      "nations" "."      "."       "."      
-##  [3,] "story"    "world"  "-"      "."       ":"      "freedom" "-"      
-##  [4,] "country"  "must"   "change" "-"       "-"      "liberty" "may"    
-##  [5,] "citizens" "today"  "\""     "world"   ";"      "every"   "world"  
-##  [6,] "every"    "new"    "must"   "must"    "new"    "one"     "nations"
-##  [7,] "must"     "change" "man"    "country" "world"  "country" "peace"  
-##  [8,] ":"        "let"    "union"  "seek"    "great"  "\""      "freedom"
-##  [9,] "courage"  "time"   "world"  "life"    "free"   "\\"      "seek"   
-## [10,] "many"     ";"      "old"    "new"     "must"   ":"       "must"   
-##       Topic 14     Topic 15 Topic 16         Topic 17     Topic 18
-##  [1,] ","          ","      "."              ","          ","     
-##  [2,] "."          "."      "-"              "."          "."     
-##  [3,] "new"        "-"      ","              "-"          "-"     
-##  [4,] "-"          ";"      "let"            "government" ";"     
-##  [5,] "century"    "new"    "peace"          "world"      "world" 
-##  [6,] ";"          "must"   "world"          "one"        "peace" 
-##  [7,] "time"       "every"  "new"            ";"          "let"   
-##  [8,] "land"       "less"   "responsibility" "freedom"    "know"  
-##  [9,] "every"      "let"    "government"     "must"       "\""    
-## [10,] "government" "work"   "home"           "time"       "make"  
-##       Topic 19  Topic 20    
-##  [1,] ","       ","         
-##  [2,] "."       "."         
-##  [3,] "-"       "-"         
-##  [4,] "free"    "\""        
-##  [5,] "world"   "government"
-##  [6,] "faith"   "must"      
-##  [7,] "peace"   "believe"   
-##  [8,] "shall"   "world"     
-##  [9,] "upon"    "one"       
-## [10,] "freedom" "time"
+##       Topic 1      Topic 2   Topic 3    Topic 4 Topic 5      Topic 6 
+##  [1,] ","          ","       "."        "."     ","          ","     
+##  [2,] "."          "."       ","        ","     "."          "."     
+##  [3,] "new"        "man"     "-"        ";"     "-"          "-"     
+##  [4,] "-"          "change"  "must"     "must"  "\""         "new"   
+##  [5,] "century"    "world"   "time"     "-"     "government" ";"     
+##  [6,] ";"          "must"    ";"        "need"  "must"       "common"
+##  [7,] "time"       "\""      "every"    "great" "believe"    "world" 
+##  [8,] "land"       "-"       "together" "time"  "world"      "every" 
+##  [9,] "every"      "liberty" "make"     "hope"  "one"        "less"  
+## [10,] "government" "union"   "journey"  "new"   "time"       "seek"  
+##       Topic 7   Topic 8 Topic 9   Topic 10   Topic 11   Topic 12
+##  [1,] ","       ","     ","       ","        ","        ","     
+##  [2,] "."       "."     "."       "."        "."        "."     
+##  [3,] "-"       "-"     "freedom" "-"        "country"  ":"     
+##  [4,] "may"     ";"     "liberty" "new"      "-"        "-"     
+##  [5,] "world"   "world" "every"   "must"     ":"        ";"     
+##  [6,] "nations" "peace" "one"     ";"        "citizens" "new"   
+##  [7,] "peace"   "let"   ":"       "strength" ";"        "world" 
+##  [8,] "freedom" "know"  "country" "together" "every"    "great" 
+##  [9,] "seek"    "\""    "world"   "spirit"   "new"      "free"  
+## [10,] "must"    "make"  "\""      "world"    "never"    "must"  
+##       Topic 13     Topic 14 Topic 15 Topic 16  Topic 17         Topic 18
+##  [1,] ","          "."      ","      ","       ","              ","     
+##  [2,] "."          "-"      "."      "."       "."              "."     
+##  [3,] "-"          ","      "world"  "-"       "-"              "-"     
+##  [4,] "government" "\""     "must"   "free"    "let"            ";"     
+##  [5,] "world"      "old"    "today"  "world"   "peace"          "must"  
+##  [6,] "one"        "land"   "new"    "faith"   "world"          "let"   
+##  [7,] ";"          "union"  "change" "peace"   "new"            "end"   
+##  [8,] "freedom"    "one"    "let"    "shall"   "responsibility" "every" 
+##  [9,] "must"       "great"  "time"   "upon"    "government"     "know"  
+## [10,] "time"       "new"    ";"      "freedom" "great"          "less"  
+##       Topic 19  Topic 20
+##  [1,] ","       ","     
+##  [2,] "."       "."     
+##  [3,] "-"       "-"     
+##  [4,] ";"       "let"   
+##  [5,] "liberty" "sides" 
+##  [6,] "freedom" "world" 
+##  [7,] "must"    "pledge"
+##  [8,] "hope"    "new"   
+##  [9,] "know"    "ask"   
+## [10,] "future"  "shall"
 ```
