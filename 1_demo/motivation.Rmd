@@ -72,17 +72,17 @@ output: beamer_presentation
     Once defined and extracted from the texts (the tokenization step), features may be:
     *   *removed* or *kept* through use of predefined lists or patterns, using `tokens_select`
     *   *collapsed* by:
-        *   stemming, through the `stem` option in `dfm` or `wordstem.dfm()`
+        *   stemming, through the `stem` option in `dfm` or `dfm_wordstem()`
         *   defining feature equivalency classes, either exclusively (`dfm` option `dictionary`) or as a supplement to uncollapsed features (`dfm` option `thesaurus`)
-        *   `to_lower` to consider different cases as equivalent, by converting to lower case
+        *   `*_tolower` to consider different cases as equivalent, by converting to lower case
         
 ## Text analysis workflow: Analysis of documents and features
 
 1.  From a corpus.  
 
-    These steps don't necessarily require the processing steps above.
+    These steps don't necessarily require the processing steps above.  Examples:
     * `kwic`
-    * `lexdiv`
+    * `textstat_lexdiv`
     * `summary`
         
 2.  From a dfm -- after `dfm` on the processed document and features.
@@ -103,19 +103,14 @@ output: beamer_presentation
 1.  Many analyses are possible directly from the dfm
     ```{r, eval=FALSE}
     dfm                           print, show
-    convert                       tokens_remove
-    docfreq                       similarity
-    docnames                      sort
-    features                      textmodel
-    lexdiv                        topfeatures
-    ndoc                          trim
-    ntoken                        weight
-    plot                          settings
+    kwic                          summary
+    ndoc                          ntoken
+    nsentence                     settings
     ```
 
 ## Text analysis workflow: Analyzing a dfm (cont.)
 
-2.  Plan is to incorporate wrappers for many `textmodel` functions that work in a similar fashion, e.g.
+2.  Plan is to incorporate wrappers for many `textmodel_*` functions that work in a similar fashion, e.g.
     *  text regression
     *  predictive methods (Naive Bayes, SVM, kNN, etc.)
     *  scaling methods (Poisson scaling aka "wordfish", correspondence analysis)

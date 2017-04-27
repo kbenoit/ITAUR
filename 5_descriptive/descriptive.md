@@ -10,7 +10,7 @@ quateda has a number of descriptive statistics available for reporting on texts.
 ``` r
 require(quanteda)
 ## Loading required package: quanteda
-## quanteda version 0.9.9.50
+## quanteda version 0.9.9.51
 ## Using 7 of 8 cores for parallel computing
 ## 
 ## Attaching package: 'quanteda'
@@ -45,7 +45,7 @@ summary(corpus(data_char_ukimmig2010, notes = "Created as a demo."))
 ##          UKIP   346    739        27
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/5_descriptive/* on x86_64 by kbenoit
-## Created: Mon Apr 24 08:17:47 2017
+## Created: Thu Apr 27 08:54:41 2017
 ## Notes:
 ```
 
@@ -91,52 +91,79 @@ We can **identify documents and terms that are similar to one another**, using `
 
 ``` r
 ## Presidential Inaugural Address Corpus
-presDfm <- dfm(data_corpus_inaugural, remove = stopwords("english"))
+require(magrittr)
+## Loading required package: magrittr
+presDfm <- corpus_subset(data_corpus_inaugural, Year > 1980) %>%
+    dfm(remove = stopwords("english"), remove_punct = TRUE)
 # compute some document similarities
-textstat_simil(presDfm, "1985-Reagan", n = 5, margin = "documents")
-##                 1985-Reagan
-## 1985-Reagan       1.0000000
-## 1789-Washington   0.8600495
-## 1793-Washington   0.5955303
-## 1797-Adams        0.8468456
-## 1801-Jefferson    0.8928164
-textstat_simil(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "cosine")
-##                 2009-Obama 2013-Obama
-## 2009-Obama       1.0000000  0.9471694
-## 2013-Obama       0.9471694  1.0000000
-## 1789-Washington  0.8084783  0.8167533
-## 1793-Washington  0.5698686  0.5863695
-## 1797-Adams       0.7708500  0.7748261
-textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "canberra")
-##                 2009-Obama 2013-Obama
-## 2009-Obama           0.000   7527.722
-## 2013-Obama        7527.722      0.000
-## 1789-Washington   8368.735   8465.746
-## 1793-Washington   8931.343   8938.622
-## 1797-Adams        8336.272   8353.647
-textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "eJaccard")
-##                 2009-Obama 2013-Obama
-## 2009-Obama      1.00000000 0.84057792
-## 2013-Obama      0.84057792 1.00000000
-## 1789-Washington 0.41079560 0.53248550
-## 1793-Washington 0.03250327 0.04426369
-## 1797-Adams      0.62309228 0.57117783
+textstat_simil(presDfm, "1985-Reagan")
+##              1985-Reagan
+## 1985-Reagan    1.0000000
+## 1981-Reagan    0.6706669
+## 1989-Bush      0.5470177
+## 1993-Clinton   0.5651007
+## 1997-Clinton   0.6385083
+## 2001-Bush      0.4928258
+## 2005-Bush      0.5021710
+## 2009-Obama     0.5706274
+## 2013-Obama     0.6216789
+## 2017-Trump     0.4729232
+textstat_simil(presDfm, c("2009-Obama", "2013-Obama"), method = "cosine")
+##              2009-Obama 2013-Obama
+## 2009-Obama    1.0000000  0.6759421
+## 2013-Obama    0.6759421  1.0000000
+## 1981-Reagan   0.6319046  0.6621948
+## 1985-Reagan   0.6197507  0.6608769
+## 1989-Bush     0.6217498  0.5883197
+## 1993-Clinton  0.5984488  0.6035667
+## 1997-Clinton  0.6696806  0.6571319
+## 2001-Bush     0.6011057  0.6200375
+## 2005-Bush     0.5165889  0.5728645
+## 2017-Trump    0.5283706  0.5448031
+textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "canberra")
+##              2009-Obama 2013-Obama
+## 2009-Obama        0.000   2594.270
+## 2013-Obama     2594.270      0.000
+## 1981-Reagan    2710.243   2710.183
+## 1985-Reagan    2687.883   2694.700
+## 1989-Bush      2718.337   2721.474
+## 1993-Clinton   2662.772   2642.477
+## 1997-Clinton   2656.768   2618.399
+## 2001-Bush      2686.949   2600.678
+## 2005-Bush      2663.364   2628.467
+## 2017-Trump     2732.926   2712.234
+textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "eJaccard")
+##              2009-Obama 2013-Obama
+## 2009-Obama    1.0000000  0.5104122
+## 2013-Obama    0.5104122  1.0000000
+## 1981-Reagan   0.4562050  0.4871888
+## 1985-Reagan   0.4370275  0.4777219
+## 1989-Bush     0.4497932  0.4148976
+## 1993-Clinton  0.4234883  0.4296230
+## 1997-Clinton  0.4769717  0.4609940
+## 2001-Bush     0.4204939  0.4412115
+## 2005-Bush     0.3474591  0.3998888
+## 2017-Trump    0.3589839  0.3741432
 
 # compute some term similarities
-as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine", n = 8))
+lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), head, n = 10)
 ## $fair
-##  citizens    fellow         -    senate     house    health    terror 
-## 0.6823483 0.6192089 0.4737572 0.4357159 0.2819419 0.2573251 0.1470429 
+##      size  economic       tax beginning  national   economy  republic 
+## 0.9045340 0.8922269 0.8869686 0.8864053 0.8775269 0.8775269 0.8703883 
+##    months       god    create 
+## 0.8703883 0.8703883 0.8616404 
 ## 
 ## $health
-##  citizens         -    senate    fellow      fair     house    terror 
-## 0.4708214 0.4260064 0.3210121 0.3016041 0.2573251 0.2300895 0.2000000 
+##       wrong      reform      common   knowledge      planet generations 
+##   0.8944272   0.8944272   0.8888889   0.8888889   0.8819171   0.8728716 
+##      ideals        true     without        long 
+##   0.8540168   0.8432740   0.8432740   0.8399211 
 ## 
 ## $terror
-##          -     fellow     health   citizens      house       fair 
-## 0.44927569 0.30729473 0.20000000 0.19645785 0.15339300 0.14704292 
-##     senate 
-## 0.04938648
+##        full     sustain       solve        land commonplace      denied 
+##   0.9428090   0.9128709   0.9128709   0.8876254   0.8660254   0.8660254 
+##   guarantee     problem      racial      bounty 
+##   0.8660254   0.8660254   0.8660254   0.8660254
 ```
 
 And this can be used for **clustering documents**:
@@ -273,6 +300,13 @@ nfeature(myDfm2)
     ## [1] 5289
 
 ``` r
+myDfm3 <- dfm(data_corpus_inaugural, remove = stopwords("english"), remove_punct = TRUE, stem = TRUE)
+nfeature(myDfm3)
+```
+
+    ## [1] 5405
+
+``` r
 # can extract feature labels and document names
 head(featnames(myDfm1), 20)
 ```
@@ -306,3 +340,10 @@ topfeatures(myDfm2) # without stopwords
 
     ##      ,      .      -   will govern nation  peopl      ;     us    can 
     ##   7026   4945   1042    931    687    677    623    565    478    471
+
+``` r
+topfeatures(myDfm3) # without stopwords or punctuation
+```
+
+    ##   will nation govern  peopl     us    can  state  great   upon  power 
+    ##    931    675    657    623    478    471    450    373    371    370

@@ -54,15 +54,17 @@ dotchart(sort(readab))
 We can **identify documents and terms that are similar to one another**, using `similarity()`:
 ```{r}
 ## Presidential Inaugural Address Corpus
-presDfm <- dfm(data_corpus_inaugural, remove = stopwords("english"))
+require(magrittr)
+presDfm <- corpus_subset(data_corpus_inaugural, Year > 1980) %>%
+    dfm(remove = stopwords("english"), remove_punct = TRUE)
 # compute some document similarities
-textstat_simil(presDfm, "1985-Reagan", n = 5, margin = "documents")
-textstat_simil(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "cosine")
-textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "canberra")
-textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), n = 5, margin = "documents", method = "eJaccard")
+textstat_simil(presDfm, "1985-Reagan")
+textstat_simil(presDfm, c("2009-Obama", "2013-Obama"), method = "cosine")
+textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "canberra")
+textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "eJaccard")
 
 # compute some term similarities
-as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine", n = 8))
+lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), head, n = 10)
 ```
 
 And this can be used for **clustering documents**:
@@ -118,6 +120,8 @@ ndoc(myDfm1)
 nfeature(myDfm1)
 myDfm2 <- dfm(data_corpus_inaugural, remove = stopwords("english"), stem = TRUE)
 nfeature(myDfm2)
+myDfm3 <- dfm(data_corpus_inaugural, remove = stopwords("english"), remove_punct = TRUE, stem = TRUE)
+nfeature(myDfm3)
 
 # can extract feature labels and document names
 head(featnames(myDfm1), 20)
@@ -126,6 +130,7 @@ head(docnames(myDfm1))
 # and topfeatures
 topfeatures(myDfm1)
 topfeatures(myDfm2) # without stopwords
+topfeatures(myDfm3) # without stopwords or punctuation
 ```
 
 

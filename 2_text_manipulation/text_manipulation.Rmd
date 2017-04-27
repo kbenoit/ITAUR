@@ -7,7 +7,7 @@ output:
 # Manupulating text in R
 
 ### Kenneth Benoit
-### 23 April 2017
+### 27§ April 2017
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -74,11 +74,11 @@ pres <-  sapply(parts, function(x) x[2])
 
 The `paste` function is used to join character vectors together. The way in which the elements are combined depends on the values of the `sep` and `collapse` arguments:
 
-```{r}
-paste('one','two','three')
-paste('one','two','three', sep='_')
-paste(years, pres, sep='-')
-paste(years, pres, collapse='-')
+```{r} 
+paste('one', 'two', 'three')
+paste('one', 'two', 'three', sep = '_')
+paste(years, pres, sep = '-')
+paste(years, pres, collapse = '-')
 ```
 
 

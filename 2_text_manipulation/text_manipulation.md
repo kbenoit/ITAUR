@@ -3,7 +3,7 @@ Manupulating text in R
 
 ### Kenneth Benoit
 
-### 23 April 2017
+### 27§ April 2017
 
 In this section we will work through some basic string manipulation functions in R.
 
@@ -102,11 +102,11 @@ pres <-  sapply(parts, function(x) x[2])
 The `paste` function is used to join character vectors together. The way in which the elements are combined depends on the values of the `sep` and `collapse` arguments:
 
 ``` r
-paste('one','two','three')
+paste('one', 'two', 'three')
 ## [1] "one two three"
-paste('one','two','three', sep='_')
+paste('one', 'two', 'three', sep = '_')
 ## [1] "one_two_three"
-paste(years, pres, sep='-')
+paste(years, pres, sep = '-')
 ##  [1] "1789-Washington" "1793-Washington" "1797-Adams"     
 ##  [4] "1801-Jefferson"  "1805-Jefferson"  "1809-Madison"   
 ##  [7] "1813-Madison"    "1817-Monroe"     "1821-Monroe"    
@@ -127,7 +127,7 @@ paste(years, pres, sep='-')
 ## [52] "1993-Clinton"    "1997-Clinton"    "2001-Bush"      
 ## [55] "2005-Bush"       "2009-Obama"      "2013-Obama"     
 ## [58] "2017-Trump"
-paste(years, pres, collapse='-')
+paste(years, pres, collapse = '-')
 ## [1] "1789 Washington-1793 Washington-1797 Adams-1801 Jefferson-1805 Jefferson-1809 Madison-1813 Madison-1817 Monroe-1821 Monroe-1825 Adams-1829 Jackson-1833 Jackson-1837 VanBuren-1841 Harrison-1845 Polk-1849 Taylor-1853 Pierce-1857 Buchanan-1861 Lincoln-1865 Lincoln-1869 Grant-1873 Grant-1877 Hayes-1881 Garfield-1885 Cleveland-1889 Harrison-1893 Cleveland-1897 McKinley-1901 McKinley-1905 Roosevelt-1909 Taft-1913 Wilson-1917 Wilson-1921 Harding-1925 Coolidge-1929 Hoover-1933 Roosevelt-1937 Roosevelt-1941 Roosevelt-1945 Roosevelt-1949 Truman-1953 Eisenhower-1957 Eisenhower-1961 Kennedy-1965 Johnson-1969 Nixon-1973 Nixon-1977 Carter-1981 Reagan-1985 Reagan-1989 Bush-1993 Clinton-1997 Clinton-2001 Bush-2005 Bush-2009 Obama-2013 Obama-2017 Trump"
 ```
 

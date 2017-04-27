@@ -101,9 +101,9 @@ Topic models:
 ```{r}
 require(topicmodels)
 mycorpus <- corpus_subset(data_corpus_inaugural, Year > 1950)
-quantdfm <- dfm(mycorpus, verbose = FALSE, remove.punct = TRUE,
+quantdfm <- dfm(mycorpus, verbose = FALSE, remove_punct = TRUE,
                 remove = c(stopwords('english'), 'will', 'us', 'nation', 'can', 'peopl*', 'americ*'))
-ldadfm <- convert(quantdfm, to="topicmodels")
+ldadfm <- convert(quantdfm, to = "topicmodels")
 lda <- LDA(ldadfm, control = list(alpha = 0.1), k = 20)
 terms(lda, 10)
 ```

@@ -7,7 +7,7 @@ output:
 # Getting texts into R
 
 ### Kenneth Benoit
-### 23 April 2017
+### 27 April 2017
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(

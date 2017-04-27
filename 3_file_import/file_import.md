@@ -3,7 +3,7 @@ Getting texts into R
 
 ### Kenneth Benoit
 
-### 23 April 2017
+### 27 April 2017
 
 In this section we will show how to load texts from different sources and create a `corpus` object in **quanteda**.
 
@@ -36,7 +36,7 @@ summary(myCorpus)
 ##          UKIP   346    739        27
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
-## Created: Tue Apr 25 12:57:44 2017
+## Created: Thu Apr 27 08:47:07 2017
 ## Notes:
 ```
 
@@ -80,7 +80,7 @@ summary(myTmCorpus, 5)
 ##       <NA>
 ## 
 ## Source:  Converted from tm VCorpus 'crude'
-## Created: Tue Apr 25 12:57:44 2017
+## Created: Thu Apr 27 08:47:07 2017
 ## Notes:
 ```
 
@@ -128,7 +128,7 @@ summary(data_corpus_inaugural, 5)
 ##   1805-Jefferson.txt   804   2381        45 1805  Jefferson
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/3_file_import/* on x86_64 by kbenoit
-## Created: Tue Apr 25 12:57:47 2017
+## Created: Thu Apr 27 08:47:10 2017
 ## Notes:
 ```
 

@@ -65,51 +65,50 @@ docnames(presDfm)
 # need first to install quantedaData, using
 # devtools::install_github("kbenoit/quantedaData")
 ## show some selection capabilities on Irish budget corpus
-data(iebudgetsCorpus, package = "quantedaData")
-summary(iebudgetsCorpus, 10)
-ieFinMin <- subset(iebudgetsCorpus, number=="01" & debate == "BUDGET")
+data(data_corpus_irishbudgets, package = "quantedaData")
+summary(data_corpus_irishbudgets, 10)
+ieFinMin <- corpus_subset(data_corpus_irishbudgets, number=="01" & debate == "BUDGET")
 summary(ieFinMin)
 dfmFM <- dfm(ieFinMin)
-plot(2008:2012, lexdiv(dfmFM, "C"), xlab="Year", ylab="Herndan's C", type="b",
+plot(2008:2012, textstat_lexdiv(dfmFM, "C"), xlab="Year", ylab="Herndan's C", type="b",
      main = "World's Crudest Lexical Diversity Plot")
 
 
 # plot some readability statistics
-data(data_corpus_SOTU, package = "quantedaData")
-fk <- textstat_readability(data_corpus_SOTU, "Flesch.Kincaid")
+data(data_corpus_SOTU, package = "sophistication")
+stat <- textstat_readability(data_corpus_SOTU, "Flesch.Kincaid")
 year <- lubridate::year(docvars(data_corpus_SOTU, "Date"))
+
 require(ggplot2)
 partyColours <- c("blue", "blue", "black", "black", "red", "red")
-p <- ggplot(data = docvars(data_corpus_SOTU), aes(x = year, y = fk)) + #, group = delivery)) +
+p <- ggplot(data = docvars(data_corpus_SOTU),
+            aes(x = year, y = stat)) + #, group = delivery)) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_blank(),
           axis.line = element_line(colour = "black")) +
     geom_smooth(alpha=0.2, linetype=1, color="grey70", method = "loess", span = .34) +
     xlab("") +
-    ylab("Flesch-Kincaid") +
+    ylab("Flesch-Kincaid Readability") +
     geom_point(aes(colour = party)) +
     scale_colour_manual(values = partyColours) +
     geom_line(aes(), alpha=0.3, size = 1) +
-    ggtitle("Text Complexity in State of the Union Addresses") + 
+    # ggtitle("Text Complexity in State of the Union Addresses") +
     theme(plot.title = element_text(lineheight=.8, face="bold"))
-quartz(height=7, width=12)
 print(p)
-
 
 ## Presidential Inaugural Address Corpus
 presDfm <- dfm(data_corpus_inaugural, remove = stopwords("english"))
 # compute some document similarities
-as.list(textstat_simil(presDfm, "1985-Reagan", n = 10, margin = "documents"))
+as.list(textstat_simil(presDfm, "1985-Reagan", margin = "documents"))
 
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "cosine")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "Hellinger")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "eJaccard")
+textstat_simil(presDfm, c("2009-Obama" , "2013-Obama"), method = "cosine")
+textstat_simil(presDfm, c("2009-Obama" , "2013-Obama"), method = "eJaccard")
 
 # compute some term similarities
-featsim <- similarity(presDfm, c("fair", "health", "terror"), margin = "features", 
-                      method="cosine")
-lapply(featsim, head)
+featsim <- textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", 
+                          method = "cosine")
+lapply(as.list(featsim), head)
 
 ## mining collocations
 
@@ -129,16 +128,19 @@ tokens_skipgrams(toks, n = 2, skip = 0:2, concatenator = " ")
 tokens_skipgrams(toks, n = 3, skip = 0:2, concatenator = " ") 
 
 # mine bigrams
-toks <- tokens(data_corpus_inaugural)
-collocs2 <- textstat_collocations(toks, max_size = 2, method = "lr")
+require(magrittr)
+collocs2 <- tokens(data_corpus_inaugural) %>%
+    tokens_remove(stopwords("english"), padding = TRUE) %>%
+    tokens_remove("\\p{P}", valuetype = "regex", padding = TRUE) %>%
+    textstat_collocations(max_size = 2, method = "lr")
 head(collocs2, 20)
 
 # mine trigrams
-collocs3 <- collocations(inaugTexts, size = 3, method = "all")
+collocs3 <- tokens(data_corpus_inaugural) %>%
+    tokens_remove(stopwords("english"), padding = TRUE) %>%
+    tokens_remove("\\p{P}", valuetype = "regex", padding = TRUE) %>%
+    textstat_collocations(max_size = 3, method = "bj")
 head(collocs3, 20)
 
-# remove parts of speech and inspect
-head(removeFeatures(collocs2, stopwords("english")), 20)
-head(removeFeatures(collocs3, stopwords("english")), 20)
 
 
