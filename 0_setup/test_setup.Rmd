@@ -55,7 +55,7 @@ topfeatures(ieDfm)
 
 Make a word cloud:
 ```{r, fig.width=8, fig.height=8}
-plot(ieDfm, min.freq=25, random.order=FALSE)
+textplot_wordcloud(ieDfm, min.freq=25, random.order=FALSE)
 ```
 
 If you got this far, congratulations!
