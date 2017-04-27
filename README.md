@@ -58,7 +58,18 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 *  [CRAN](https://cran.r-project.org) for downloading and installing R
 *  [GitHub page for the **quanteda** package](https://github.com/kbenoit/quanteda)
-*  **Exercise:**  Try running this RMarkdown file: [test_setup.Rmd](http://rawgit.com/kbenoit/ITAUR/master/0_setup/test_setup.Rmd).  If it builds without error and looks like [this](http://rawgit.com/kbenoit/ITAUR/master/0_setup/test_setup.html), then you have successfully configured your system.
+*  **Exercise:**  
+    - Make sure you have at least R 3.3.3. installed.
+    - Make sure your packages are up-to-date.  From the command line, run
+        ```r
+        update.packages(ask = FALSE)
+        ```
+    - Install **quanteda** from CRAN.  From the "Packages" pane in RStudio, or from the command line:
+        ```r
+        install.packages("quanteda")
+        ```
+    - Install **readtext** from GitHub, following [these instructions](https://github.com/kbenoit/readtext/blob/master/README.md).
+    - Try "knitting" this RMarkdown file: [test_setup.Rmd](http://rawgit.com/kbenoit/ITAUR/master/0_setup/test_setup.Rmd).  If it builds without error and looks like [this](http://rawgit.com/kbenoit/ITAUR/master/0_setup/test_setup.html), then you have successfully configured your system.
 
 ### Module 1: Overview and demonstration of text analysis using R
 
