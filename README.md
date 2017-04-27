@@ -1,7 +1,7 @@
 ## Introduction to Text Analysis Using R
 
 
-#### A One-Day tutorial
+#### A Two-Day tutorial
 
 [Kenneth Benoit](kbenoit@lse.ac.uk), Department of Methodology, LSE  
 
