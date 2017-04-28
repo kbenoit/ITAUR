@@ -82,9 +82,12 @@ require(dplyr)
 ##     intersect, setdiff, setequal, union
 tweetSample <- mutate(tweetSample, day = yday(created_at))
 tweetSample <- mutate(tweetSample, dayDate = as.Date(day-1, origin = "2014-01-01"))
-juncker <- filter(tweetSample, grepl('juncker', text, ignore.case = TRUE)) %>% mutate(kand = 'Juncker')
-schulz <-  filter(tweetSample, grepl('schulz', text, ignore.case = TRUE))  %>% mutate(kand = 'Schulz')
-verhof <-  filter(tweetSample, grepl('verhofstadt', text, ignore.case = TRUE)) %>% mutate(kand = 'Verhofstadt')
+juncker <- filter(tweetSample, grepl('juncker', text, ignore.case = TRUE)) %>% 
+    mutate(kand = 'Juncker')
+schulz <-  filter(tweetSample, grepl('schulz', text, ignore.case = TRUE)) %>% 
+    mutate(kand = 'Schulz')
+verhof <-  filter(tweetSample, grepl('verhofstadt', text, ignore.case = TRUE)) %>% 
+    mutate(kand = 'Verhofstadt')
 spitzAll <- bind_rows(juncker, schulz, verhof)
 ```
 
@@ -96,7 +99,8 @@ require(ggplot2)
 require(scales)
 ## Loading required package: scales
 # mentioning kandidates names over time
-plotDf <- count(spitzAll, kand, day=day)  %>% mutate(day = as.Date(day-1, origin = "2014-01-01"))
+plotDf <- count(spitzAll, kand, day=day) %>% 
+    mutate(day = as.Date(day-1, origin = "2014-01-01"))
 
 ggplot(data=plotDf, aes(x=day, y=n, colour=kand)) + 
     geom_line(size=1) +
@@ -370,9 +374,9 @@ plot(coef(preds)$coef_document ~ docvars(amicusDfm, "testclass"),
 Correspondence analysis:
 
 ``` r
-ieDfm <- dfm(data_corpus_irishbudget2010)
-ieCA <- textmodel(ieDfm, model = "ca")
-textplot_scale1d(ieCA)
+dfm(data_corpus_irishbudget2010) %>%
+    textmodel_ca() %>% 
+    textplot_scale1d()
 ## Warning: Removed 14 rows containing missing values (geom_pointrange).
 ```
 
@@ -381,42 +385,48 @@ textplot_scale1d(ieCA)
 Poisson scaling:
 
 ``` r
-ieWF <- textmodel(ieDfm, model = "wordfish")
+ieWF <- dfm(data_corpus_irishbudget2010, removePunct = TRUE) %>%
+    textmodel_wordfish(dir = c(6,5))
+## Warning: argument "removePunct" is deprecated: use "remove_punct" instead.
+## Warning in dfm.tokenizedTexts(temp, tolower = tolower, stem = stem, select
+## = select, : Argument removePunct not used.
+## Warning in dfm.dfm(result, tolower = FALSE, stem = stem, select = select, :
+## Argument removePunct not used.
 summary(ieWF)
 ## Call:
-##  textmodel_wordfish(x = x)
+##  textmodel_wordfish(x = ., dir = c(6, 5))
 ## 
 ## Estimated document positions:
-##                                            theta         SE       lower
-## 2010_BUDGET_01_Brian_Lenihan_FF       -1.8268036 0.02020113 -1.86639781
-## 2010_BUDGET_02_Richard_Bruton_FG       0.5855453 0.02767752  0.53129738
-## 2010_BUDGET_03_Joan_Burton_LAB         1.0696093 0.01556654  1.03909892
-## 2010_BUDGET_04_Arthur_Morgan_SF        0.1141058 0.02791284  0.05939668
-## 2010_BUDGET_05_Brian_Cowen_FF         -1.7742535 0.02354795 -1.82040749
-## 2010_BUDGET_06_Enda_Kenny_FG           0.7016675 0.02613599  0.65044099
-## 2010_BUDGET_07_Kieran_ODonnell_FG      0.4967371 0.04081043  0.41674864
-## 2010_BUDGET_08_Eamon_Gilmore_LAB       0.5438955 0.02931964  0.48642903
-## 2010_BUDGET_09_Michael_Higgins_LAB     1.0104557 0.03669246  0.93853843
-## 2010_BUDGET_10_Ruairi_Quinn_LAB        0.9879423 0.03741468  0.91460950
-## 2010_BUDGET_11_John_Gormley_Green     -1.1913710 0.07324285 -1.33492703
-## 2010_BUDGET_12_Eamon_Ryan_Green       -0.1500193 0.06254512 -0.27260773
-## 2010_BUDGET_13_Ciaran_Cuffe_Green     -0.7196468 0.07340590 -0.86352238
-## 2010_BUDGET_14_Caoimhghin_OCaolain_SF  0.1521357 0.03644625  0.08070101
+##                                             theta         SE      lower
+## 2010_BUDGET_01_Brian_Lenihan_FF        1.79413555 0.02008369  1.7547715
+## 2010_BUDGET_02_Richard_Bruton_FG      -0.61757407 0.02844971 -0.6733355
+## 2010_BUDGET_03_Joan_Burton_LAB        -1.14716506 0.01562604 -1.1777921
+## 2010_BUDGET_04_Arthur_Morgan_SF       -0.08300762 0.02901006 -0.1398673
+## 2010_BUDGET_05_Brian_Cowen_FF          1.77383169 0.02331842  1.7281276
+## 2010_BUDGET_06_Enda_Kenny_FG          -0.75721756 0.02643476 -0.8090297
+## 2010_BUDGET_07_Kieran_ODonnell_FG     -0.48642676 0.04310127 -0.5709053
+## 2010_BUDGET_08_Eamon_Gilmore_LAB      -0.59380374 0.02992727 -0.6524612
+## 2010_BUDGET_09_Michael_Higgins_LAB    -0.99475989 0.04016928 -1.0734917
+## 2010_BUDGET_10_Ruairi_Quinn_LAB       -0.90753100 0.04265150 -0.9911279
+## 2010_BUDGET_11_John_Gormley_Green      1.18319536 0.07231201  1.0414638
+## 2010_BUDGET_12_Eamon_Ryan_Green        0.17186838 0.06334423  0.0477137
+## 2010_BUDGET_13_Ciaran_Cuffe_Green      0.72231131 0.07267234  0.5798735
+## 2010_BUDGET_14_Caoimhghin_OCaolain_SF -0.05785659 0.03875089 -0.1338083
 ##                                             upper
-## 2010_BUDGET_01_Brian_Lenihan_FF       -1.78720939
-## 2010_BUDGET_02_Richard_Bruton_FG       0.63979326
-## 2010_BUDGET_03_Joan_Burton_LAB         1.10011977
-## 2010_BUDGET_04_Arthur_Morgan_SF        0.16881502
-## 2010_BUDGET_05_Brian_Cowen_FF         -1.72809951
-## 2010_BUDGET_06_Enda_Kenny_FG           0.75289405
-## 2010_BUDGET_07_Kieran_ODonnell_FG      0.57672554
-## 2010_BUDGET_08_Eamon_Gilmore_LAB       0.60136202
-## 2010_BUDGET_09_Michael_Higgins_LAB     1.08237288
-## 2010_BUDGET_10_Ruairi_Quinn_LAB        1.06127505
-## 2010_BUDGET_11_John_Gormley_Green     -1.04781505
-## 2010_BUDGET_12_Eamon_Ryan_Green       -0.02743087
-## 2010_BUDGET_13_Ciaran_Cuffe_Green     -0.57577127
-## 2010_BUDGET_14_Caoimhghin_OCaolain_SF  0.22357033
+## 2010_BUDGET_01_Brian_Lenihan_FF        1.83349959
+## 2010_BUDGET_02_Richard_Bruton_FG      -0.56181264
+## 2010_BUDGET_03_Joan_Burton_LAB        -1.11653803
+## 2010_BUDGET_04_Arthur_Morgan_SF       -0.02614791
+## 2010_BUDGET_05_Brian_Cowen_FF          1.81953580
+## 2010_BUDGET_06_Enda_Kenny_FG          -0.70540543
+## 2010_BUDGET_07_Kieran_ODonnell_FG     -0.40194827
+## 2010_BUDGET_08_Eamon_Gilmore_LAB      -0.53514630
+## 2010_BUDGET_09_Michael_Higgins_LAB    -0.91602809
+## 2010_BUDGET_10_Ruairi_Quinn_LAB       -0.82393406
+## 2010_BUDGET_11_John_Gormley_Green      1.32492689
+## 2010_BUDGET_12_Eamon_Ryan_Green        0.29602307
+## 2010_BUDGET_13_Ciaran_Cuffe_Green      0.86474911
+## 2010_BUDGET_14_Caoimhghin_OCaolain_SF  0.01809516
 textplot_scale1d(ieWF)
 ```
 
@@ -428,58 +438,53 @@ Topic models:
 require(topicmodels)
 ## Loading required package: topicmodels
 mycorpus <- corpus_subset(data_corpus_inaugural, Year > 1950)
-quantdfm <- dfm(mycorpus, verbose = FALSE, remove.punct = TRUE,
+quantdfm <- dfm(mycorpus, verbose = FALSE, remove_punct = TRUE,
                 remove = c(stopwords('english'), 'will', 'us', 'nation', 'can', 'peopl*', 'americ*'))
-## Warning in tokens.character(texts(x), ...): Argument remove.punct not used.
-## Warning in dfm.tokenizedTexts(temp, tolower = tolower, stem = stem, select
-## = select, : Argument remove.punct not used.
-## Warning in dfm.dfm(result, tolower = FALSE, stem = stem, select = select, :
-## Argument remove.punct not used.
-ldadfm <- convert(quantdfm, to="topicmodels")
+ldadfm <- convert(quantdfm, to = "topicmodels")
 lda <- LDA(ldadfm, control = list(alpha = 0.1), k = 20)
 terms(lda, 10)
-##       Topic 1      Topic 2   Topic 3    Topic 4 Topic 5      Topic 6 
-##  [1,] ","          ","       "."        "."     ","          ","     
-##  [2,] "."          "."       ","        ","     "."          "."     
-##  [3,] "new"        "man"     "-"        ";"     "-"          "-"     
-##  [4,] "-"          "change"  "must"     "must"  "\""         "new"   
-##  [5,] "century"    "world"   "time"     "-"     "government" ";"     
-##  [6,] ";"          "must"    ";"        "need"  "must"       "common"
-##  [7,] "time"       "\""      "every"    "great" "believe"    "world" 
-##  [8,] "land"       "-"       "together" "time"  "world"      "every" 
-##  [9,] "every"      "liberty" "make"     "hope"  "one"        "less"  
-## [10,] "government" "union"   "journey"  "new"   "time"       "seek"  
-##       Topic 7   Topic 8 Topic 9   Topic 10   Topic 11   Topic 12
-##  [1,] ","       ","     ","       ","        ","        ","     
-##  [2,] "."       "."     "."       "."        "."        "."     
-##  [3,] "-"       "-"     "freedom" "-"        "country"  ":"     
-##  [4,] "may"     ";"     "liberty" "new"      "-"        "-"     
-##  [5,] "world"   "world" "every"   "must"     ":"        ";"     
-##  [6,] "nations" "peace" "one"     ";"        "citizens" "new"   
-##  [7,] "peace"   "let"   ":"       "strength" ";"        "world" 
-##  [8,] "freedom" "know"  "country" "together" "every"    "great" 
-##  [9,] "seek"    "\""    "world"   "spirit"   "new"      "free"  
-## [10,] "must"    "make"  "\""      "world"    "never"    "must"  
-##       Topic 13     Topic 14 Topic 15 Topic 16  Topic 17         Topic 18
-##  [1,] ","          "."      ","      ","       ","              ","     
-##  [2,] "."          "-"      "."      "."       "."              "."     
-##  [3,] "-"          ","      "world"  "-"       "-"              "-"     
-##  [4,] "government" "\""     "must"   "free"    "let"            ";"     
-##  [5,] "world"      "old"    "today"  "world"   "peace"          "must"  
-##  [6,] "one"        "land"   "new"    "faith"   "world"          "let"   
-##  [7,] ";"          "union"  "change" "peace"   "new"            "end"   
-##  [8,] "freedom"    "one"    "let"    "shall"   "responsibility" "every" 
-##  [9,] "must"       "great"  "time"   "upon"    "government"     "know"  
-## [10,] "time"       "new"    ";"      "freedom" "great"          "less"  
-##       Topic 19  Topic 20
-##  [1,] ","       ","     
-##  [2,] "."       "."     
-##  [3,] "-"       "-"     
-##  [4,] ";"       "let"   
-##  [5,] "liberty" "sides" 
-##  [6,] "freedom" "world" 
-##  [7,] "must"    "pledge"
-##  [8,] "hope"    "new"   
-##  [9,] "know"    "ask"   
-## [10,] "future"  "shall"
+##       Topic 1      Topic 2      Topic 3   Topic 4    Topic 5   
+##  [1,] "world"      "new"        "may"     "free"     "new"     
+##  [2,] "one"        "must"       "world"   "world"    "one"     
+##  [3,] "government" "strength"   "nations" "faith"    "come"    
+##  [4,] "freedom"    "together"   "peace"   "peace"    "old"     
+##  [5,] "must"       "spirit"     "freedom" "shall"    "every"   
+##  [6,] "time"       "world"      "seek"    "upon"     "let"     
+##  [7,] "now"        "human"      "must"    "freedom"  "promise" 
+##  [8,] "history"    "dream"      "upon"    "must"     "human"   
+##  [9,] "new"        "government" "help"    "strength" "children"
+## [10,] "human"      "freedom"    "justice" "country"  "world"   
+##       Topic 6     Topic 7          Topic 8      Topic 9      Topic 10    
+##  [1,] "world"     "let"            "story"      "new"        "new"       
+##  [2,] "friends"   "peace"          "must"       "century"    "let"       
+##  [3,] "time"      "world"          "never"      "land"       "today"     
+##  [4,] "today"     "new"            "country"    "government" "many"      
+##  [5,] "free"      "responsibility" "many"       "time"       "whether"   
+##  [6,] "need"      "government"     "government" "must"       "earth"     
+##  [7,] "make"      "great"          "beyond"     "every"      "last"      
+##  [8,] "new"       "home"           "new"        "world"      "bless"     
+##  [9,] "hope"      "abroad"         "children"   "promise"    "government"
+## [10,] "president" "make"           "place"      "fellow"     "gift"      
+##       Topic 11     Topic 12   Topic 13   Topic 14  Topic 15   Topic 16   
+##  [1,] "government" "freedom"  "must"     "country" "world"    "citizens" 
+##  [2,] "must"       "liberty"  "change"   "one"     "peace"    "country"  
+##  [3,] "believe"    "every"    "time"     "every"   "let"      "freedom"  
+##  [4,] "world"      "one"      "every"    "world"   "know"     "promise"  
+##  [5,] "one"        "country"  "one"      "great"   "make"     "common"   
+##  [6,] "time"       "world"    "new"      "new"     "earth"    "purpose"  
+##  [7,] "freedom"    "history"  "liberty"  "never"   "now"      "ideals"   
+##  [8,] "work"       "free"     "world"    "now"     "new"      "character"
+##  [9,] "man"        "time"     "now"      "back"    "together" "every"    
+## [10,] "let"        "citizens" "together" "make"    "voices"   "story"    
+##       Topic 17   Topic 18 Topic 19  Topic 20    
+##  [1,] "let"      "world"  "new"     "new"       
+##  [2,] "world"    "must"   "good"    "must"      
+##  [3,] "sides"    "today"  "must"    "every"     
+##  [4,] "new"      "new"    "great"   "less"      
+##  [5,] "pledge"   "change" "hand"    "work"      
+##  [6,] "ask"      "let"    "day"     "now"       
+##  [7,] "citizens" "time"   "things"  "common"    
+##  [8,] "power"    "work"   "mr"      "time"      
+##  [9,] "shall"    "fellow" "freedom" "world"     
+## [10,] "free"     "idea"   "work"    "generation"
 ```

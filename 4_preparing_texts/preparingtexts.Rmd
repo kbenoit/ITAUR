@@ -63,7 +63,7 @@ test1 <- c(text1 = "England and France are members of NATO and UNESCO",
 char_tolower(test1)
 char_tolower(test1, keep_acronyms = TRUE)
 
-test2 <- tokens(test1, remove_punct=TRUE)
+test2 <- tokens(test1, remove_punct = TRUE)
 tokens_tolower(test2)
 tokens_tolower(test2, keep_acronyms = TRUE)
 ```

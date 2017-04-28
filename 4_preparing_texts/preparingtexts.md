@@ -38,7 +38,7 @@ tokens(txt, verbose = TRUE)
 ## ...replacing Twitter characters (#, @)
 ## ...serializing tokens
 ## 31 unique types
-## ...total elapsed:  0.002 seconds.
+## ...total elapsed:  0.00100000000000011 seconds.
 ## Finished tokenizing and cleaning 2 texts.
 ## tokens from 2 documents.
 ## text1 :
@@ -185,7 +185,7 @@ char_tolower(test1, keep_acronyms = TRUE)
 ##                                               text2 
 ##                    "NASA sent a rocket into space."
 
-test2 <- tokens(test1, remove_punct=TRUE)
+test2 <- tokens(test1, remove_punct = TRUE)
 tokens_tolower(test2)
 ## tokens from 2 documents.
 ## text1 :
@@ -267,7 +267,7 @@ myDfm <- dfm(c("My Christmas was ruined by your opposition tax plan.",
 ##    ... found 2 documents, 20 features
 ##    ... created a 2 x 20 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.006 seconds.
+## Elapsed time: 0.005 seconds.
 dfm_select(myDfm, features = c("s$", ".y"), selection = "keep", valuetype = "regex")
 ## Document-feature matrix of: 2 documents, 6 features (50% sparse).
 ## 2 x 6 sparse Matrix of class "dfmSparse"
@@ -427,7 +427,7 @@ budgdfm <- dfm(data_corpus_irishbudget2010, dictionary = lgdict, verbose = TRUE)
 ## applying a dictionary consisting of 20 keys
 ##    ... created a 14 x 20 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.218 seconds.
+## Elapsed time: 0.231 seconds.
 head(budgdfm)
 ## Document-feature matrix of: 14 documents, 20 features (0% sparse).
 ## 14 x 20 sparse Matrix of class "dfmSparse"
@@ -692,7 +692,7 @@ dictdfm <- dfm(data_corpus_inaugural, dictionary = liwcdict, verbose = TRUE)
 ##    ... found 58 documents, 72 features
 ##    ... created a 58 x 72 sparse dfm
 ##    ... complete. 
-## Elapsed time: 0.001 seconds.
+## Elapsed time: 0 seconds.
 dictdfm[50:58, c("money", "power")]
 ## Document-feature matrix of: 9 documents, 2 features (0% sparse).
 ## 9 x 2 sparse Matrix of class "dfmSparse"

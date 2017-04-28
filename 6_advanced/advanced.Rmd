@@ -30,9 +30,12 @@ require(lubridate)
 require(dplyr)
 tweetSample <- mutate(tweetSample, day = yday(created_at))
 tweetSample <- mutate(tweetSample, dayDate = as.Date(day-1, origin = "2014-01-01"))
-juncker <- filter(tweetSample, grepl('juncker', text, ignore.case = TRUE)) %>% mutate(kand = 'Juncker')
-schulz <-  filter(tweetSample, grepl('schulz', text, ignore.case = TRUE))  %>% mutate(kand = 'Schulz')
-verhof <-  filter(tweetSample, grepl('verhofstadt', text, ignore.case = TRUE)) %>% mutate(kand = 'Verhofstadt')
+juncker <- filter(tweetSample, grepl('juncker', text, ignore.case = TRUE)) %>% 
+    mutate(kand = 'Juncker')
+schulz <-  filter(tweetSample, grepl('schulz', text, ignore.case = TRUE)) %>% 
+    mutate(kand = 'Schulz')
+verhof <-  filter(tweetSample, grepl('verhofstadt', text, ignore.case = TRUE)) %>% 
+    mutate(kand = 'Verhofstadt')
 spitzAll <- bind_rows(juncker, schulz, verhof)
 ```
 
@@ -43,7 +46,8 @@ Once the data is in the correct format, we can use ggplot to display the candida
 require(ggplot2)
 require(scales)
 # mentioning kandidates names over time
-plotDf <- count(spitzAll, kand, day=day)  %>% mutate(day = as.Date(day-1, origin = "2014-01-01"))
+plotDf <- count(spitzAll, kand, day=day) %>% 
+    mutate(day = as.Date(day-1, origin = "2014-01-01"))
 
 ggplot(data=plotDf, aes(x=day, y=n, colour=kand)) + 
     geom_line(size=1) +
@@ -67,6 +71,7 @@ topfeatures(jd, nfeature(jd))
 
 
 ## Further analysis examples
+
 Wordscores:
 ```{r}
 data(data_corpus_amicus, package = "quantedaData")
@@ -84,14 +89,15 @@ plot(coef(preds)$coef_document ~ docvars(amicusDfm, "testclass"),
 
 Correspondence analysis:
 ```{r, fig.width = 8, fig.height = 5}
-ieDfm <- dfm(data_corpus_irishbudget2010)
-ieCA <- textmodel(ieDfm, model = "ca")
-textplot_scale1d(ieCA)
+dfm(data_corpus_irishbudget2010) %>%
+    textmodel_ca() %>% 
+    textplot_scale1d()
 ```
 
 Poisson scaling:
 ```{r, fig.width = 8, fig.height = 5}
-ieWF <- textmodel(ieDfm, model = "wordfish")
+ieWF <- dfm(data_corpus_irishbudget2010, removePunct = TRUE) %>%
+    textmodel_wordfish(dir = c(6,5))
 summary(ieWF)
 textplot_scale1d(ieWF)
 ```

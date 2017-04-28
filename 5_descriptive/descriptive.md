@@ -45,7 +45,7 @@ summary(corpus(data_char_ukimmig2010, notes = "Created as a demo."))
 ##          UKIP   346    739        27
 ## 
 ## Source:  /Users/kbenoit/GitHub/ITAUR/5_descriptive/* on x86_64 by kbenoit
-## Created: Thu Apr 27 08:54:41 2017
+## Created: Fri Apr 28 07:34:08 2017
 ## Notes:
 ```
 
@@ -146,7 +146,8 @@ textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "eJaccard")
 ## 2017-Trump    0.3589839  0.3741432
 
 # compute some term similarities
-lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), head, n = 10)
+lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), 
+       head, n = 10)
 ## $fair
 ##      size  economic       tax beginning  national   economy  republic 
 ## 0.9045340 0.8922269 0.8869686 0.8864053 0.8775269 0.8775269 0.8703883 

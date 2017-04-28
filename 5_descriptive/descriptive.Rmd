@@ -64,7 +64,8 @@ textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "canberra")
 textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "eJaccard")
 
 # compute some term similarities
-lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), head, n = 10)
+lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), 
+       head, n = 10)
 ```
 
 And this can be used for **clustering documents**:
