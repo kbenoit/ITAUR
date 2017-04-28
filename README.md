@@ -86,6 +86,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 ### Module 3: Getting textual data into R
 
 *  [Getting textual data into R](3_file_import/file_import.md)
+*  Example of importing and segmenting text: [2016 US Presidential Debates](3_file_import/create_presidential_debates_corpus.R)
 *  **Exercise:** Try importing some texts of your own.
 *  Sample data files: [SOTU_metadata.csv](https://github.com/kbenoit/ITAUR/blob/master/data/SOTU_metadata.csv), [inaugTexts.csv](https://github.com/kbenoit/ITAUR/blob/master/data/inaugTexts.csv), [tweetSample.RData](https://github.com/kbenoit/ITAUR/blob/master/data/tweetSample.RData)
 
