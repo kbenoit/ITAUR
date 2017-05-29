@@ -5,8 +5,8 @@
 
 [Kenneth Benoit](kbenoit@lse.ac.uk), Department of Methodology, LSE  
 
-**Date:** Updated for Week commencing 24 April 2017
-**quanteda version:** 0.9.9.50 (CRAN)  
+**Date:** Updated for Week commencing 6-8 June 2017
+**quanteda version:** 0.9.9.65 (CRAN)  
 
 This repository contains the workshop materials for a one-day version of a workshop [Introduction to Text Analysis Using R](link here) taught by Kenneth Benoit.  This workshop and the materials it contains are funded by by the European Research Council grant ERC-2011-StG 283794-QUANTESS: *Quantitative Analysis of Text for Social Science*.
 
@@ -85,6 +85,8 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 ### Module 3: Getting textual data into R
 
+Install the **readtext** package for this section.
+
 *  [Getting textual data into R](3_file_import/file_import.md)
 *  Example of importing and segmenting text: [2016 US Presidential Debates](3_file_import/create_presidential_debates_corpus.R)
 *  **Exercise:** Try importing some texts of your own.
@@ -116,7 +118,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 
 * [**stm**](http://www.structuraltopicmodel.com).  See the `convert()` function, but also I have an outstanding pull request with the **stm** package maintainer to work directly on a **quanteda**  dfm-class object.  
 * [**tokenizers**](http://github.com/ropensci/tokenizers).  A package for tokenizing text in many different and flexible ways.
-* [**readtext**](https://github.com/kbenoit/readtext): Import and handling for plain and formatted text files.  Will replace `quanteda::textfile()`.  
+* [**readtext**](https://github.com/kbenoit/readtext): Import and handling for plain and formatted text files. 
 * [**spacyr**](https://github.com/kbenoit/spacyr): an R wrapper to the spaCy "industrial strength natural language processing" Python library from http://spacy.io.  
 * [**tidytext**](https://github.com/juliasilge/tidytext): Text mining using dplyr, ggplot2, and other tidy tools.  
 

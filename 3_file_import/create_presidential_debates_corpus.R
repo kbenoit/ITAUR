@@ -1,4 +1,5 @@
 require(stringr)
+require(magrittr)
 
 ## read in the files
 require(readtext)
@@ -39,7 +40,6 @@ presDebateCorpus2016seg <-
     corpus_subset(presDebateCorpus2016seg, !(tag %in% c("DELETEME", "PARTICIPANTS", "CITATION")))
 
 # get the moderator names from the moderators field
-moderatorNamesDfm <- 
 moderatorNames <- 
     corpus_subset(presDebateCorpus2016seg, tag %in% c("MODERATORS")) %>% 
     dfm(remove_punct = TRUE, tolower = FALSE) %>%
@@ -63,7 +63,7 @@ docvars(presDebateCorpus2016seg, "speakertype")[docvars(presDebateCorpus2016seg,
 docvars(presDebateCorpus2016seg, "speakertype")[grep("QUESTION|UNKNOWN|STUDENT|(FE)*MALE|AUDIENCE|UNIDENT.*(\\w(FE)*MALE){0,1}", 
                                                      docvars(presDebateCorpus2016seg, "tag"))] <- "other"
 
-docvars(presDebateCorpus2016seg, "speakertype")[docvars(presDebateCorpus2016seg, "tag") %in% names(table(presDebateCorpus2016seg[["tag"]])[table(docvars(presDebateCorpus2016seg, "tag"))<=6])] <- "other"
+# docvars(presDebateCorpus2016seg, "speakertype")[docvars(presDebateCorpus2016seg, "tag") %in% names(table(presDebateCorpus2016seg[["tag"]])[table(docvars(presDebateCorpus2016seg, "tag"))<=6])] <- "other"
 
 # inspect
 with(docvars(presDebateCorpus2016seg), table(tag, speakertype))
@@ -77,6 +77,7 @@ presDebateCorpus2016seg <-
 docvars(presDebateCorpus2016seg, "speakertype")[docvars(presDebateCorpus2016seg, "tag") == "SANTELLI"] <- "panelist"
 docvars(presDebateCorpus2016seg, "speakertype")[docvars(presDebateCorpus2016seg, "tag") == "WILKINS"] <- "panelist"
 docvars(presDebateCorpus2016seg, "speakertype")[docvars(presDebateCorpus2016seg, "tag") == "HAM"] <- "panelist"
+# NEED TO ADD MORE
 
 # inspect again
 with(docvars(presDebateCorpus2016seg), table(tag, speakertype))
