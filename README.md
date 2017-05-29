@@ -1,7 +1,7 @@
 ## Introduction to Text Analysis Using R
 
 
-#### A Two-Day tutorial
+#### A Three-Day tutorial
 
 [Kenneth Benoit](kbenoit@lse.ac.uk), Department of Methodology, LSE  
 
@@ -59,7 +59,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 *  [CRAN](https://cran.r-project.org) for downloading and installing R
 *  [GitHub page for the **quanteda** package](https://github.com/kbenoit/quanteda)
 *  **Exercise:**  
-    - Make sure you have at least R 3.3.3 installed.  (The latest version of R, as of 27 April 2017, is 3.4.0.)
+    - Make sure you have at least R 3.3.3 installed.  Recommended is the latest version of R, as of 27 April 2017, is 3.4.0.
     - Make sure your packages are up-to-date.  From the command line, run
         ```r
         update.packages(ask = FALSE)
