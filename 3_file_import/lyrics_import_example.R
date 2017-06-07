@@ -1,3 +1,6 @@
+## Example from First Day of Class
+## Thanks to Tobias for the files
+
 require(quanteda)
 require(readtext)
 require(magrittr)
