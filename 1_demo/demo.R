@@ -8,14 +8,14 @@ require(quanteda)
 help(package="quanteda")
 
 ## create a corpus from a text vector of UK immigration texts
-summary(ukimmigTexts)
-str(ukimmigTexts)
-encoding(ukimmigTexts)
-encoding(encodedTexts)
+summary(data_char_ukimmig2010)
+str(data_char_ukimmig2010)
 
 # create a corpus from immigration texts
-immigCorpus <- corpus(ukimmigTexts, notes="Created as part of a demo.")
-docvars(immigCorpus) <- data.frame(party = docnames(immigCorpus), year = 2010)
+immigCorpus <- corpus(data_char_ukimmig2010, 
+                      metacorpus = list(notes = "Created as part of a demo."))
+docvars(immigCorpus) <- data.frame(party = names(data_char_ukimmig2010), 
+                                   year = 2010)
 summary(immigCorpus)
 
 # explore using kwic
@@ -23,117 +23,124 @@ kwic(immigCorpus, "deport", window = 3)
 kwic(immigCorpus, "illegal immig*", window = 3)
 
 # extract a document-feature matrix
-immigDfm <- dfm(subset(immigCorpus, party=="BNP"))
-plot(immigDfm)
-immigDfm <- dfm(subset(immigCorpus, party=="BNP"), ignoredFeatures = stopwords("english"))
-plot(immigDfm, random.color = TRUE, rot.per = .25, colors = sample(colors()[2:128], 5))
+immigDfm <- dfm(corpus_subset(immigCorpus, party == "BNP"))
+textplot_wordcloud(immigDfm)
+immigDfm <- dfm(corpus_subset(immigCorpus, party == "BNP"), 
+                remove = stopwords("english"))
+textplot_wordcloud(immigDfm, 
+                   random.color = TRUE, rot.per = .25, 
+                   colors = sample(colors()[2:128], 5))
 
 # change units to sentences
-immigCorpusSent <- changeunits(immigCorpus, to = "sentences")
+immigCorpusSent <- corpus_reshape(immigCorpus, to = "sentences")
 summary(immigCorpusSent, 20)
 
 
 ## tokenize some texts
 txt <- "#TextAnalysis is MY <3 4U @myhandle gr8 #stuff :-)"
-tokenize(txt, removePunct=TRUE)
-tokenize(txt, removePunct=TRUE, removeTwitter=TRUE)
-(toks <- tokenize(toLower(txt), removePunct=TRUE, removeTwitter=TRUE))
+tokens(txt, remove_punct = TRUE)
+tokens(txt, remove_punct = TRUE, remove_twitter = FALSE)
+tokens(txt, remove_punct = TRUE, remove_twitter = TRUE)
+(toks <- tokens(char_tolower(txt), remove_punct = TRUE, 
+                remove_twitter = TRUE))
 
 # tokenize sentences
-(sents <- tokenize(ukimmigTexts[3], what = "sentence", simplify = TRUE)[1:5])
+(sents <- tokens(data_char_ukimmig2010[3], what = "sentence"))
 # tokenize characters
-tokenize(ukimmigTexts[1], what = "character", simplify = TRUE)[1:100]
+tokens(data_char_ukimmig2010[5], what = "character")[[1]][1:100]
 
 
 ## some descriptive statistics
 
 ## create a document-feature matrix from the inaugural corpus
-summary(inaugCorpus)
-presDfm <- dfm(inaugCorpus)
-presDfm
+summary(data_corpus_inaugural)
+presDfm <- dfm(data_corpus_inaugural)
+head(presDfm)
 docnames(presDfm)
 # concatenate by president name                 
-presDfm <- dfm(inaugCorpus, groups="President")
+presDfm <- dfm(data_corpus_inaugural, groups = "President", verbose = TRUE)
 presDfm
 docnames(presDfm)
 
 # need first to install quantedaData, using
 # devtools::install_github("kbenoit/quantedaData")
 ## show some selection capabilities on Irish budget corpus
-data(iebudgetsCorpus, package = "quantedaData")
-summary(iebudgetsCorpus, 10)
-ieFinMin <- subset(iebudgetsCorpus, number=="01" & debate == "BUDGET")
+data(data_corpus_irishbudgets, package = "quantedaData")
+summary(data_corpus_irishbudgets, 10)
+ieFinMin <- corpus_subset(data_corpus_irishbudgets, number=="01" & debate == "BUDGET")
 summary(ieFinMin)
 dfmFM <- dfm(ieFinMin)
-plot(2008:2012, lexdiv(dfmFM, "C"), xlab="Year", ylab="Herndan's C", type="b",
+plot(2008:2012, textstat_lexdiv(dfmFM, "C"), xlab="Year", ylab="Herndan's C", type="b",
      main = "World's Crudest Lexical Diversity Plot")
 
 
 # plot some readability statistics
-data(SOTUCorpus, package = "quantedaData")
-fk <- readability(SOTUCorpus, "Flesch.Kincaid")
-year <- lubridate::year(docvars(SOTUCorpus, "Date"))
+data(data_corpus_SOTU, package = "sophistication")
+stat <- textstat_readability(data_corpus_SOTU, "Flesch.Kincaid")
+year <- lubridate::year(docvars(data_corpus_SOTU, "Date"))
+
 require(ggplot2)
 partyColours <- c("blue", "blue", "black", "black", "red", "red")
-p <- ggplot(data = docvars(SOTUCorpus), aes(x = year, y = fk)) + #, group = delivery)) +
+p <- ggplot(data = docvars(data_corpus_SOTU),
+            aes(x = year, y = stat)) + #, group = delivery)) +
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_blank(),
           axis.line = element_line(colour = "black")) +
     geom_smooth(alpha=0.2, linetype=1, color="grey70", method = "loess", span = .34) +
     xlab("") +
-    ylab("Flesch-Kincaid") +
+    ylab("Flesch-Kincaid Readability") +
     geom_point(aes(colour = party)) +
     scale_colour_manual(values = partyColours) +
     geom_line(aes(), alpha=0.3, size = 1) +
-    ggtitle("Text Complexity in State of the Union Addresses") + 
+    # ggtitle("Text Complexity in State of the Union Addresses") +
     theme(plot.title = element_text(lineheight=.8, face="bold"))
-quartz(height=7, width=12)
 print(p)
 
-
 ## Presidential Inaugural Address Corpus
-presDfm <- dfm(inaugCorpus, ignoredFeatures = stopwords("english"))
+presDfm <- dfm(data_corpus_inaugural, remove = stopwords("english"))
 # compute some document similarities
-(docsim <- similarity(presDfm, "1985-Reagan", n=5, margin="documents"))
-as.matrix(docsim)
+as.list(textstat_simil(presDfm, "1985-Reagan", margin = "documents"))
 
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "cosine")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "Hellinger")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "eJaccard")
+textstat_simil(presDfm, c("2009-Obama" , "2013-Obama"), method = "cosine")
+textstat_simil(presDfm, c("2009-Obama" , "2013-Obama"), method = "eJaccard")
 
 # compute some term similarities
-featsim <- similarity(presDfm, c("fair", "health", "terror"), margin = "features", 
-                      method="cosine")
-lapply(featsim, head)
+featsim <- textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", 
+                          method = "cosine")
+lapply(as.list(featsim), head)
 
 ## mining collocations
 
 # form ngrams
 txt <- "Hey @kenbenoit #textasdata: The quick, brown fox jumped over the lazy dog!"
-(toks1 <- tokenize(toLower(txt), removePunct = TRUE))
-tokenize(toLower(txt), removePunct = TRUE, ngrams = 2)
-tokenize(toLower(txt), removePunct = TRUE, ngrams = c(1,3))
+(toks1 <- tokens(char_tolower(txt), remove_punct = TRUE))
+tokens(char_tolower(txt), remove_punct = TRUE, ngrams = 2)
+tokens(char_tolower(txt), remove_punct = TRUE, ngrams = c(1,3))
 
 # low-level options exist too
-ngrams(toks1, c(1, 3, 5))
+tokens_ngrams(toks1, c(1, 3, 5))
 
 # form "skip-grams"
-tokens <- tokenize(toLower("Insurgents killed in ongoing fighting."),
-                   removePunct = TRUE, simplify = TRUE)
-skipgrams(tokens, n = 2, skip = 0:1, concatenator = " ") 
-skipgrams(tokens, n = 2, skip = 0:2, concatenator = " ") 
-skipgrams(tokens, n = 3, skip = 0:2, concatenator = " ") 
+toks <- tokens("insurgents killed in ongoing fighting")
+tokens_skipgrams(toks, n = 2, skip = 0:1, concatenator = " ") 
+tokens_skipgrams(toks, n = 2, skip = 0:2, concatenator = " ") 
+tokens_skipgrams(toks, n = 3, skip = 0:2, concatenator = " ") 
 
 # mine bigrams
-collocs2 <- collocations(inaugTexts, size = 2, method = "all")
+require(magrittr)
+collocs2 <- tokens(data_corpus_inaugural) %>%
+    tokens_remove(stopwords("english"), padding = TRUE) %>%
+    tokens_remove("\\p{P}", valuetype = "regex", padding = TRUE) %>%
+    textstat_collocations(max_size = 2, method = "lr")
 head(collocs2, 20)
 
 # mine trigrams
-collocs3 <- collocations(inaugTexts, size = 3, method = "all")
+collocs3 <- tokens(data_corpus_inaugural) %>%
+    tokens_remove(stopwords("english"), padding = TRUE) %>%
+    tokens_remove("\\p{P}", valuetype = "regex", padding = TRUE) %>%
+    textstat_collocations(max_size = 3, method = "bj")
 head(collocs3, 20)
 
-# remove parts of speech and inspect
-head(removeFeatures(collocs2, stopwords("english")), 20)
-head(removeFeatures(collocs3, stopwords("english")), 20)
+
 

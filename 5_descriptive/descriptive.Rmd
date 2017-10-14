@@ -1,10 +1,19 @@
 ---
-title: "Descriptive Analysis of Texts"
-author: "Kenneth Benoit and Paul Nulty"
-date: "18 October 2015"
-output: html_document
+output:
+  md_document:
+    variant: markdown_github
 ---
 
+# Descriptive Analysis of Texts
+
+### Kenneth Benoit
+### 24 April 2017
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE
+)
+```
 quateda has a number of descriptive statistics available for reporting on texts.  The **simplest of these** is through the `summary()` method:
 ```{r}
 require(quanteda)
@@ -15,54 +24,58 @@ summary(txt)
 
 This also works for corpus objects:
 ```{r}
-summary(corpus(ukimmigTexts, notes = "Created as a demo."))
+summary(corpus(data_char_ukimmig2010, notes = "Created as a demo."))
 ```
 
 To access the **syllables** of a text, we use `syllables()`:
 ```{r}
-syllables(c("Superman.", "supercalifragilisticexpialidocious", "The cat in the hat."))
+nsyllable(c("Superman.", "supercalifragilisticexpialidocious", "The cat in the hat."))
 ```
 
 We can even compute the **Scabble value** of English words, using `scrabble()`:
 ```{r}
-scrabble(c("cat", "quixotry", "zoo"))
+nscrabble(c("cat", "quixotry", "zoo"))
 ```
 
 We can analyze the **lexical diversity** of texts, using `lexdiv()` on a dfm:
 ```{r}
-myDfm <- dfm(subset(inaugCorpus, Year > 1980), verbose = FALSE)
-lexdiv(myDfm, "R")
-dotchart(sort(lexdiv(myDfm, "R")))
+myDfm <- dfm(corpus_subset(data_corpus_inaugural, Year > 1980))
+textstat_lexdiv(myDfm, "R")
+dotchart(sort(textstat_lexdiv(myDfm, "R")))
 ```
 
 We can analyze the **readability** of texts, using `readability()` on a vector of texts or a corpus:
 ```{r}
-readab <- readability(subset(inaugCorpus, Year > 1980), measure = "Flesch.Kincaid")
+readab <- textstat_readability(corpus_subset(data_corpus_inaugural, Year > 1980), 
+                               measure = "Flesch.Kincaid")
 dotchart(sort(readab))
 ```
 
 We can **identify documents and terms that are similar to one another**, using `similarity()`:
 ```{r}
 ## Presidential Inaugural Address Corpus
-presDfm <- dfm(inaugCorpus, ignoredFeatures = stopwords("english"))
+require(magrittr)
+presDfm <- corpus_subset(data_corpus_inaugural, Year > 1980) %>%
+    dfm(remove = stopwords("english"), remove_punct = TRUE)
 # compute some document similarities
-similarity(presDfm, "1985-Reagan", n=5, margin="documents")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "cosine")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "Hellinger")
-similarity(presDfm, c("2009-Obama" , "2013-Obama"), n=5, margin="documents", method = "eJaccard")
+textstat_simil(presDfm, "1985-Reagan")
+textstat_simil(presDfm, c("2009-Obama", "2013-Obama"), method = "cosine")
+textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "canberra")
+textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "eJaccard")
 
 # compute some term similarities
-similarity(presDfm, c("fair", "health", "terror"), method="cosine")
+lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), 
+       head, n = 10)
 ```
 
 And this can be used for **clustering documents**:
 ```{r, fig.height=6, fig.width=10}
-data(SOTUCorpus, package="quantedaData")
-presDfm <- dfm(subset(SOTUCorpus, lubridate::year(Date)>1981), verbose=FALSE, stem=TRUE,
-               ignoredFeatures=stopwords("english", verbose=FALSE))
-presDfm <- trim(presDfm, minCount=5, minDoc=3)
+data(data_corpus_SOTU, package="quantedaData")
+presDfm <- dfm(subset(data_corpus_SOTU, lubridate::year(Date)>1990), stem = TRUE,
+               remove = stopwords("english"))
+presDfm <- dfm_trim(presDfm, min_count = 5, min_docfreq = 3)
 # hierarchical clustering - get distances on normalized dfm
-presDistMat <- dist(as.matrix(weight(presDfm, "relFreq")))
+presDistMat <- dist(as.matrix(dfm_weight(presDfm, "relFreq")))
 # hiarchical clustering the distance object
 presCluster <- hclust(presDistMat)
 # label with document names
@@ -71,10 +84,10 @@ presCluster$labels <- docnames(presDfm)
 plot(presCluster)
 ```
 
-Or we could look at **term clustering** insteadd:
+Or we could look at **term clustering** instead:
 ```{r, fig.height=8, fig.width=12}
 # word dendrogram with tf-idf weighting
-wordDfm <- sort(weight(presDfm, "tfidf"))
+wordDfm <- sort(dfm_weight(presDfm, "tfidf"))
 wordDfm <- t(wordDfm)[1:100,]  # because transposed
 wordDistMat <- dist(wordDfm)
 wordCluster <- hclust(wordDistMat)
@@ -82,8 +95,8 @@ plot(wordCluster, xlab="", main="tf-idf Frequency weighting")
 ```
 
 Finally, there are number of helper functions to extract information from quanteda objects:
-```{r}
-myCorpus <- subset(inaugCorpus, Year > 1980)
+```{r, collapse = FALSE}
+myCorpus <- corpus_subset(data_corpus_inaugural, Year > 1980)
 
 # return the number of documents
 ndoc(myCorpus)           
@@ -93,29 +106,32 @@ ndoc(dfm(myCorpus, verbose = FALSE))
 ntoken(myCorpus)
 ntoken("How many words in this sentence?")
 # arguments to tokenize can be passed 
-ntoken("How many words in this sentence?", removePunct = TRUE)
+ntoken("How many words in this sentence?", remove_punct = TRUE)
 
 # how many types (unique words)
 ntype(myCorpus)
 ntype("Yada yada yada.  (TADA.)")
-ntype("Yada yada yada.  (TADA.)", removePunct = TRUE)
-ntype(toLower("Yada yada yada.  (TADA.)"), removePunct = TRUE)
+ntype("Yada yada yada.  (TADA.)", remove_punct = TRUE)
+ntype(char_tolower("Yada yada yada.  (TADA.)"), remove_punct = TRUE)
 
 # can count documents and features
-ndoc(inaugCorpus)
-myDfm1 <- dfm(inaugCorpus, verbose = FALSE)
+ndoc(data_corpus_inaugural)
+myDfm1 <- dfm(data_corpus_inaugural)
 ndoc(myDfm1)
 nfeature(myDfm1)
-myDfm2 <- dfm(inaugCorpus, ignoredFeatures = stopwords("english"), stem = TRUE, verbose = FALSE)
+myDfm2 <- dfm(data_corpus_inaugural, remove = stopwords("english"), stem = TRUE)
 nfeature(myDfm2)
+myDfm3 <- dfm(data_corpus_inaugural, remove = stopwords("english"), remove_punct = TRUE, stem = TRUE)
+nfeature(myDfm3)
 
 # can extract feature labels and document names
-head(features(myDfm1), 20)
+head(featnames(myDfm1), 20)
 head(docnames(myDfm1))
 
 # and topfeatures
 topfeatures(myDfm1)
 topfeatures(myDfm2) # without stopwords
+topfeatures(myDfm3) # without stopwords or punctuation
 ```
 
 
