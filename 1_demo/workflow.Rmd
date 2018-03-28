@@ -1,7 +1,7 @@
 ---
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 ---
 
 # Introduction and Workflow
@@ -43,10 +43,10 @@ One of the most fundamental text analysis tasks is tokenization. To tokenize a t
 **quanteda**'s `tokens` function can be used on a simple character vector, a vector of character vectors, or a corpus. Here are some examples:
 
 ```{r}
-tokens('Today is Thursday in Canberra. It is yesterday in London.')
+tokens("Today is Thursday in Canberra. It is yesterday in London.")
 
-vec <- c(one = 'This is text one', 
-         two = 'This, however, is the second text')
+vec <- c(one = "This is text one", 
+         two = "This, however, is the second text")
 tokens(vec)
 ```
 
@@ -75,12 +75,12 @@ Once each text has been split into words, we can use the `dfm` function to creat
 ```{r}
 inaugDfm <- dfm(inaugTokens)
 trimmedInaugDfm <- dfm_trim(inaugDfm, min_doc = 5, min_count = 10)
-weightedTrimmedDfm <- dfm_weight(trimmedInaugDfm, type = 'tfidf')
+weightedTrimmedDfm <- dfm_tfidf(trimmedInaugDfm)
 
 require(magrittr)
 inaugDfm2 <- dfm(inaugTokens) %>% 
     dfm_trim(min_doc = 5, min_count = 10) %>% 
-        dfm_weight(type = 'tfidf')
+        dfm_tfidf()
 ```
 
 Note that `dfm()` works on a variety of object types, including character vectors, corpus objects, and tokenized text objects.  This gives the user maximum flexibility and power, while also making it easy to achieve similar results by going directly from texts to a document-by-feature matrix.
@@ -103,13 +103,13 @@ summary(data_corpus_inaugural[52:57])
 We can use the `docvars` option to the `corpus` command to record the party with which each text is associated:
 
 ```{r}
-dv <- data.frame(Party = c('dem', 'dem', 'rep', 'rep', 'dem', 'dem'))
+dv <- data.frame(Party = c("dem", "dem", "rep", "rep", "dem", "dem"))
 recentCorpus <- corpus(data_corpus_inaugural[52:57], docvars = dv)
 summary(recentCorpus)
 ```
 
 We can use this metadata to combine features across documents when creating a document-feature matrix:
 ```{r  fig.width=10, fig.height=8, warning=FALSE}
-partyDfm <- dfm(recentCorpus, groups = 'Party', remove = (stopwords('english')))
+partyDfm <- dfm(recentCorpus, groups = "Party", remove = (stopwords("english")))
 textplot_wordcloud(partyDfm, comparison = TRUE)
 ```

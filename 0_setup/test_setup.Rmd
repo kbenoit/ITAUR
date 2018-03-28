@@ -22,7 +22,7 @@ install.packages("quanteda")
 
 ```{r, eval=FALSE}
 ## the devtools package is required to install quanteda from Github
-devtools::install_github("kbenoit/quantedaData")
+devtools::install_github("quanteda/quanteda.corpora")
 ```
 
 If you are feeling adventurous, you can install the latest build of **quanteda** from its [GitHub code page](https://github.com/kbenoit/quanteda).

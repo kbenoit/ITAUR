@@ -3,9 +3,9 @@
 ## Ken Benoit <kbenoit@lse.ac.uk>
 ## Paul Nulty <p.nulty@lse.ac.uk>
 
-require(quanteda)
+library("quanteda")
 
-help(package="quanteda")
+help(package = "quanteda")
 
 ## create a corpus from a text vector of UK immigration texts
 summary(data_char_ukimmig2010)
@@ -20,13 +20,14 @@ summary(immigCorpus)
 
 # explore using kwic
 kwic(immigCorpus, "deport", window = 3)
-kwic(immigCorpus, "illegal immig*", window = 3)
+kwic(immigCorpus, phrase("illegal immig*"), window = 3)
 
 # extract a document-feature matrix
 immigDfm <- dfm(corpus_subset(immigCorpus, party == "BNP"))
 textplot_wordcloud(immigDfm)
 immigDfm <- dfm(corpus_subset(immigCorpus, party == "BNP"), 
-                remove = stopwords("english"))
+                remove = c(stopwords("english"), "will"),
+                remove_punct = TRUE)
 textplot_wordcloud(immigDfm, 
                    random.color = TRUE, rot.per = .25, 
                    colors = sample(colors()[2:128], 5))
@@ -61,33 +62,38 @@ docnames(presDfm)
 presDfm <- dfm(data_corpus_inaugural, groups = "President", verbose = TRUE)
 presDfm
 docnames(presDfm)
+presDfm <- dfm(data_corpus_inaugural, groups = c("President", "FirstName"), verbose = TRUE)
+docnames(presDfm)
+
 
 # need first to install quantedaData, using
-# devtools::install_github("kbenoit/quantedaData")
+# devtools::install_github("quanteda/quanteda.corpora")
 ## show some selection capabilities on Irish budget corpus
-data(data_corpus_irishbudgets, package = "quantedaData")
+data(data_corpus_irishbudgets, package = "quanteda.corpora")
 summary(data_corpus_irishbudgets, 10)
-ieFinMin <- corpus_subset(data_corpus_irishbudgets, number=="01" & debate == "BUDGET")
+ieFinMin <- corpus_subset(data_corpus_irishbudgets, 
+                          number=="01" & debate == "BUDGET")
 summary(ieFinMin)
 dfmFM <- dfm(ieFinMin)
-plot(2008:2012, textstat_lexdiv(dfmFM, "C"), xlab="Year", ylab="Herndan's C", type="b",
+plot(2008:2012, textstat_lexdiv(dfmFM, "C")[["C"]], 
+     xlab = "Year", ylab = "Herndan's C", type = "b",
      main = "World's Crudest Lexical Diversity Plot")
 
 
 # plot some readability statistics
-data(data_corpus_SOTU, package = "sophistication")
-stat <- textstat_readability(data_corpus_SOTU, "Flesch.Kincaid")
-year <- lubridate::year(docvars(data_corpus_SOTU, "Date"))
+data(data_corpus_sotu, package = "quanteda.corpora")
+stat <- textstat_readability(data_corpus_sotu, "Flesch.Kincaid")
+year <- lubridate::year(docvars(data_corpus_sotu, "Date"))
 
 require(ggplot2)
 partyColours <- c("blue", "blue", "black", "black", "red", "red")
-p <- ggplot(data = docvars(data_corpus_SOTU),
-            aes(x = year, y = stat)) + #, group = delivery)) +
+p <- ggplot(data = cbind(stat, year, docvars(data_corpus_sotu)), 
+            aes(x = year, y = Flesch.Kincaid)) + 
     theme(panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           panel.background = element_blank(),
           axis.line = element_line(colour = "black")) +
-    geom_smooth(alpha=0.2, linetype=1, color="grey70", method = "loess", span = .34) +
+    geom_smooth(alpha = 0.2, linetype = 1, color = "grey70", method = "loess", span = .34) +
     xlab("") +
     ylab("Flesch-Kincaid Readability") +
     geom_point(aes(colour = party)) +
@@ -103,7 +109,7 @@ presDfm <- dfm(data_corpus_inaugural, remove = stopwords("english"))
 as.list(textstat_simil(presDfm, "1985-Reagan", margin = "documents"))
 
 textstat_simil(presDfm, c("2009-Obama" , "2013-Obama"), method = "cosine")
-textstat_simil(presDfm, c("2009-Obama" , "2013-Obama"), method = "eJaccard")
+textstat_simil(presDfm, c("2009-Obama" , "2013-Obama"), method = "ejaccard")
 
 # compute some term similarities
 featsim <- textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", 
@@ -128,18 +134,19 @@ tokens_skipgrams(toks, n = 2, skip = 0:2, concatenator = " ")
 tokens_skipgrams(toks, n = 3, skip = 0:2, concatenator = " ") 
 
 # mine bigrams
-require(magrittr)
-collocs2 <- tokens(data_corpus_inaugural) %>%
+collocs2 <- 
+    tokens(data_corpus_inaugural) %>%
     tokens_remove(stopwords("english"), padding = TRUE) %>%
     tokens_remove("\\p{P}", valuetype = "regex", padding = TRUE) %>%
-    textstat_collocations(max_size = 2, method = "lr")
+    tokens_tolower() %>%
+    textstat_collocations(size = 2)
 head(collocs2, 20)
 
 # mine trigrams
 collocs3 <- tokens(data_corpus_inaugural) %>%
     tokens_remove(stopwords("english"), padding = TRUE) %>%
     tokens_remove("\\p{P}", valuetype = "regex", padding = TRUE) %>%
-    textstat_collocations(max_size = 3, method = "bj")
+    textstat_collocations(size = 3)
 head(collocs3, 20)
 
 

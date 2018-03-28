@@ -5,14 +5,19 @@ Manupulating text in R
 
 ### 27§ April 2017
 
-In this section we will work through some basic string manipulation functions in R.
+In this section we will work through some basic string manipulation
+functions in R.
 
 String handling in base R
 -------------------------
 
-There are several useful string manipulation functions in the R base library. In addition, we will look at the `stringr` package which provides an additional interface for simple text manipulation.
+There are several useful string manipulation functions in the R base
+library. In addition, we will look at the `stringr` package which
+provides an additional interface for simple text manipulation.
 
-The fundamental type (or `mode`) in which R stores text is the character vector. The most simple case is a character vector of length one. The `nchar` function returns the number of characters in a character vector.
+The fundamental type (or `mode`) in which R stores text is the character
+vector. The most simple case is a character vector of length one. The
+`nchar` function returns the number of characters in a character vector.
 
 ``` r
 require(quanteda)
@@ -23,7 +28,8 @@ nchar(s1)
 ## [1] 15
 ```
 
-The `nchar` function is vectorized, meaning that when called on a vector it returns a value for each element of the vector.
+The `nchar` function is vectorized, meaning that when called on a vector
+it returns a value for each element of the vector.
 
 ``` r
 s2 <- c('This is', 'my example text.', 'So imaginative.')
@@ -35,7 +41,8 @@ sum(nchar(s2))
 ## [1] 38
 ```
 
-We can use this to answer some simple questions about the inaugural addresses.
+We can use this to answer some simple questions about the inaugural
+addresses.
 
 Which were the longest and shortest speeches?
 
@@ -49,7 +56,9 @@ which.min(nchar(inaugTexts))
 ##               2
 ```
 
-Unlike in some other programming languages, it is not possible to index into a "string" -- where a string is defined as a sequence of text characters -- in R:
+Unlike in some other programming languages, it is not possible to index
+into a “string” – where a string is defined as a sequence of text
+characters – in R:
 
 ``` r
 s1 <- 'This file contains many fascinating example sentences.'
@@ -65,7 +74,9 @@ substr(s1, 6,9)
 ## [1] "file"
 ```
 
-Often we would like to split character vectors to extract a term of interest. This is possible using the `strsplit` function. Consider the names of the inaugural texts:
+Often we would like to split character vectors to extract a term of
+interest. This is possible using the `strsplit` function. Consider the
+names of the inaugural texts:
 
 ``` r
 names(inaugTexts)
@@ -99,7 +110,9 @@ years <- sapply(parts, function(x) x[1])
 pres <-  sapply(parts, function(x) x[2])
 ```
 
-The `paste` function is used to join character vectors together. The way in which the elements are combined depends on the values of the `sep` and `collapse` arguments:
+The `paste` function is used to join character vectors together. The way
+in which the elements are combined depends on the values of the `sep`
+and `collapse` arguments:
 
 ``` r
 paste('one', 'two', 'three')
@@ -163,21 +176,25 @@ c2 %in% c1
 The **stringi** and **stringr** packages
 ----------------------------------------
 
-Note that quanteda has a special wrapper for changing case, called `char_tolower()`, which is better than the built-in `tolower()` and is defined for multiple objects:
+Note that quanteda has a special wrapper for changing case, called
+`char_tolower()`, which is better than the built-in `tolower()` and is
+defined for multiple objects:
 
 ``` r
 require(quanteda)
 tolower(c("This", "is", "Kεφαλαία Γράμματα"))
 ## [1] "this"              "is"                "kεφαλαία γράμματα"
-methods(toLower)
-## [1] toLower.character*      toLower.NULL*           toLower.tokenizedTexts*
-## [4] toLower.tokens*        
-## see '?methods' for accessing help and source code
 ```
 
-Why is it better? It calls the [**stringi** package's](http://www.gagolewski.com/software/stringi/) (see more below) function `stri_trans_tolower()`, which is more sensitive to multi-byte encodings and the definition of case transformations for non-European languages (and even some "harder" European ones, such as Hungarian, which has characters not used in any other language).
+Why is it better? It calls the [**stringi**
+package’s](http://www.gagolewski.com/software/stringi/) (see more below)
+function `stri_trans_tolower()`, which is more sensitive to multi-byte
+encodings and the definition of case transformations for non-European
+languages (and even some “harder” European ones, such as Hungarian,
+which has characters not used in any other language).
 
-For example, we could define a function to count vowels based on the `stringr::str_count()` function:
+For example, we could define a function to count vowels based on the
+`stringr::str_count()` function:
 
 ``` r
 require(stringr)
@@ -193,15 +210,33 @@ vCount('tts')
 Pattern matching and regular expressions
 ----------------------------------------
 
-Matching texts based on generalized patterns is one of the most common, and the most useful, operations in text processing. The most powerful variant of these is known as a *regular expression*.
+Matching texts based on generalized patterns is one of the most common,
+and the most useful, operations in text processing. The most powerful
+variant of these is known as a *regular expression*.
 
-A regular expression (or "regex"" for short) is a special text string for describing a search pattern. You may have probably already used a simple form of regular expression, called a ["glob"](https://en.wikipedia.org/wiki/Glob_(programming)), that uses wildcards for pattern matching. For instance, `*.txt` in a command prompt or Terminal window will find all files ending in `.txt`. Regular expressions are like glob wildcards on steroids. The regex equivalent is `^.*\.txt$`. R even has a function to convert from glob expressions to regular expressions: `glob2rx()`.
+A regular expression (or “regex”" for short) is a special text string
+for describing a search pattern. You may have probably already used a
+simple form of regular expression, called a
+[“glob”](https://en.wikipedia.org/wiki/Glob_(programming)), that uses
+wildcards for pattern matching. For instance, `*.txt` in a command
+prompt or Terminal window will find all files ending in `.txt`. Regular
+expressions are like glob wildcards on steroids. The regex equivalent is
+`^.*\.txt$`. R even has a function to convert from glob expressions to
+regular expressions: `glob2rx()`.
 
-In **quanteda**, all functions that take pattern matches allow [three types of matching](http://quanteda.io/reference/valuetype.html): fixed matching, where the match is exact and no wildcard characters are used; "glob" matching, which is simple but often sufficient for a user's needs; and regular expressions, which unleash the full power of highly sophisticated (but also complicated) pattern matches.
+In **quanteda**, all functions that take pattern matches allow [three
+types of matching](http://quanteda.io/reference/valuetype.html): fixed
+matching, where the match is exact and no wildcard characters are used;
+“glob” matching, which is simple but often sufficient for a user’s
+needs; and regular expressions, which unleash the full power of highly
+sophisticated (but also complicated) pattern matches.
 
 ### Regular expressions in base R
 
-The base R functions for searching and replacing within text are similar to familiar commands from the other text manipulation environments, `grep` and `gsub`. The `grep` manual page provides an overview of these functions.
+The base R functions for searching and replacing within text are similar
+to familiar commands from the other text manipulation environments,
+`grep` and `gsub`. The `grep` manual page provides an overview of these
+functions.
 
 The `grep` command tests whether a pattern occurs within a string:
 
@@ -225,14 +260,29 @@ gsub('oranges', 'apples', 'these are oranges')
 
 ### Regular expressions in **stringi** and **stringr**
 
-The [**stringi** package](http://www.gagolewski.com/software/stringi/) is a large suite of character ("string") handling functions that are superior in almost every way to the equivalent base R functions. One reason that they are better lies in how they handle Unicode text, which includes character categories and covers all known languages. **stringi** boasts of being "THE R package for fast, correct, consistent, portable, as well as convenient string/text processing in every locale and any native character encoding". In this case, however, it's no idle boast. If you are serious about low-level text processing in R, you will want to spend time learning **stringi**. The **quanteda** package relies heavily on its functions.
+The [**stringi** package](http://www.gagolewski.com/software/stringi/)
+is a large suite of character (“string”) handling functions that are
+superior in almost every way to the equivalent base R functions. One
+reason that they are better lies in how they handle Unicode text, which
+includes character categories and covers all known languages.
+**stringi** boasts of being “THE R package for fast, correct,
+consistent, portable, as well as convenient string/text processing in
+every locale and any native character encoding”. In this case, however,
+it’s no idle boast. If you are serious about low-level text processing
+in R, you will want to spend time learning **stringi**. The **quanteda**
+package relies heavily on its functions.
 
-A somewhat simpler-to-use package than **stringi** is the **stringr** package. It wraps many of **stringi**'s low level functions in more convenient wrappers, although with fewer options.
-For an overview of the most frequently used functions, see the vignette: <https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html>.
+A somewhat simpler-to-use package than **stringi** is the **stringr**
+package. It wraps many of **stringi**’s low level functions in more
+convenient wrappers, although with fewer options.  
+For an overview of the most frequently used functions, see the vignette:
+<https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html>.
 
 #### Matching
 
-Using some **stringr** functions, we can see more about how regular expression pattern matching works. In a regular expression, `.` means "any character". So using regular expressions with **stringr**, we have:
+Using some **stringr** functions, we can see more about how regular
+expression pattern matching works. In a regular expression, `.` means
+“any character”. So using regular expressions with **stringr**, we have:
 
 ``` r
 pattern <- "a.b"
@@ -314,7 +364,8 @@ str_detect("aecfg", letters)
 ## [23] FALSE FALSE FALSE FALSE
 ```
 
-We can override the default regular expression matching using wrapper functions. See the difference in behaviour:
+We can override the default regular expression matching using wrapper
+functions. See the difference in behaviour:
 
 ``` r
 str_detect(strings, fixed(pattern))
@@ -325,7 +376,10 @@ str_detect(strings, coll(pattern))
 
 #### Segmentation
 
-We can also segment words by their boundary definitions, which is part of the Unicode definition. **quanteda** relies heavily on this for *tokenization*, which is the segmentation of texts into sub-units (normally, terms).
+We can also segment words by their boundary definitions, which is part
+of the Unicode definition. **quanteda** relies heavily on this for
+*tokenization*, which is the segmentation of texts into sub-units
+(normally, terms).
 
 ``` r
 # Word boundaries
@@ -340,7 +394,12 @@ str_split(words, boundary("word"))[[1]]
 
 #### Other operations
 
-**stringr** can also be used to remove leading and trailing whitespace. "Whitespace" has an [extensive definition](http://www.fileformat.info/info/unicode/category/Zs/list.htm), but can be thought of in its most basic form as spaces (`" "`), tab characters (""), and newline characters (""). `str_trim()` will remove these:
+**stringr** can also be used to remove leading and trailing whitespace.
+“Whitespace” has an [extensive
+definition](http://www.fileformat.info/info/unicode/category/Zs/list.htm),
+but can be thought of in its most basic form as spaces (`" "`), tab
+characters (“”), and newline characters (“”). `str_trim()` will remove
+these:
 
 ``` r
 str_trim("  String with trailing and leading white space\t")

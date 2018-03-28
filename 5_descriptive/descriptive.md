@@ -5,13 +5,15 @@ Descriptive Analysis of Texts
 
 ### 24 April 2017
 
-quateda has a number of descriptive statistics available for reporting on texts. The **simplest of these** is through the `summary()` method:
+quateda has a number of descriptive statistics available for reporting
+on texts. The **simplest of these** is through the `summary()` method:
 
 ``` r
 require(quanteda)
 ## Loading required package: quanteda
-## quanteda version 0.9.9.51
-## Using 7 of 8 cores for parallel computing
+## Package version: 1.1.4
+## Parallel computing: 2 of 8 threads used.
+## See https://quanteda.io for tutorials and examples.
 ## 
 ## Attaching package: 'quanteda'
 ## The following object is masked from 'package:utils':
@@ -20,9 +22,8 @@ require(quanteda)
 txt <- c(sent1 = "This is an example of the summary method for character objects.",
          sent2 = "The cat in the hat swung the bat.")
 summary(txt)
-##    Text Types Tokens Sentences
-## 1 sent1    12     12         1
-## 2 sent2     8      9         1
+##    Length     Class      Mode 
+##         2 character character
 ```
 
 This also works for corpus objects:
@@ -31,21 +32,21 @@ This also works for corpus objects:
 summary(corpus(data_char_ukimmig2010, notes = "Created as a demo."))
 ## Warning in corpus.character(data_char_ukimmig2010, notes = "Created as a
 ## demo."): Argument notes not used.
-## Corpus consisting of 9 documents.
+## Corpus consisting of 9 documents:
 ## 
 ##          Text Types Tokens Sentences
-##           BNP  1126   3330        88
-##     Coalition   144    268         4
-##  Conservative   252    503        15
-##        Greens   325    687        21
-##        Labour   296    703        29
-##        LibDem   257    499        14
-##            PC    80    118         5
-##           SNP    90    136         4
-##          UKIP   346    739        27
+##           BNP  1125   3280        88
+##     Coalition   142    260         4
+##  Conservative   251    499        15
+##        Greens   322    679        21
+##        Labour   298    683        29
+##        LibDem   251    483        14
+##            PC    77    114         5
+##           SNP    88    134         4
+##          UKIP   346    723        27
 ## 
-## Source:  /Users/kbenoit/GitHub/ITAUR/5_descriptive/* on x86_64 by kbenoit
-## Created: Fri Apr 28 07:34:08 2017
+## Source: /Users/kbenoit/GitHub/ITAUR/5_descriptive/* on x86_64 by kbenoit
+## Created: Wed Mar 28 15:42:42 2018
 ## Notes:
 ```
 
@@ -56,94 +57,94 @@ nsyllable(c("Superman.", "supercalifragilisticexpialidocious", "The cat in the h
 ## [1]  3 13  5
 ```
 
-We can even compute the **Scabble value** of English words, using `scrabble()`:
+We can even compute the **Scabble value** of English words, using
+`scrabble()`:
 
 ``` r
 nscrabble(c("cat", "quixotry", "zoo"))
 ## [1]  5 27 12
 ```
 
-We can analyze the **lexical diversity** of texts, using `lexdiv()` on a dfm:
+We can analyze the **lexical diversity** of texts, using `lexdiv()` on a
+dfm:
 
 ``` r
 myDfm <- dfm(corpus_subset(data_corpus_inaugural, Year > 1980))
-textstat_lexdiv(myDfm, "R")
-##  1981-Reagan  1985-Reagan    1989-Bush 1993-Clinton 1997-Clinton 
-##     61.23322     59.78702     62.53175     75.57121     65.42433 
-##    2001-Bush    2005-Bush   2009-Obama   2013-Obama   2017-Trump 
-##     76.13278     67.17373     62.00250     67.02974     79.45028
-dotchart(sort(textstat_lexdiv(myDfm, "R")))
+lexstat <- textstat_lexdiv(myDfm, "R")
+lexstat <- lexstat[order(lexstat[["R"]]), ]
+with(lexstat, dotchart(R, labels = document))
 ```
 
 ![](descriptive_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
-We can analyze the **readability** of texts, using `readability()` on a vector of texts or a corpus:
+We can analyze the **readability** of texts, using `readability()` on a
+vector of texts or a corpus:
 
 ``` r
 readab <- textstat_readability(corpus_subset(data_corpus_inaugural, Year > 1980), 
                                measure = "Flesch.Kincaid")
-dotchart(sort(readab))
+readab <- readab[order(readab[["Flesch.Kincaid"]]), ]
+with(readab, dotchart(Flesch.Kincaid, labels = document))
 ```
 
 ![](descriptive_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
-We can **identify documents and terms that are similar to one another**, using `similarity()`:
+We can **identify documents and terms that are similar to one another**,
+using `similarity()`:
 
 ``` r
 ## Presidential Inaugural Address Corpus
-require(magrittr)
-## Loading required package: magrittr
 presDfm <- corpus_subset(data_corpus_inaugural, Year > 1980) %>%
     dfm(remove = stopwords("english"), remove_punct = TRUE)
 # compute some document similarities
 textstat_simil(presDfm, "1985-Reagan")
 ##              1985-Reagan
+## 1981-Reagan    0.6489211
 ## 1985-Reagan    1.0000000
-## 1981-Reagan    0.6706669
-## 1989-Bush      0.5470177
-## 1993-Clinton   0.5651007
-## 1997-Clinton   0.6385083
-## 2001-Bush      0.4928258
-## 2005-Bush      0.5021710
-## 2009-Obama     0.5706274
-## 2013-Obama     0.6216789
-## 2017-Trump     0.4729232
+## 1989-Bush      0.5028420
+## 1993-Clinton   0.5549002
+## 1997-Clinton   0.6064454
+## 2001-Bush      0.4371266
+## 2005-Bush      0.4553173
+## 2009-Obama     0.5329123
+## 2013-Obama     0.5878448
+## 2017-Trump     0.4208903
 textstat_simil(presDfm, c("2009-Obama", "2013-Obama"), method = "cosine")
 ##              2009-Obama 2013-Obama
-## 2009-Obama    1.0000000  0.6759421
-## 2013-Obama    0.6759421  1.0000000
-## 1981-Reagan   0.6319046  0.6621948
-## 1985-Reagan   0.6197507  0.6608769
-## 1989-Bush     0.6217498  0.5883197
-## 1993-Clinton  0.5984488  0.6035667
-## 1997-Clinton  0.6696806  0.6571319
-## 2001-Bush     0.6011057  0.6200375
-## 2005-Bush     0.5165889  0.5728645
-## 2017-Trump    0.5283706  0.5448031
+## 1981-Reagan   0.5768486  0.6054181
+## 1985-Reagan   0.5892557  0.6331729
+## 1989-Bush     0.5721535  0.5290330
+## 1993-Clinton  0.5925820  0.5997993
+## 1997-Clinton  0.6297973  0.6121809
+## 2001-Bush     0.5411649  0.5561972
+## 2005-Bush     0.4575297  0.5163644
+## 2009-Obama    1.0000000  0.6373318
+## 2013-Obama    0.6373318  1.0000000
+## 2017-Trump    0.4481950  0.4546945
 textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "canberra")
 ##              2009-Obama 2013-Obama
-## 2009-Obama        0.000   2594.270
-## 2013-Obama     2594.270      0.000
-## 1981-Reagan    2710.243   2710.183
-## 1985-Reagan    2687.883   2694.700
-## 1989-Bush      2718.337   2721.474
-## 1993-Clinton   2662.772   2642.477
-## 1997-Clinton   2656.768   2618.399
-## 2001-Bush      2686.949   2600.678
-## 2005-Bush      2663.364   2628.467
-## 2017-Trump     2732.926   2712.234
-textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "eJaccard")
+## 1981-Reagan    2710.790   2710.900
+## 1985-Reagan    2688.975   2695.884
+## 1989-Bush      2719.360   2722.737
+## 1993-Clinton   2663.017   2642.759
+## 1997-Clinton   2657.669   2619.519
+## 2001-Bush      2688.230   2602.257
+## 2005-Bush      2664.505   2629.855
+## 2009-Obama        0.000   2595.474
+## 2013-Obama     2595.474      0.000
+## 2017-Trump     2733.536   2713.055
+textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "ejaccard")
 ##              2009-Obama 2013-Obama
-## 2009-Obama    1.0000000  0.5104122
-## 2013-Obama    0.5104122  1.0000000
-## 1981-Reagan   0.4562050  0.4871888
-## 1985-Reagan   0.4370275  0.4777219
-## 1989-Bush     0.4497932  0.4148976
-## 1993-Clinton  0.4234883  0.4296230
-## 1997-Clinton  0.4769717  0.4609940
-## 2001-Bush     0.4204939  0.4412115
-## 2005-Bush     0.3474591  0.3998888
-## 2017-Trump    0.3589839  0.3741432
+## 1981-Reagan   0.4045958  0.4323920
+## 1985-Reagan   0.4043241  0.4445237
+## 1989-Bush     0.4002481  0.3586377
+## 1993-Clinton  0.4198420  0.4278869
+## 1997-Clinton  0.4377781  0.4166254
+## 2001-Bush     0.3569588  0.3732546
+## 2005-Bush     0.2961977  0.3468687
+## 2009-Obama    1.0000000  0.4675145
+## 2013-Obama    0.4675145  1.0000000
+## 2017-Trump    0.2805344  0.2875123
 
 # compute some term similarities
 lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), 
@@ -170,15 +171,14 @@ lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "
 And this can be used for **clustering documents**:
 
 ``` r
-data(data_corpus_SOTU, package="quantedaData")
-presDfm <- dfm(subset(data_corpus_SOTU, lubridate::year(Date)>1990), stem = TRUE,
-               remove = stopwords("english"))
-## Warning: 'subset.corpus' is deprecated.
-## Use 'corpus_subset' instead.
-## See help("Deprecated")
-presDfm <- dfm_trim(presDfm, min_count = 5, min_docfreq = 3)
+data(data_corpus_sotu, package = "quanteda.corpora")
+presDfm <- dfm(corpus_subset(data_corpus_sotu, Date > "1990-01-01"), stem = TRUE,
+               remove = c(stopwords("english"), "applause"), remove_punct = TRUE)
+presDfm <- dfm_trim(presDfm, min_termfreq = 5, min_docfreq = 3)
 # hierarchical clustering - get distances on normalized dfm
 presDistMat <- dist(as.matrix(dfm_weight(presDfm, "relFreq")))
+## Warning: scheme = "relfreq" is deprecated; use dfm_weight(x, scheme =
+## "prop") instead
 # hiarchical clustering the distance object
 presCluster <- hclust(presDistMat)
 # label with document names
@@ -193,10 +193,7 @@ Or we could look at **term clustering** instead:
 
 ``` r
 # word dendrogram with tf-idf weighting
-wordDfm <- sort(dfm_weight(presDfm, "tfidf"))
-## Warning: 'sort.dfm' is deprecated.
-## Use 'dfm_sort' instead.
-## See help("Deprecated")
+wordDfm <- dfm_sort(dfm_tfidf(presDfm))
 wordDfm <- t(wordDfm)[1:100,]  # because transposed
 wordDistMat <- dist(wordDfm)
 wordCluster <- hclust(wordDistMat)
@@ -205,7 +202,8 @@ plot(wordCluster, xlab="", main="tf-idf Frequency weighting")
 
 ![](descriptive_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
-Finally, there are number of helper functions to extract information from quanteda objects:
+Finally, there are number of helper functions to extract information
+from quanteda objects:
 
 ``` r
 myCorpus <- corpus_subset(data_corpus_inaugural, Year > 1980)
@@ -217,7 +215,7 @@ ndoc(myCorpus)
     ## [1] 10
 
 ``` r
-ndoc(dfm(myCorpus, verbose = FALSE))
+ndoc(dfm(myCorpus))
 ```
 
     ## [1] 10
@@ -228,22 +226,24 @@ ntoken(myCorpus)
 ```
 
     ##  1981-Reagan  1985-Reagan    1989-Bush 1993-Clinton 1997-Clinton 
-    ##         2798         2935         2683         1837         2451 
+    ##         2790         2921         2681         1833         2449 
     ##    2001-Bush    2005-Bush   2009-Obama   2013-Obama   2017-Trump 
-    ##         1810         2325         2729         2335         1662
+    ##         1808         2319         2711         2317         1660
 
 ``` r
 ntoken("How many words in this sentence?")
 ```
 
-    ## [1] 7
+    ## text1 
+    ##     7
 
 ``` r
 # arguments to tokenize can be passed 
 ntoken("How many words in this sentence?", remove_punct = TRUE)
 ```
 
-    ## [1] 6
+    ## text1 
+    ##     6
 
 ``` r
 # how many types (unique words)
@@ -251,27 +251,30 @@ ntype(myCorpus)
 ```
 
     ##  1981-Reagan  1985-Reagan    1989-Bush 1993-Clinton 1997-Clinton 
-    ##          904          925          795          644          773 
+    ##          902          925          795          642          773 
     ##    2001-Bush    2005-Bush   2009-Obama   2013-Obama   2017-Trump 
-    ##          622          772          939          814          582
+    ##          621          773          938          814          582
 
 ``` r
 ntype("Yada yada yada.  (TADA.)")
 ```
 
-    ## [1] 6
+    ## text1 
+    ##     6
 
 ``` r
 ntype("Yada yada yada.  (TADA.)", remove_punct = TRUE)
 ```
 
-    ## [1] 3
+    ## text1 
+    ##     3
 
 ``` r
 ntype(char_tolower("Yada yada yada.  (TADA.)"), remove_punct = TRUE)
 ```
 
-    ## [1] 2
+    ## text1 
+    ##     2
 
 ``` r
 # can count documents and features
@@ -291,19 +294,31 @@ ndoc(myDfm1)
 nfeature(myDfm1)
 ```
 
-    ## [1] 9232
+    ## Warning: 'nfeature' is deprecated.
+    ## Use 'nfeat' instead.
+    ## See help("Deprecated")
+
+    ## [1] 9357
 
 ``` r
 myDfm2 <- dfm(data_corpus_inaugural, remove = stopwords("english"), stem = TRUE)
 nfeature(myDfm2)
 ```
 
-    ## [1] 5289
+    ## Warning: 'nfeature' is deprecated.
+    ## Use 'nfeat' instead.
+    ## See help("Deprecated")
+
+    ## [1] 5421
 
 ``` r
 myDfm3 <- dfm(data_corpus_inaugural, remove = stopwords("english"), remove_punct = TRUE, stem = TRUE)
 nfeature(myDfm3)
 ```
+
+    ## Warning: 'nfeature' is deprecated.
+    ## Use 'nfeat' instead.
+    ## See help("Deprecated")
 
     ## [1] 5405
 
@@ -312,13 +327,13 @@ nfeature(myDfm3)
 head(featnames(myDfm1), 20)
 ```
 
-    ##  [1] "fellow"          "-"               "citizens"       
-    ##  [4] "of"              "the"             "senate"         
-    ##  [7] "and"             "house"           "representatives"
-    ## [10] ":"               "among"           "vicissitudes"   
-    ## [13] "incident"        "to"              "life"           
-    ## [16] "no"              "event"           "could"          
-    ## [19] "have"            "filled"
+    ##  [1] "fellow-citizens" "of"              "the"            
+    ##  [4] "senate"          "and"             "house"          
+    ##  [7] "representatives" ":"               "among"          
+    ## [10] "vicissitudes"    "incident"        "to"             
+    ## [13] "life"            "no"              "event"          
+    ## [16] "could"           "have"            "filled"         
+    ## [19] "me"              "with"
 
 ``` r
 head(docnames(myDfm1))
@@ -333,18 +348,18 @@ topfeatures(myDfm1)
 ```
 
     ##   the    of     ,   and     .    to    in     a   our  that 
-    ## 10082  7103  7026  5310  4945  4534  2785  2246  2181  1789
+    ## 10082  7103  7026  5310  4945  4526  2785  2246  2181  1789
 
 ``` r
 topfeatures(myDfm2) # without stopwords
 ```
 
-    ##      ,      .      -   will govern nation  peopl      ;     us    can 
-    ##   7026   4945   1042    931    687    677    623    565    478    471
+    ##      ,      .      - nation govern  peopl      ;     us    can  state 
+    ##   7026   4945    762    675    657    623    565    478    471    450
 
 ``` r
 topfeatures(myDfm3) # without stopwords or punctuation
 ```
 
-    ##   will nation govern  peopl     us    can  state  great   upon  power 
-    ##    931    675    657    623    478    471    450    373    371    370
+    ## nation govern  peopl     us    can  state  great   upon  power   must 
+    ##    675    657    623    478    471    450    373    371    370    366

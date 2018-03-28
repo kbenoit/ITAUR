@@ -40,28 +40,29 @@ nscrabble(c("cat", "quixotry", "zoo"))
 We can analyze the **lexical diversity** of texts, using `lexdiv()` on a dfm:
 ```{r}
 myDfm <- dfm(corpus_subset(data_corpus_inaugural, Year > 1980))
-textstat_lexdiv(myDfm, "R")
-dotchart(sort(textstat_lexdiv(myDfm, "R")))
+lexstat <- textstat_lexdiv(myDfm, "R")
+lexstat <- lexstat[order(lexstat[["R"]]), ]
+with(lexstat, dotchart(R, labels = document))
 ```
 
 We can analyze the **readability** of texts, using `readability()` on a vector of texts or a corpus:
 ```{r}
 readab <- textstat_readability(corpus_subset(data_corpus_inaugural, Year > 1980), 
                                measure = "Flesch.Kincaid")
-dotchart(sort(readab))
+readab <- readab[order(readab[["Flesch.Kincaid"]]), ]
+with(readab, dotchart(Flesch.Kincaid, labels = document))
 ```
 
 We can **identify documents and terms that are similar to one another**, using `similarity()`:
 ```{r}
 ## Presidential Inaugural Address Corpus
-require(magrittr)
 presDfm <- corpus_subset(data_corpus_inaugural, Year > 1980) %>%
     dfm(remove = stopwords("english"), remove_punct = TRUE)
 # compute some document similarities
 textstat_simil(presDfm, "1985-Reagan")
 textstat_simil(presDfm, c("2009-Obama", "2013-Obama"), method = "cosine")
 textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "canberra")
-textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "eJaccard")
+textstat_dist(presDfm, c("2009-Obama", "2013-Obama"), method = "ejaccard")
 
 # compute some term similarities
 lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "features", method = "cosine")), 
@@ -70,10 +71,10 @@ lapply(as.list(textstat_simil(presDfm, c("fair", "health", "terror"), margin = "
 
 And this can be used for **clustering documents**:
 ```{r, fig.height=6, fig.width=10}
-data(data_corpus_SOTU, package="quantedaData")
-presDfm <- dfm(subset(data_corpus_SOTU, lubridate::year(Date)>1990), stem = TRUE,
-               remove = stopwords("english"))
-presDfm <- dfm_trim(presDfm, min_count = 5, min_docfreq = 3)
+data(data_corpus_sotu, package = "quanteda.corpora")
+presDfm <- dfm(corpus_subset(data_corpus_sotu, Date > "1990-01-01"), stem = TRUE,
+               remove = c(stopwords("english"), "applause"), remove_punct = TRUE)
+presDfm <- dfm_trim(presDfm, min_termfreq = 5, min_docfreq = 3)
 # hierarchical clustering - get distances on normalized dfm
 presDistMat <- dist(as.matrix(dfm_weight(presDfm, "relFreq")))
 # hiarchical clustering the distance object
@@ -87,7 +88,7 @@ plot(presCluster)
 Or we could look at **term clustering** instead:
 ```{r, fig.height=8, fig.width=12}
 # word dendrogram with tf-idf weighting
-wordDfm <- sort(dfm_weight(presDfm, "tfidf"))
+wordDfm <- dfm_sort(dfm_tfidf(presDfm))
 wordDfm <- t(wordDfm)[1:100,]  # because transposed
 wordDistMat <- dist(wordDfm)
 wordCluster <- hclust(wordDistMat)
@@ -100,7 +101,7 @@ myCorpus <- corpus_subset(data_corpus_inaugural, Year > 1980)
 
 # return the number of documents
 ndoc(myCorpus)           
-ndoc(dfm(myCorpus, verbose = FALSE))
+ndoc(dfm(myCorpus))
 
 # how many tokens (total words)
 ntoken(myCorpus)

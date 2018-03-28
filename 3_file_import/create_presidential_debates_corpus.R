@@ -1,5 +1,4 @@
 require(stringr)
-require(magrittr)
 
 ## read in the files
 require(readtext)
@@ -28,13 +27,13 @@ summary(presDebateCorpus2016)
 
 ## segment the corpus
 presDebateCorpus2016seg <- 
-    corpus_segment(presDebateCorpus2016, what = "tags", 
-                   delimiter = "\\b([[:upper:]]\\w{0,1})*(\\s|')*[[:upper:]]{2,}:\\s+")
+    corpus_segment(presDebateCorpus2016, 
+                   pattern = "\\b([[:upper:]]\\w{0,1})*(\\s|')*[[:upper:]]{2,}:\\s+")
 # clean up the tags
-docvars(presDebateCorpus2016seg, "tag") <- 
-    str_replace_all(docvars(presDebateCorpus2016seg, "tag"), "\\p{P}", "") %>%
+docvars(presDebateCorpus2016seg, "pattern") <- 
+    str_replace_all(docvars(presDebateCorpus2016seg, "pattern"), "\\p{P}", "") %>%
     str_trim()
-table(docvars(presDebateCorpus2016seg, "tag"))
+table(docvars(presDebateCorpus2016seg, "pattern"))
 # get rid of some meaningless tags
 presDebateCorpus2016seg <- 
     corpus_subset(presDebateCorpus2016seg, !(tag %in% c("DELETEME", "PARTICIPANTS", "CITATION")))

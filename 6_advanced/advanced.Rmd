@@ -7,7 +7,7 @@ output:
 # Advanced Analysis of Texts
 
 ### Kenneth Benoit
-### 24 April 2017
+### 28 March 2018
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -74,7 +74,7 @@ topfeatures(jd, nfeature(jd))
 
 Wordscores:
 ```{r}
-data(data_corpus_amicus, package = "quantedaData")
+data(data_corpus_amicus, package = "quanteda.corpora")
 refs <- docvars(data_corpus_amicus, "trainclass")
 refs <- (as.numeric(refs) - 1.5)*2
 amicusDfm <- dfm(data_corpus_amicus)
@@ -82,7 +82,7 @@ wm <- textmodel_wordscores(amicusDfm, y = refs)
 summary(wm)
 preds <- predict(wm, newdata = amicusDfm)
 summary(preds)
-plot(coef(preds)$coef_document ~ docvars(amicusDfm, "testclass"),
+plot(preds ~ docvars(amicusDfm, "testclass"),
      horizontal = TRUE, xlab = "Predicted document score",
      ylab = "Test class", las = 1)
 ```
@@ -96,7 +96,7 @@ dfm(data_corpus_irishbudget2010) %>%
 
 Poisson scaling:
 ```{r, fig.width = 8, fig.height = 5}
-ieWF <- dfm(data_corpus_irishbudget2010, removePunct = TRUE) %>%
+ieWF <- dfm(data_corpus_irishbudget2010, remove_punct = TRUE) %>%
     textmodel_wordfish(dir = c(6,5))
 summary(ieWF)
 textplot_scale1d(ieWF)

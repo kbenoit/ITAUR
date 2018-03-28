@@ -1,13 +1,13 @@
 ---
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 ---
 
 # Analyzing Media Text
 
 ### Kohei Watanabe
-### 24 April 2017
+### 28 March 2018 (updated)
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -44,33 +44,28 @@ head(europe)
 
 britain <- kwic(toks, c('Brit*', 'United Kingdom', 'UK'))
 head(britain)
-
-toks_europe <- as.tokens(europe)
-toks_britain <- as.tokens(britain)
-
 ```
 
 ### Relative frequency analysis
 ```{r}
-dfm_europe <- dfm(toks_europe)
-dfm_britain <- dfm(toks_britain)
-kwds <- textstat_keyness(rbind(dfm_europe, dfm_britain), target = seq_along(toks_europe))
+dfmcompare <- dfm(c(europe = europe$keyword, britain = britain$keyword))
+kwds <- textstat_keyness(dfmcompare)
 head(kwds, 20)
 tail(kwds, 20)
 ```
 
 ### Targetted dictionary analysis 
 ```{r}
-dict <- dictionary(people = c('people', 'citizen*'), 
-                   migrant = c('immigra*', 'migra*'),
-                   economy = c('econom*', 'financ*', 'business*'),
-                   crime = c('crim*', 'polic*', 'terror*'))
+dict <- dictionary(list(people = c('people', 'citizen*'), 
+                        migrant = c('immigra*', 'migra*'),
+                        economy = c('econom*', 'financ*', 'business*'),
+                        crime = c('crim*', 'polic*', 'terror*')))
 
-dfm_dict_europe <- dfm(toks_europe, dictionary = dict)
-dfm_dict_britain <- dfm(toks_britain, dictionary = dict)
+dfm_dict_europe <- dfm(europe$keyword, dictionary = dict)
+dfm_dict_britain <- dfm(britain$keyword, dictionary = dict)
 
-freq_dict_europe <- colSums(dfm_dict_europe) / sum(ntoken(toks_europe))
-freq_dict_britain <- colSums(dfm_dict_britain) / sum(ntoken(toks_britain))
+freq_dict_europe <- colSums(dfm_dict_europe) / sum(ntoken(dfm_dict_europe))
+freq_dict_britain <- colSums(dfm_dict_britain) / sum(ntoken(dfm_dict_europe))
 
 
 plot(freq_dict_europe, ylab = 'Frequency', xlab = 'Category', xaxt = 'n', 
@@ -95,5 +90,4 @@ head(col)
 toks_multi <- tokens_compound(toks, col)
 head(toks[['text166563']], 50)
 head(toks_multi[['text166563']], 50)
-
 ```

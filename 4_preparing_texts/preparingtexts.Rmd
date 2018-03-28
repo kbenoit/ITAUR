@@ -1,7 +1,7 @@
 ---
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 ---
 
 # Preparing texts for analysis
@@ -104,10 +104,10 @@ Or can be done **after** creating a dfm:
 myDfm <- dfm(c("My Christmas was ruined by your opposition tax plan.",
                "Does the United_States or Sweden have more progressive taxation?"),
              tolower = FALSE, verbose = TRUE)
-dfm_select(myDfm, features = c("s$", ".y"), selection = "keep", valuetype = "regex")
-dfm_select(myDfm, features = c("s$", ".y"), selection = "remove", valuetype = "regex")
-dfm_select(myDfm, features = stopwords("english"), selection = "keep", valuetype = "fixed")
-dfm_select(myDfm, features = stopwords("english"), selection = "remove", valuetype = "fixed")
+dfm_select(myDfm, pattern = c("s$", ".y"), selection = "keep", valuetype = "regex")
+dfm_select(myDfm, pattern = c("s$", ".y"), selection = "remove", valuetype = "regex")
+dfm_select(myDfm, pattern = stopwords("english"), selection = "keep", valuetype = "fixed")
+dfm_select(myDfm, pattern = stopwords("english"), selection = "remove", valuetype = "fixed")
 ```
 
 More examples:

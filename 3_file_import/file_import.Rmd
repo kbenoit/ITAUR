@@ -1,7 +1,7 @@
 ---
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 ---
 
 # Getting texts into R
@@ -90,16 +90,15 @@ lct <- Sys.getlocale("LC_TIME") # get original locale
 Sys.setlocale("LC_TIME", "C") # set C's basic locale
 SOTUdocvars$Date <- as.Date(SOTUdocvars$Date, "%B %d, %Y")
 Sys.setlocale("LC_TIME", lct) # set original locale
-
 ```
 
 Another common case is that our texts are stored alongside the document variables in a structured file, such as a json, csv or excel file. The textfile command can read in the texts and document variables simultaneously from these files when the name of the field containing the texts is specified.
 ```{r}
-tf1 <- readtext("inaugTexts.csv", textfield = "inaugSpeech")
+tf1 <- readtext("inaugTexts.csv", text_field = "inaugSpeech")
 myCorpus <- corpus(tf1)
 
 
-tf2 <- readtext("text_example.csv", textfield = "Title")
+tf2 <- readtext("text_example.csv", text_ield = "Title")
 myCorpus <- corpus(tf2)
 head(docvars(tf2))
 ```
@@ -112,26 +111,25 @@ Once the we have loaded a corpus with some document level variables, we can subs
 recentCorpus <- corpus_subset(data_corpus_inaugural, Year > 1980)
 oldCorpus <- corpus_subset(data_corpus_inaugural, Year < 1880)
 
-require(magrittr)
 demCorpus <- corpus_subset(sotuCorpus, party == 'Democratic')
 demFeatures <- dfm(demCorpus, remove = stopwords('english')) %>%
-    dfm_trim(min_doc = 3, min_count = 5) %>% 
-    dfm_weight(type='tfidf')
+    dfm_trim(min_docfreq = 3, min_termfreq = 5) %>% 
+    dfm_tfidf()
 topfeatures(demFeatures)
 
 repCorpus <- corpus_subset(sotuCorpus, party == 'Republican') 
 repFeatures <- dfm(repCorpus, remove = stopwords('english')) %>%
-    dfm_trim(min_doc = 3, min_count = 5) %>% 
-    dfm_weight(type = 'tfidf')
+    dfm_trim(min_docfreq = 3, min_termfreq = 5) %>% 
+    dfm_tfidf()
 topfeatures(repFeatures)
 ```
 
 The **quanteda** corpus objects can be combined using the `+` operator:
 ```{r}
 data_corpus_inaugural2 <- demCorpus + repCorpus
-dfm(data_corpus_inaugural2, remove = stopwords('english'), verbose = FALSE) %>%
-    dfm_trim(min_doc = 3, min_count = 5) %>% 
-    dfm_weight(type = 'tfidf') %>% 
+dfm(data_corpus_inaugural2, remove = stopwords("english"), remove_punct = TRUE) %>%
+    dfm_trim(min_docfreq = 3, min_termfreq = 5) %>% 
+    dfm_tfidf() %>% 
     topfeatures
 ```
 

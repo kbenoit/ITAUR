@@ -3,19 +3,18 @@
 
 require(quanteda)
 require(readtext)
-require(magrittr)
 
 songcorp <- 
     readtext("3_file_import/Lyrics_2017-06-06.txt") %>%
     corpus() %>%
-    corpus_segment(what = "tags")
+    corpus_segment()
 summary(songcorp, 6)
 
-songcorp2 <- corpus_subset(songcorp, tag == "##LYRICS")
+songcorp2 <- corpus_subset(songcorp, pattern == "##LYRICS")
 docvars(songcorp2, "Artist") <-
-    texts(corpus_subset(songcorp, tag == "##ARTIST"))
+    texts(corpus_subset(songcorp, pattern == "##ARTIST"))
 docvars(songcorp2, "Title") <-
-    texts(corpus_subset(songcorp, tag == "##SONG"))
+    texts(corpus_subset(songcorp, pattern == "##SONG"))
 
 # get rid of "tag" docvar
 docvars(songcorp2, "tag") <- NULL

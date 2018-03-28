@@ -5,7 +5,7 @@
 
 [Kenneth Benoit](kbenoit@lse.ac.uk), Department of Methodology, LSE  
 
-**Date:** Updated for Week commencing 6-8 June 2017
+**Date:** Updated for newer versions (> 1.0.0) of **quanteda** in March 2018
 **quanteda version:** 0.9.9.65 (CRAN)  
 
 This repository contains the workshop materials for a one-day version of a workshop [Introduction to Text Analysis Using R](link here) taught by Kenneth Benoit.  This workshop and the materials it contains are funded by by the European Research Council grant ERC-2011-StG 283794-QUANTESS: *Quantitative Analysis of Text for Social Science*.
@@ -59,7 +59,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
 *  [CRAN](https://cran.r-project.org) for downloading and installing R
 *  [GitHub page for the **quanteda** package](https://github.com/kbenoit/quanteda)
 *  **Exercise:**  
-    - Make sure you have at least R 3.3.3 installed.  Recommended is the latest version of R, as of 27 April 2017, is 3.4.0.
+    - Make sure you have at least R 3.1.0 installed.  
     - Make sure your packages are up-to-date.  From the command line, run
         ```r
         update.packages(ask = FALSE)
@@ -68,7 +68,7 @@ The course will taught interactively, as a series of "mini-modules" consisting o
         ```r
         install.packages("quanteda")
         ```
-    - Install **readtext** from GitHub, following [these instructions](https://github.com/kbenoit/readtext/blob/master/README.md).
+    - Install **readtext** from GitHub, following [these instructions](https://github.com/quanteda/readtext/blob/master/README.md).
     - Try "knitting" this RMarkdown file: [test_setup.Rmd](http://rawgit.com/kbenoit/ITAUR/master/0_setup/test_setup.Rmd).  If it builds without error and looks like [this](http://rawgit.com/kbenoit/ITAUR/master/0_setup/test_setup.html), then you have successfully configured your system.
 
 ### Module 1: Overview and demonstration of text analysis using R
