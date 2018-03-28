@@ -6,7 +6,7 @@
 [Kenneth Benoit](kbenoit@lse.ac.uk), Department of Methodology, LSE  
 
 **Date:** Updated for newer versions (> 1.0.0) of **quanteda** in March 2018
-**quanteda version:** 0.9.9.65 (CRAN)  
+**quanteda version:** 1.1.0 (CRAN)  
 
 This repository contains the workshop materials for a one-day version of a workshop [Introduction to Text Analysis Using R](link here) taught by Kenneth Benoit.  This workshop and the materials it contains are funded by by the European Research Council grant ERC-2011-StG 283794-QUANTESS: *Quantitative Analysis of Text for Social Science*.
 
